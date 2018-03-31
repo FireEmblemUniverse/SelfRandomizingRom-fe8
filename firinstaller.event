@@ -1,0 +1,89 @@
+#define FirPortrait "POIN 0x8ACBFC" //change this to your portrait's pointer
+
+#include "Extensions/Hack Installation.txt"
+#define FirName	"SHORT 0x2086 0x0080"
+PUSH
+ORG $A284
+jumpToHack(TestFir)
+
+ALIGN 4
+
+ORG 0x464470
+AntiHuffmanFreeSpace: //Can be relocated as necessary.
+BYTE 0x80 0x23 0x1B 0x06 0xC0 0x1A 0x02 0x78 0x0A 0x70 0x01 0x31 0x01 0x30 0x00 0x2A 0xF9 0xD1 0x70 0x47
+
+TestFir:
+SHORT 0x2186 0x0089 0x4288 0xD00B
+// original check
+SHORT 0x4904 0x0080 0x1840 0x6800 0x1C21 0x0000 0x4B00 0x469F
+POIN 0xA28E
+POIN 0x15D48C
+// new ending
+SHORT 0x4904 0x0080 0x1840 0x6800 0x4803 0x1C21 0x4B00 0x469F
+POIN 0xA28E
+POIN 0x15D48C
+POIN FirNameText + 0x80000000
+
+ALIGN 4
+
+FirNameText:
+BYTE 0x46 0x69 0x72 0x00 //Fir[X]
+
+ALIGN 4
+
+BowOnly:
+SHORT 0x79C1 0x2903 0xD005 //Check if it's checking for a bow, if so jump to skip returning negative
+SHORT 0x2100 0x1C08 0x4B01 0x469F 0x0000; POIN 0x16746
+SHORT 0x1C20 0x3028 0x1840 0x7800 0x2100 0x4290 0xDB00 0x2101 0x1C08 0xBC30 0xBC02 0x4708
+
+//Makes it so weapon ranks other than bows don't do anything
+ORG $16734
+jumpToHack(BowOnly)
+
+//Makes every unit spawn as archer(f)
+ORG $17D56; SHORT 0x201A
+
+//Makes everyone have the same portrait
+ORG $551E; SHORT 0x1C08
+ORG $5524; FirPortrait
+
+//Makes all checks for names return the same one
+ORG $8C5F4; FirName //ldr r0, [r1]; ldrh r0, [r0]
+ORG $86E50; FirName //ldr r0, [r0]; ldrh r0, [r0]
+ORG $365F0; FirName //ldr r0, [r2]; ldrh r0, [r0]
+ORG $9A5F0; FirName //ldr r0, [r5]; ldrh r0, [r0]
+ORG $9A97E; FirName //ldr r0, [r5]; ldrh r0, [r0]
+ORG $9954A; FirName
+ORG $9A1DA; FirName
+ORG $51F7C; FirName
+ORG $5203C; FirName
+ORG $923AC; FirName
+ORG $9ECCE; FirName
+ORG $8E240; FirName
+ORG $34984; FirName
+ORG $2D34E; FirName
+ORG $2D37C; FirName
+ORG $9B9F2; FirName
+ORG $9BA24; FirName
+
+//Anti-Huffman Patch, by Hextator and Nintenlord
+ORG 0x2BA4 //Pointer Tester
+BYTE 0x00 0xB5 0xC2 0x0F 0x02 0xD0 
+BL(uncompHelper) /*0x07 0xF0 0x63 0xFB*/
+SHORT 0xE001
+BL(compressedHelper) /*0x07 0xF0 0x58 0xFB*/
+SHORT 0xBD00
+
+ORG 0xA24A
+BYTE 0x05 0xD0 0x04 0x49 0x28 0x1C 0x00 0xF0 0x16 0xF8 0x35 0x60 0x00 0xE0 0x01 0x48 0x70 0xBC 0x00 0xBD 0x00 0x00 
+WORD 0x0202A6AC
+
+compressedHelper:
+SHORT 0xB500 0x4A02 0x6812
+BL(0xD18C8) //In-game unencoding routine, I assume
+SHORT 0xBD00 
+WORD 0x03004150
+
+uncompHelper:
+jumpToHack(AntiHuffmanFreeSpace) //FEditor uses r2 instead of r3, but it shouldn't matter.
+POP

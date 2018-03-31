@@ -1,0 +1,153 @@
+// #define MaxSummons 12
+// #define RaiseOpts "Death_X|(Death_Y<<0x8)|(Death<<0x10)|(MaxSummons<<0x18)"
+
+PUSH
+
+// ORG $A478C		//remove writes to the favoritism byte
+// SHORT 0x4770
+
+// ORG $7B794
+// POIN NewSummon6C
+
+POP
+
+#include "FeeSelc/FreeSelect6C.event"	//prNewFreeSelect should be defined here
+
+ALIGN 4
+// Raise_Usability:
+// #incbin "Raise_Usability.dmp"
+// WORD RaiseOpts
+
+ALIGN 4
+Raise_Effect:
+#incbin "Raise_Effect.dmp"
+WORD 1//Cant_Raise_Text_ID
+POIN _pFreeSelectDef prNewFreeSelect
+
+_pFreeSelectDef:
+	// POIN (0x24868+1)
+	POIN (TrebuchetFreeSelectConstructor)
+	POIN (0x4E884+1)
+	POIN (_prOnSelect+1)
+	POIN (Summon_Cancel+1)
+	WORD 0 // lol R Press
+	POIN (Summon_Change+1)
+
+	Summon_Cancel:
+	#incbin "FeeSelc/asm/FreeSelect6C/Summon_Cancel.bin"
+	
+	Summon_Change:
+	#incbin "Summon_Change.dmp"
+	
+	ALIGN 4
+	_prOnSelect:
+	#incbin "Launch_Select.dmp"
+	
+// ALIGN 4
+// NewSummon6C:
+// _6C_CALL_ROUTINE(0x15361)
+// _6C_CALL_ROUTINE(Initialize_Unit_Creation|1)
+// _6C_WHILE_EXISTS(0x59A548) 						//Wait until the camera panning has stopped
+// _6C_LABEL(0x20)
+// _6C_CALL_ROUTINE(Create_Unit|1)					//if no unit to create, jump to label 0x21
+// _6C_CALL_ROUTINE(Play_Summon_Effect|1)
+// _6C_SLEEP(0x5)
+// _6C_GOTO(0x20)
+// _6C_LABEL(0x21)
+// _6C_CALL_ROUTINE(End_Unit_Creation|1)
+// _6C_JUMP(0x9A35B0)
+
+// Initialize_Unit_Creation:
+// #incbin "Initialize_Unit_Creation.dmp"
+// POIN RaisedUnitListPtrTable
+
+// ALIGN 4
+// Create_Unit:
+// #incbin "Create_Unit.dmp"
+
+// ALIGN 4
+// Play_Summon_Effect:
+// #incbin "Play_Summon_Effect.dmp"
+
+// ALIGN 4
+// End_Unit_Creation:
+// #incbin "End_Unit_Creation.dmp"
+// POIN RemoveBonesEvent1 RemoveBonesEvent2 RemoveBonesEvent3
+
+// ALIGN 4
+// RaisedUnitListPtrTable:
+// POIN RaisedUnit1 RaisedUnit2 RaisedUnit3 RaisedUnit4 RaisedUnit5 RaisedUnit6 RaisedUnit7 RaisedUnit8 RaisedUnit9 RaisedUnit10 RaisedUnit11 RaisedUnit12
+// RaisedUnit1:
+// UNIT Skelly1 Bonewalker 0 Level(4,NPC,1) [0,0] 0 0 0 0 [IronLance] NoAI
+// UNIT Skelly1 Bonewalker 0 Level(4,NPC,1) [0,0] 0 0 0 0 [IronSword] NoAI
+// UNIT Skelly1 Bonewalker 0 Level(4,NPC,1) [0,0] 0 0 0 0 [IronAxe] NoAI
+// UNIT
+// RaisedUnit2:
+// UNIT Skelly3 Bonewalker_Bow 0 Level(6,NPC,1) [0,0] 0 0 0 0 [IronBow] NoAI
+// UNIT Skelly2 Bonecaster 0 Level(6,NPC,1) [0,0] 0 0 0 0 [Heal,Vulnerary] NoAI
+// UNIT Skelly2 Bonecaster 0 Level(6,NPC,1) [0,0] 0 0 0 0 [Flux] NoAI
+// UNIT
+// RaisedUnit3:
+// UNIT Skelly2 Bonecaster 0 Level(8,NPC,1) [0,0] 0 0 0 0 [Heal,Vulnerary] NoAI
+// UNIT Skelly1 Bonewalker 0 Level(8,NPC,1) [0,0] 0 0 0 0 [SteelLance] NoAI
+// UNIT Skelly1 Bonewalker 0 Level(8,NPC,1) [0,0] 0 0 0 0 [Armorslayer] NoAI
+// UNIT
+// RaisedUnit4:
+// UNIT Skelly3 Bonewalker_Bow 0 Level(10,NPC,1) [0,0] 0 0 0 0 [SteelBow] NoAI
+// UNIT Skelly1 Bonewalker 0 Level(10,NPC,1) [0,0] 0 0 0 0 [Lancereaver] NoAI
+// UNIT Skelly2 Bonecaster 0 Level(10,NPC,1) [0,0] 0 0 0 0 [Shine] NoAI
+// UNIT
+// RaisedUnit5:
+// UNIT Skelly1 Wight 0 Level(1,NPC,1) [0,0] 0 0 0 0 [HandAxe] NoAI
+// UNIT Skelly2 Bonecaster 0 Level(11,NPC,1) [0,0] 0 0 0 0 [Heal,Vulnerary] NoAI
+// UNIT
+// RaisedUnit6:
+// UNIT Skelly3 Bonewalker_Bow 0 Level(12,NPC,1) [0,0] 0 0 0 0 [Longbow,Vulnerary] NoAI
+// UNIT Skelly2 Lich 0 Level(3,NPC,1) [0,0] 0 0 0 0 [Thunder,Mend] NoAI
+// UNIT
+// RaisedUnit7:
+// UNIT Skelly1 Bonewalker 0 Level(13,NPC,1) [0,0] 0 0 0 0 [KillingEdge] NoAI
+// UNIT Skelly1 Wight 0 Level(5,NPC,1) [0,0] 0 0 0 0 [ShortSpear] NoAI
+// UNIT
+// RaisedUnit8:
+// UNIT Skelly2 Bonecaster 0 Level(14,NPC,1) [0,0] 0 0 0 0 [Luna,Elfire] NoAI
+// UNIT Skelly1 Wight 0 Level(7,NPC,1) [0,0] 0 0 0 0 [Swordslayer] NoAI
+// UNIT
+// RaisedUnit9:
+// UNIT Skelly1 Wight 0 Level(9,NPC,1) [0,0] 0 0 0 0 [SilverLance,ShortSpear] NoAI
+// UNIT
+// RaisedUnit10:
+// UNIT Skelly2 Lich 0 Level(11,NPC,1) [0,0] 0 0 0 0 [Divine,Purge, Physic] NoAI
+// UNIT
+// RaisedUnit11:
+// UNIT Skelly3 Wight_Bow 0 Level(13,NPC,1) [0,0] 0 0 0 0 [PoisonBow, BraveBow] NoAI
+// UNIT
+// RaisedUnit12:
+// UNIT Skelly1 Wight 0 Level(15,NPC,1) [0,0] 0 0 0 0 [SilverAxe,BraveSword] NoAI
+// UNIT
+
+// ALIGN 4
+// RemoveBonesEvent1:
+// SETVAL 0xB 0x13000E
+// TILECHANGE 0xFFFF
+// NoFade
+// ENDA
+// RemoveBonesEvent2:
+// SETVAL 0xB 0x13000D
+// TILECHANGE 0xFFFF
+// NoFade
+// ENDA
+// RemoveBonesEvent3:
+// SETVAL 0xB 0x12000E
+// TILECHANGE 0xFFFF
+// SETVAL 0x1 0
+// CHAI Death	//remove Guard AI
+// CHECK_EVENTID Durova_Arrived_Event_ID
+// BNE 0x1 0xC 0x0
+// //if durova hasn't arrived yet
+// CAM1 [7,15]
+// FlashCursor(Death,60)
+// Text(Durova_Doesnt_Arrive)
+// LABEL 0x1
+// NoFade
+// ENDA

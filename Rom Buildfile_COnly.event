@@ -1,0 +1,33 @@
+#ifdef _FE8_
+    #include "EAstdlib.event"
+    #include "Custom Definitions.event"
+    #include "symbols.txt"
+    #include "Extensions/Hack Installation.txt"
+    #define memcpy 0xD1C0D
+    #define __aeabi_uidiv 0xd167d
+    #define __aeabi_idiv 0xd167d
+    #define __aeabi_uidivmod 0xd1685
+    #define __aeabi_idivmod 0xd1685
+    #define RunEventEngine 0x800D07D
+    ORG CCode
+    #include "src/test.lyn.event"
+    ORG EndOfFreeSpace
+    PUSH
+    ORG $a20164
+    POIN DifficultyTacticianSelect
+    ORG $a4ea6
+    BL(SetNewGameSeed) //saves game clock to 3005264
+    ORG $83d20
+    SHORT $3013 //don't clear the seed
+    ORG $17ad8
+    BL(RandomizeUnitClass) //give a random class!
+    ORG $17bf2
+    BL(LoadUnitStats_Randomized) //randomize bases by 25%
+    ORG $1096c
+    BL(ClearDebuffsBeforePrepScreen)
+    POP
+    ORG Skill_Getter+148
+    POIN PersonalSkillGetter
+#else
+    ERROR You are not assembling FE8 events!
+#endif

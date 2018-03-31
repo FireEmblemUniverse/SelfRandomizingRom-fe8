@@ -1,0 +1,79 @@
+//Students
+#define  Ruby	0xF //ruby replaces ephraim
+#define  Weiss	0x1 //weiss replaces eirika
+#define  Blake	0x3
+#define  Yang	0x4
+
+#define  Jaune	0x5
+#define  Nora	0x6
+#define  Pyrrha	0x7
+#define  Ren	0x8
+
+#define  Sun	0x9
+#define  Scarlet	0xa
+#define  SageA	0xb
+#define  Neptune	0xc
+
+// skip #define 0xf, the slot is special
+#define  Cardin	0xd
+#define  Russel	0xe
+#define Dove	0x10
+#define SkyLark	0x11
+
+#define Coco	0x12
+#define Fox	0x13
+#define Velvet	0x14
+#define Yatsuhashi	0x15
+
+//Others
+#define Penny	0x16
+#define Ciel	0x17
+
+#define SummerRose	0x18
+#define Taiyang	0x19
+#define Raven	0x1a
+#define Qrow	0x1b
+
+#define Ozpin	0x1c
+#define Glynda	0x1d
+#define Port	0x1e
+#define Oobleck	0x1f
+
+#define Ironwood	0x20
+#define Winter	0x21
+
+#define Zwei	0x22
+#define KingSchnee	0x23
+
+//team Cinder
+#define Cinder	0x30
+#define Roman	0x31
+#define Mercury	0x32
+#define Emerald	0x33
+#define Neo	0x34
+#define Salem	0x35
+
+//#define-3f are summons	0x3b
+#define WinterSummon	0x3e
+#define WeissSummon	0x3f
+
+//White Fang
+#define Adam	0x40
+#define Banesaw	0x41
+#define WFCaptain	0x42
+#define WFCommander	0x43
+#define WFSergeant	0x44
+
+//Bosses
+
+//Generics
+#define WFGrunt1	0x80
+
+//Grimm
+#define Grimm1	0xb0
+
+//Demon King
+#define GrimmDragon	0xbf
+
+//NPCs
+#define Civilian1	0xC0

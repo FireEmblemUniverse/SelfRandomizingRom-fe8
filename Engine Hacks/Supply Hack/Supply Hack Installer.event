@@ -1,0 +1,16 @@
+  SupplyByTable:
+	#incbin "SupplyCheck.dmp"
+	POIN SupplyTable
+	POIN CheckAdjacentUnits
+	
+  CheckAdjacentUnits:
+	#incbin "GetAdjacentUnits.dmp"
+	
+  SupplyTable:
+	BYTE Ruby
+	BYTE Weiss
+	BYTE Blake
+	BYTE Yang
+	BYTE $00
+	
+	ALIGN 4

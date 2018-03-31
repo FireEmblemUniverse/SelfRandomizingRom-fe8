@@ -1,0 +1,63 @@
+#define FreeSpace 0xE80000
+#include eastdlib.event
+#include "Extensions/Hack Installation.txt"
+#include "_UnitMenuDefs.txt"
+    ORG $59D1f8         
+    POIN UnitMenuTable
+
+
+ORG FreeSpace
+  ALIGN 4
+  
+
+  ALIGN 4
+  UnitMenuTable:  
+	UM_Attack
+    UM_Attack_B
+    UM_Staff
+    UM_Ride
+    UM_Exit
+    UM_Play
+    UM_Steal
+    UM_Summon
+    UM_Summon_DK
+    UM_Pick
+    UM_Talk
+    UM_Support
+    UM_Visit
+    UM_Chest
+    UM_Door
+    UM_Armory
+    UM_Vendor
+    UM_Secret
+    UM_Arena
+    UM_Rescue
+    UM_Drop
+    UM_Take
+    UM_Give
+    UM_Item
+    UM_Trade
+    MenuCommand($68F, $6D5, GreenText, SupplyByTable, 0x08023FB8)
+    UM_Wait
+	UM_Separator
+  
+  SupplyByTable:
+	MESSAGE CURRENTOFFSET
+	#incbin "SupplyCheck.dmp"
+	POIN SupplyTable
+	POIN CheckAdjacentUnits
+	
+  CheckAdjacentUnits:
+	#incbin "GetUnitNextToCurrentOne.dmp"
+	
+  SupplyTable:
+	BYTE Seth
+	BYTE Eirika
+	BYTE Moulder
+	BYTE $00
+	
+	ALIGN 4
+	
+	#include "events.txt"
+    
+MESSAGE Used free space ends at currentOffset.

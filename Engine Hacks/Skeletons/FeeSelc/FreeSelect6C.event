@@ -1,0 +1,49 @@
+#ifndef HAX_FREE_SELECTION
+#define HAX_FREE_SELECTION
+
+#include "_6CDefinitions.event"
+
+ALIGN 4
+prNewFreeSelect:
+{
+	#incbin "asm/FreeSelect6C/Constructor.bin"
+	POIN p6C_FreeSelect
+
+ALIGN 4
+p6C_FreeSelect:
+	_6C_SET_NAME(_psName)
+	_6C_SET_DESTRUCTOR(_prOnEnd+1)
+	
+	_6C_YIELD
+	
+	_6C_CALL_ROUTINE(_prOnInit+1)
+	_6C_LOOP_ROUTINE(_prOnLoop+1)
+	
+	// _6C_WHILE_EXISTS(0x59A548) // GENS 6C, camera movement
+	
+	_6C_END
+
+_psName:
+	String(Stan_FreeSelect)
+	BYTE 0; ALIGN 4
+
+ALIGN 4
+_prOnInit:
+	#incbin "asm/FreeSelect6C/Init.bin"
+
+ALIGN 4
+_prOnLoop:
+	#incbin "asm/FreeSelect6C/Loop.bin"
+	POIN (_prHandleCode+1)
+
+ALIGN 4
+_prOnEnd:
+	#incbin "asm/FreeSelect6C/Destructor.bin"
+
+ALIGN 4
+_prHandleCode:
+	#incbin "asm/FreeSelect6C/HandleCode.bin"
+
+}
+
+#endif // HAX_FREE_SELECTION

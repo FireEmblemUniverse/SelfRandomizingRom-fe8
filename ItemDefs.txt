@@ -1,0 +1,161 @@
+// Item List
+
+//generic swords
+#undef IronSword
+#define IronSword	0x1
+#undef SteelSword
+#define SteelSword	0x2
+#undef KillingEdge
+#define KillingEdge	0x3
+#undef SilverSword
+#define SilverSword	0x4
+#undef BraveSword
+#define BraveSword	0x5
+#undef Armorslayer
+#define Armorslayer	0x6
+#undef Wyrmslayer
+#define Wyrmslayer	0x7
+#undef Zanbato
+#define Zanbato	0x8
+#undef WindSword
+#define WindSword	0x9
+
+//generic lances
+#undef IronLance
+#define IronLance	0xa
+#undef SteelLance
+#define SteelLance	0xb
+#undef KillerLance
+#define KillerLance	0xc
+#undef SilverLance
+#define SilverLance	0xd
+#undef BraveLance
+#define BraveLance	0xe
+#undef HorseSlayer
+#define HorseSlayer	0xf
+#undef HeavySpear
+#define HeavySpear	0x10
+#undef Javelin
+#define Javelin	0x11
+#undef FlameLance
+#define FlameLance	0x12
+
+//generic axes
+#undef IronAxe
+#define IronAxe	0x13
+#undef SteelAxe
+#define SteelAxe	0x14
+#undef KillerAxe
+#define KillerAxe	0x15
+#undef SilverAxe
+#define SilverAxe	0x16
+#undef BraveAxe
+#define BraveAxe	0x17
+#undef Halberd
+#define Halberd	0x18
+#undef Hammer
+#define Hammer	0x19
+#undef HandAxe
+#define HandAxe	0x1a
+#undef BoltAxe
+#define BoltAxe	0x1b
+
+//generic bows
+#undef IronBow
+#define IronBow	0x1c
+#undef SteelBow
+#define SteelBow	0x1d
+#undef KillerBow
+#define KillerBow	0x1e
+#undef SilverBow
+#define SilverBow	0x1f
+#undef BraveBow
+#define BraveBow	0x20
+#undef LongBow
+#define LongBow	0x21
+#undef RuneBow
+#define RuneBow 0x22 //nosferatu effect	0x22
+
+//generic anima
+#undef Fire
+#define Fire	0x23
+#undef Thunder
+#define Thunder	0x24
+#undef Ice
+#define Ice	0x25
+#undef Meteor
+#define Meteor	0x26
+#undef Bolting
+#define Bolting	0x27
+#undef Blizzard
+#define Blizzard	0x28
+
+//generic light
+#undef Shine
+#define Shine	0x29
+#undef Flare
+#define Flare	0x2a
+#undef Purge
+#define Purge	0x2b
+
+//generic Dark
+#undef Flux
+#define Flux	0x2c
+#undef Luna
+#define Luna	0x2d
+#undef Nosferatu
+#define Nosferatu	0x2e
+
+//Room for other weapons
+#undef CrescentRose
+#define CrescentRose	0x30
+#undef Myrtenaster
+#define Myrtenaster	0x31
+#undef GambolShroud
+#define GambolShroud	0x32
+#undef EmberCelica
+#define EmberCelica	0x33
+#undef CroceaMors
+#define CroceaMors	0x34
+#undef Magnhild
+#define Magnhild	0x35
+#undef MiloAkouo
+#define MiloAkouo	0x36
+#undef Stormflower
+#define Stormflower	0x37
+
+#undef GlassBow
+#define GlassBow 0x38 //Cinder's weapon	0x38
+
+//staves
+#undef Heal
+#define Heal	0x4b
+#undef Mend
+#define Mend	0x4c
+#undef Recover
+#define Recover	0x4d
+#undef Physic
+#define Physic	0x4e
+#undef Fortify
+#define Fortify	0x4f
+#undef Restore
+#define Restore	0x50
+#undef Silence
+#define Silence	0x51
+#undef Sleep
+#define Sleep	0x52
+#undef Berserk
+#define Berserk	0x53
+#undef Warp
+#define Warp	0x54
+#undef Rescue
+#define Rescue	0x55
+#undef TorchStaff
+#define TorchStaff	0x56
+#undef Hammerne
+#define Hammerne	0x57
+#undef Unlock
+#define Unlock	0x58
+#undef Barrier
+#define Barrier	0x59
+

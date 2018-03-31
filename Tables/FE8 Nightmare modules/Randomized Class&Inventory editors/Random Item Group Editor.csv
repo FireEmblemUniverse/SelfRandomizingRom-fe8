@@ -1,0 +1,56 @@
+0x8d21c8,Item 1,Item 2,Item 3,Item 4,Item 5
+0x0,0x0,0x0,0x0,0x0,0x0
+0x1 IG_SWORD, IronSword, SlimSword, SteelSword, PoisonSword,IronSword
+0x2 IG_SWD_ALT, IronBlade, SteelBlade, PoisonSword, Runesword,LightBrand
+0x3 IG_SWD_EFF, KillingEdge, Armourslayer, Wyrmslayer, Lancereaver, Longsword
+0x4 IG_SWD_BLD, IronSword, SteelSword, IronBlade, SteelBlade, PoisonSword
+0x5 IG_SWD_SP, BraveSword, Shamshir, KillingEdge, Runesword,LightBrand
+0x6 IG_LANCE, IronLance, SlimLance, SteelLance, PoisonLance, Javelin
+0x7 IG_LNC_RNG,Javelin, Javelin, Spear, ShortSpear,ShortSpear
+0x8 IG_LNC_EFF, KillerLance, Horseslayer, Axereaver, DragonSpear, HeavySpear
+0x9 IG_LNC_MELEE, IronLance, SteelLance, PoisonLance,IronLance,SteelLance
+0xA IG_LNC_SP, BraveLance, KillerLance, Javelin, Spear, ShortSpear
+0xB IG_AXE, IronAxe, SteelAxe, PoisonAxe, HandAxe,Hatchet
+0xC IG_AXE_ALT, DevilAxe, HandAxe, Tomahawk, Swordslayer, BattleAxe
+0xD IG_AXE_EFF, KillerAxe, Halberd, Hammer, Swordreaver, DragonAxe
+0xE IG_AXE_MELEE, IronAxe, SteelAxe, PoisonAxe, DevilAxe, BattleAxe
+0xF IG_AXE_SP, BraveAxe, KillerAxe, Tomahawk, Swordslayer,KillerAxe
+0x10 IG_BOW, IronBow, SteelBow, PoisonBow,IronBow,SteelBow
+0x11 IG_BOW_LONG, Longbow, Longbow, Longbow, Longbow, Longbow
+0x12 IG_BOW_ALT, KillerBow, ShortBow, KillerBow, ShortBow, KillerBow
+0x13 IG_BOW_RNG, IronBow, SteelBow, KillerBow, ShortBow, Longbow
+0x14 IG_BOW_SP, KillerBow, BraveBow, ShortBow, Longbow, KillerBow
+0x15 IG_ZOMBIE, RottenClaw, FetidClaw, RottenClaw, FetidClaw, RottenClaw
+0x16 IG_ZOMBIE2, RottenClaw, FetidClaw, PoisonClaw, LongPoisonClaw, LongPoisonClaw
+0x17 IG_SPIDER, SharpClaw, PoisonClaw, LongPoisonClaw, SharpClaw, PoisonClaw
+0x18 IG_SPIDER2, SharpClaw, PoisonClaw, LongPoisonClaw, SharpClaw, PoisonClaw
+0x19 IG_MOGALL, Shadowshot, EvilEye, BloodyEye, Shadowshot, EvilEye
+0x1A IG_MOGALL2, Shadowshot, EvilEye, BloodyEye, Shadowshot, EvilEye
+0x1B IG_DOOG, FireFang, FireFang, FireFang, FireFang, FireFang
+0x1C IG_DOOG2, HellFang, HellFang, HellFang, HellFang, HellFang
+0x1D IG_GORGON, DemonSurge, Shadowshot, Stone, DemonSurge, Shadowshot
+0x1E IG_DRACO, WretchedAir, WretchedAir, WretchedAir, WretchedAir, WretchedAir
+0x1F IG_GOLD,Item1G,Item5G, Item10G, Item50G, Item100G
+0x20 IG_GOLD2,Item50G,Item100G,Item3000G, Item150G, Item200G
+0x21 IG_LOOT_GEM, Elixir, WhiteGem, BlueGem, RedGem, RedGem
+0x22 IG_LOOT, Vulnerary, Elixir, PureWater, Antidote, Torch
+0x23 IG_PROMO, HeroCrest, KnightCrest, ElysianWhip, GuidingRing, ConquerorsProof
+0x24 IG_LOOT2, SecretBook, OrionBolt, Elixir, MasterProof, MasterProof
+0x25 IG_STATS, SecretBook, Speedwings, GoddessIcon, Talisman, Boots
+0x26 IG_STATS2, AngelicRobe, EnergyRing, GoddessIcon, Dragonshield, BodyRing
+0x27 IG_AXE_HVY, SteelAxe, BraveAxe, KillerAxe, DevilAxe, BattleAxe
+0x28 IG_THIEF,Lockpick,Lockpick,Lockpick,Lockpick,Lockpick
+0x29 IG_ANIMA,Fire,Thunder,Elfire,Bolting,Fimbulvetr
+0x2a IG_MAGICLOOT, Speedwings, GoddessIcon, Talisman, GuidingRing, GuidingRing
+0x2b IG_AXELOOT, Tomahawk, AngelicRobe, EnergyRing, BodyRing, ConquerorsProof
+0x2c IG_AXELOOT2, Tomahawk, KillerBow, AngelicRobe, Dragonshield, KnightCrest
+0x2d IG_STATS3, EnergyRing, GoddessIcon, Talisman, GuidingRing, GuidingRing
+0x2e IG_LNCLOOT, Spear, SecretBook, Speedwings, ElysianWhip, ElysianWhip
+0x2f IG_SWDLOOT, Runesword, Spear, SecretBook, Boots, HeroCrest
+0x30 IG_RARELOOT, Boots, BodyRing, Elixir, WhiteGem, BlueGem
+0x31 IG_LIGHT,Lightning,Shine,Aura,Lightning,Shine
+0x32 IG_STAFF,Heal,Mend,Recover,Heal,Mend
+0x33 IG_STAFF2,Sleep,Silence,Berserk,Sleep,Silence
+0x34 IG_DARK,Flux,Nosferatu,Luna,Fenrir,0x0
+0x35 IG_DK1,DemonLight,0x0,0x0,0x0,0x0
+0x36 IG_DK2,Ravager ,0x0,0x0,0x0,0x0

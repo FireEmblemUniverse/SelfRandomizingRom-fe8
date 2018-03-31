@@ -1,0 +1,1 @@
+Sleeps all enemies within range.[X]

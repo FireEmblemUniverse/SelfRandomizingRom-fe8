@@ -1,0 +1,2 @@
+Shadow: Use a shadow clone to dodge[N]
+the next attack. (Cost: 10HP)[X]

@@ -1,0 +1,2 @@
+Use ballista to launch unit[N]
+to a distant tile (cost: 10HP)[X]

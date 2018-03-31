@@ -1,0 +1,173 @@
+Preliminary summon notes:
+
+Located at 807AE9C
+General stuff ends at 807AEFC, bx to here using r4
+Single items for now, update later
+r0 = Summoner Level
+r1 = Pointer to Summoner Battle Data
+r6 = Stuff to write to Summon data
+r7 = Random Number to base probabilities on (0-100, IE do things out of 101)
+
+
+
+Weapon Rank Notes:
+
+Starts at 807AF80
+Finish at 807AFC0, use r4 for bx
+r0 = Summoner Level
+r1 = Summoner Battle Data
+Adds Rank data location to r1, then stores r0 (Rank value) at r1
+Modify to set r4 to Rank data location, then do strb r0,[r1,r4]? Easier to repeat this way
+
+Stat Bonuses Notes:
+
+Can only be done at Weapon Rank Stage
+r5 = Summon Battle data
+
+
+Summoner Character - Summon Char ID table at 895F5A4
+Reads at 807AD3E
+Stores Summon Char ID at 807ADCE
+If we overwrite the check, the first entry is the entry that is used (Use as default summon?)
+
+804ED9A - Check for menu options
+r0 = 1 if option is true, r0 = 3 if false
+
+
+8022F34 - Trading Menu thing
+8025248 - Check for if possible trading partner is Phantom
+r0 is free for bx
+r2 = Character Data
+r4 = Possible Trader Data
+
+
+80232B8 - Item Menu Thing
+80232CC - Check for Phantom
+r2 = Character Data
+
+Summons
+80243D9 - Summons Menu Thing
+8024412 - Check for Char IDS
+r5 = Pointer to Character Data
+
+8024412 - 
+Location of table where Char ID to Summon ID is
+Loads Char ID
+Moves Table to r3
+Loads the first Char ID
+If the same, mov r4 #0x0, go to NEXT
+LOOP:
+Adds 1 to counter (r2/r0)
+Checks for 2 against r2 (Loop?) - If so, go to NEXT
+Loads Char ID again
+Doubles Loop Counter
+Adds Doubled Loop Counter and Char - Summon Table
+Loads Char ID from Table
+Compares Char IDs
+If same, mov r4,r2
+Else go to LOOP
+NEXT: - Checks if the summon ID of the Character is on the field (Shit, this means checks for each char - Summon ID)
+
+
+Checks if Loop counter is positive
+If negative, makes r0 #0x3 and goes to end
+mov r4,#0x1
+Adds doubled Loop Counter to Table
+BL 0x8019430
+	ldr r2 #0x859A5D0 - Pointer table to each Char Data
+	...Movs r0,r1?
+	Quadruples r1
+	
+END:
+moves r0,#0x1 for true
+moves r0,#0x3 if false
+
+	
+807AD44 - Where it determines which ID to use
+0x3001C38 - Summons Info
+
+Compares Char ID to first entry in the table
+If true, move r6,#0x0 then go to NEXT
+Else does loop thing
+
+
+NEXT:
+Multiplies r6 by 2^10, then divides by the same amount into r2 (Step Counter I think)
+mov r1,#0x1
+Gets the negative of that
+moves the Shifted step counter to r8 (For later use???)
+Checks if the step counter is negative. If so, go to the end (Failure)
+Just a repeat of the "Check if summoner's unit is on the map" check from above, pretty redundant
+
+807ADBE - Where we start off again
+mov r5,#0x0
+Loads the Summon Pre-data location in r2
+Loads the Summon-Character Table Location in r3
+Gets the Multiplied step counter and divides it by 2^9 (So it's multiplied by two, for easier getting of summon ID)
+Adds 1 and the 2* step counter to r3
+Loads Summon Char ID and Stores it in the Pre-data location
+Stores 0x51 in the offset (Phantom Class ID) and 0 otherwise
+Then orrs 0x1 with the 4th thing in the phantom slot (Best do this just in case)
+
+Loads the CharPointer offset and gets the stuff
+Loads the Summoner's battle data slot number
+Ands it with 0xC0
+Stores the CharPointer offset in r12
+Stores the SummonTable in r9
+Stores the Pre-data offset in r6
+Checks if the Summoner is in the 0xC0 data range??? (Is that the purple people?)
+This seems really weird, so I'm going to skip it
+
+807AE28 - Back again
+Moves r12 back to r2
+Loads up the Summoner Level
+Multiplies it by 8
+Loads up that damned 4th byte again
+Ands it with 0x7
+Orrs it with the level
+Stores it freaking again
+moves r0,#0x3F
+Loads the X-Cord of the Summon - 0x203A958 - 0x13rd slot
+Ands it with 0x3F (Basically nothing)
+Blah Blah Blah Stores the X-cord in the 4th byte
+Loads Y-Cord
+lsl Y-Cord by 2^6
+Stores the orred halfword of the X-cord and the lsled Y-Cord in the fourth slot
+Does random Anding with negative stuff
+Moves the Summon Pre-Data back to r3
+Adds 0xC to it
+moves r0,r4
+Stores 0 in rSummon Pre-Data + 0xC
+
+Moves Pointer to Summoner Data back to r1
+Loads Level
+And here we are back to my hack
+
+
+
+
+
+END:
+add sp,#0x80
+pop {r3,r4}
+mov r8,r3
+mov r9,r4
+pop {r4-4r7}
+pop {r0}
+bx r0
+
+
+
+
+Things that need updating:
+Make Summons not need the Char Check
+Armory
+Trading - Done
+Villages
+Item - Done
+Supply 
+No EXP
+Arena
+
+
+...Make Summons give EXP to Summoner

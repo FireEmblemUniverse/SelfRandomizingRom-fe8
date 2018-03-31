@@ -1,0 +1,225 @@
+#ifndef CONSTANT_DEFINITIONS_EVENT
+#define CONSTANT_DEFINITIONS_EVENT
+
+// Making sure BOOTS didn't already define everything
+#ifndef BOOTS_CORE_CONSTANTS_EA
+
+// Taken from boots/core/constants.ea
+
+#include "eastdlib.event"
+
+#define TRUE 1
+#define FALSE 0
+
+#define W_SWORD    0x00
+#define W_LANCE    0x01
+#define W_AXE      0x02
+#define W_BOW      0x03
+#define W_STAFF    0x04
+#define W_ANIMA    0x05
+#define W_LIGHT    0x06
+#define W_DARK     0x07
+#define W_ITEM     0x09
+#define W_DISARMED W_ITEM // For Animation Definition Readability
+
+#define WR_NONE 0
+#define WR_E    1
+#define WR_D    31
+#define WR_C    71
+#define WR_B    121
+#define WR_A    181
+#define WR_S    251
+
+#define CA_NONE                  0x00000000
+#define CA_MOUNTEDAID            0x00000001
+#define CA_CANTO                 0x00000002
+#define CA_STEAL                 0x00000004
+#define CA_LOCKPICK              0x00000008
+#define CA_DANCE                 0x00000010
+#define CA_PLAY                  0x00000020
+#define CA_CRITBONUS             0x00000040
+#define CA_BALLISTAE             0x00000080
+#define CA_PROMOTED              0x00000100
+#define CA_SUPPLY                0x00000200
+#define CA_MOUNTED               0x00000400
+#define CA_WYVERN                0x00000800
+#define CA_PEGASUS               0x00001000
+#define CA_LORD                  0x00002000
+#define CA_FEMALE                0x00004000
+#define CA_BOSS                  0x00008000
+#define CA_LOCK_1                0x00010000
+#define CA_LOCK_2                0x00020000
+#define CA_LOCK_3                0x00040000 // Dragons or Monster depending of game
+#define CA_TRIANGLEATTACK_PEGASI 0x00200000
+#define CA_TRIANGLEATTACK_ARMORS 0x00400000
+
+#define WA_NONE            0x00000000
+#define WA_WEAPON          0x00000001
+#define WA_MAGIC           0x00000002
+#define WA_STAFF           0x00000004
+#define WA_UNBREAKABLE     0x00000008
+#define WA_UNSELLABLE      0x00000010
+#define WA_BRAVE           0x00000020
+#define WA_MAGICDAMAGE     0x00000040
+#define WA_UNCOUNTERABLE   0x00000080
+#define WA_REVERTTRIANGLE  0x00000100
+#define WA_HAMMERNE        0x00000200 // Defined as Hammerne effect in FE6 Nightmare module, but as ??? in FE7 & FE8.
+#define WA_LOCK_3          0x00000400 // Dragons or Monster depending of game
+#define WA_LOCK_1          0x00000800
+#define WA_LOCK_2          0x00001000
+#define WA_LOCK_0          0x00002000 // King in FE6
+#define WA_NEGATE_FLYING   0x00004000
+
+#define CA_LOCK_MYRMIDON CA_LOCK_2
+
+#define WA_LOCK_MYRMIDON WA_LOCK_2
+
+#define WE_NONE    0x00
+#define WE_POISON  0x01
+#define WE_HPDRAIN 0x02
+#define WE_HPHALF  0x03
+#define WE_DEVIL   0x04
+
+#define WEATHER_CLEAR     0x00
+#define WEATHER_FLURRIES  0x01
+#define WEATHER_BLIZZARD  0x02
+#define WEATHER_BLUEGRAD  0x03
+#define WEATHER_RAIN      0x04
+#define WEATHER_ASHES     0x05
+#define WEATHER_SANDSTORM 0x06
+#define WEATHER_CLOUDS    0x07
+
+#define TEXTCOLOR_NORMAL 0x00
+#define TEXTCOLOR_GRAY   0x01
+#define TEXTCOLOR_BLUE   0x02
+#define TEXTCOLOR_ORANGE 0x03
+#define TEXTCOLOR_GREEN  0x04
+#define TEXTCOLOR_BLACK  0x05
+
+#ifdef _FE6_
+	#define W_DRAGONSTONE 0x0B
+	
+	#define CA_STARTNPC 0x00800000
+#else // _FE6_
+	#define W_DANCERING 0x0C
+	
+	#define CA_UNSELECTABLE 0x00100000
+	#define CA_LETHALITY    0x02000000
+	#define CA_LOCK_4       0x10000000
+	#define CA_LOCK_5       0x20000000
+	#define CA_LOCK_6       0x40000000
+	#define CA_LOCK_7       0x80000000
+	
+	#define WA_NEGATE_CRIT    0x00008000
+	#define WA_NEGATE_DEFENSE 0x00020000
+	#define WA_LOCK_4         0x00040000
+	#define WA_LOCK_5         0x00080000
+	#define WA_LOCK_6         0x00100000
+	#define WA_LOCK_7         0x00200000
+	
+	#define GOAL_NONE_SEIZE    0x00
+	#define GOAL_ENEMYCOUNT    0x01
+	#define GOAL_TURNCOUNT     0x02
+	#define GOAL_NONE_KILLBOSS 0x03
+	#define GOAL_NONE_SPECIAL  0x04
+
+	#ifdef _FE7_
+		#define W_DRAGONSTONE 0x0B
+		
+		#define CA_MORPH     0x00080000 // ???
+		#define CA_NOEXP     0x01000000
+		#define CA_MAGICSEAL 0x04000000
+		#define CA_ITEMDROP  0x08000000
+	#else // _FE8_
+		#define W_MONSTER         0x0B
+		
+		#define CA_MAXLEVEL10 0x00080000
+		#define CA_SUMMON     0x08000000
+		
+		#define WA_UNUSABLE 0x00010000
+		
+		#define CA_LOCK_MONSTER CA_LOCK_3
+		#define CA_LOCK_EIRIKA  CA_LOCK_4
+		#define CA_LOCK_EPHRAIM CA_LOCK_5
+		
+		#define WA_LOCK_MONSTER WA_LOCK_3
+		#define WA_LOCK_EIRIKA  WA_LOCK_4
+		#define WA_LOCK_EPHRAIM WA_LOCK_5
+		
+		#define WE_STONE 0x05
+	#endif // _FE8_
+#endif // _FE6_
+
+#define FACING_TARGET 0x00
+#define FACING_UP 0x01
+#define FACING_RIGHT 0x02
+#define FACING_STANDING 0x03
+
+#define FLASH_WHITE  0x00
+#define FLASH_DARK   0x01
+#define FLASH_RED    0x02
+#define FLASH_GREEN  0x03
+#define FLASH_BLUE   0x04
+#define FLASH_YELLOW 0x05
+
+#define NO_ANIMATION 0xFFFF
+#define ANIM_DEFAULT 0xFFFF
+
+IG_SWORD			=	0x1
+IG_SWD_ALT		=	0x2
+IG_SWD_EFF		=	0x3
+IG_SWD_BLD		=	0x4
+IG_SWD_SP			=	0x5
+IG_LANCE			=	0x6
+IG_LNC_RNG		=	0x7
+IG_LNC_EFF		=	0x8
+IG_LNC_MELEE	=	0x9
+IG_LNC_SP			=	0xA
+IG_AXE				=	0xB
+IG_AXE_ALT		=	0xC
+IG_AXE_EFF		=	0xD
+IG_AXE_MELEE	=	0xE
+IG_AXE_SP			=	0xF
+IG_BOW				=	0x10
+IG_BOW_LONG		=	0x11
+IG_BOW_ALT		=	0x12
+IG_BOW_RNG		=	0x13
+IG_BOW_SP			=	0x14
+IG_ZOMBIE			= 0x15
+IG_ZOMBIE2		=	0x16
+IG_SPIDER			=	0x17
+IG_SPIDER2		=	0x18
+IG_MOGALL			=	0x19
+IG_MOGALL2		=	0x1A
+IG_DOOG				=	0x1B
+IG_DOOG2			=	0x1C
+IG_GORGON			=	0x1D
+IG_DRACO			=	0x1E
+IG_GOLD				=	0x1F
+IG_GOLD2			=	0x20
+IG_LOOT_GEM		=	0x21
+IG_LOOT				=	0x22
+IG_PROMO			=	0x23
+IG_LOOT2			=	0x24
+IG_STATS			=	0x25
+IG_STATS2			=	0x26
+IG_AXE_HVY		=	0x27
+IG_THIEF			=	0x28
+IG_ANIMA			=	0x29
+IG_MAGICLOOT	=	0x2a
+IG_AXELOOT		=	0x2b
+IG_AXELOOT2		=	0x2c
+IG_STATS3			=	0x2d
+IG_LNCLOOT		=	0x2e
+IG_SWDLOOT		=	0x2f
+IG_RARELOOT		=	0x30
+IG_LIGHT			=	0x31
+IG_STAFF			=	0x32
+IG_STAFF2			=	0x33
+IG_DARK				= 0x34
+IG_DK1				= 0x35
+IG_DK2				=	0x36
+
+
+#endif // BOOTS_CORE_CONSTANTS_EA
+#endif // CONSTANT_DEFINITIONS_EVENT

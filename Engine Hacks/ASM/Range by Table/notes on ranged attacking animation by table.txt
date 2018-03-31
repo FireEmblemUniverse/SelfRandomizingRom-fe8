@@ -1,0 +1,37 @@
+notes on ranged attacking animation by table
+
+desired behaviours:
+1. default - (normal at 1-range and ranged at 2+)
+2. always ranged
+
+addendum:
+halve str at range? - need to change the calculation loop for that
+
+8058290 is the first bit, compares to runesword then the others
+
+cmp r0, #0x11 @replace this with the check from the table
+bne NotRS
+cmp r6, #0x0
+bne NotRS
+  mov r5, #1
+  str r5, [sp, #0x14]
+
+NotRS:
+ldr r4, [sp, #0x8]
+add r4, #0x4a
+ldrh r0, [r4]
+bl 0x80174ec
+mov r5, r4
+
+cmp r0, #0x11 @same here
+bne StillNotRS
+ldr r0, [sp, #0x18]
+cmp r0, #0
+bne StillNotRS
+  mov r1, #1
+  str r1, [sp, #0x18]
+
+StillNotRS:
+ldr r4, [sp, #4]
+b 0x8058332
+

@@ -1,0 +1,202 @@
+#FE8 Chapter Data Editor by SpyroDi, updated by Nintenlord
+#
+
+1
+FE8 Chapter Data Editor
+0x8B0890
+79
+148
+_ChapterEditorList.txt
+NULL
+
+Debug Name Ptr
+0
+4
+NEHU
+NULL
+
+Object Type 1 Id
+4
+1
+NEHU
+NULL
+
+Object Type 2 Id
+5
+1
+NEHU
+NULL
+
+Palette Id
+6
+1
+NDHU
+NULL
+
+Tile Configuration Id
+7
+1
+NDHU
+NULL
+
+Map Id
+8
+1
+NEHU
+NULL
+
+Tile Anim 1 Id
+9
+1
+NEHU
+NULL
+
+Tile Anim 2 Id
+10
+1
+NEHU
+NULL
+
+Map Changes Id
+11
+1
+NEHU
+NULL
+
+Fog Level
+12
+1
+NEDU
+NULL
+
+Battle Preparations
+13
+1
+NEDU
+NULL
+
+Weather Condition
+18
+1
+NEDU
+NULL
+
+Battle Tileset
+19
+1
+NEHU
+NULL
+
+Mode Level Modifiers (N-H-E)
+20
+2
+NEHU
+NULL
+
+Player Phase Music
+22
+2
+NEHU
+NULL
+
+Enemy Phase Music
+24
+2
+NEHU
+NULL
+
+NPC Phase Music
+26
+2
+NEHU
+NULL
+
+Player/NPC Phase Music 2
+34
+2
+NEHU
+NULL
+
+Enemy Phase Music 2
+36
+2
+NEHU
+NULL
+
+Destructible Walls HP
+44
+1
+NEDU
+NULL
+
+Event Data Id
+116
+1
+NEHU
+NULL
+
+Worldmap Chapter Prologue
+117
+1
+NEHU
+NULL
+
+Prep Screen Number (times 2, impair = gaiden)
+128
+1
+NEDU
+NULL
+
+Victory Music Enemy Threshold
+134
+1
+NEDU
+NULL
+
+Fade To Black
+135
+1
+NEHU
+NULL
+
+Status Objective Text
+136
+2
+NEHU
+NULL
+
+Goal Window Text
+138
+2
+NEHU
+NULL
+
+Goal Window Information
+140
+1
+NEHU
+NULL
+
+Turns To Count Down To + 1
+141
+1
+NEDU
+NULL
+
+Protect Character Marker
+142
+1
+NEHU
+NULL
+
+Tile Marker X
+143
+1
+NEDS
+NULL
+
+Tile Marker Y
+144
+1
+NEDS
+NULL

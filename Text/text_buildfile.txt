@@ -1,0 +1,58 @@
+#0x26b
+Misc[X]
+
+# 0x0094
+HP Bars[.][X]
+
+# 0x00B2
+Set health bar display[X]
+
+#0x3A LearnedSkillText
+#first text ID in the free block
+Learned  [X]
+
+#include "statscreen_text.txt"
+
+#include "unitmenu_text.txt"
+
+#0xc53 ControlONMessage
+#replaces support convos
+Enemy Control ON[X]
+
+## ControlOFFMessage
+Enemy Control OFF[X]
+
+#include "skilldesc_text.txt"
+
+## FirName
+Fir[X]
+
+## nameFillas
+Filla's Might[X]
+
+## nameNinis
+Ninis' Grace[X]
+
+## nameThors
+Thor's Ire[X]
+
+## nameSets
+Set's Litany[X]
+
+#0xd4b
+Donate to Circles[X]
+
+# 0x0447
+The breath of a dragon corpse.[X]
+
+# 0x0448
+A stone imbued with mysterious might.[X]
+
+# 0x044A
+A malefic flash.[X]
+
+# 0x044B
+A horrific blow.[X]
+
+# 0x044C
+Sleeps all enemies within range.[X]

@@ -1,0 +1,446 @@
+EphraimLordSkillList:
+BYTE 1 BondID
+BYTE 10 AetherID
+BYTE 00 00
+ALIGN 4
+
+EirikaLordSkillList:
+BYTE 1 BondID
+BYTE 10 AetherID
+BYTE 00 00
+ALIGN 4
+
+EphraimGreatLordSkillList:
+BYTE 255 BondID
+BYTE 255 AetherID //255 means "automatically given to prepromotes"
+BYTE 5 RallySpectrumID
+BYTE 15 AxebreakerID
+BYTE 00 00
+ALIGN 4
+
+EirikaGreatLordSkillList:
+BYTE 255 BondID
+BYTE 255 AetherID
+// BYTE 255 SmiteID
+BYTE 5 NihilID
+BYTE 15 LancebreakerID
+BYTE 00 00
+ALIGN 4
+
+CavalierSkillList:
+BYTE 1 DisciplineID
+BYTE 10 ElbowRoomID
+BYTE 00 00
+
+PaladinSkillList:
+BYTE 255 DisciplineID //learned if spawning
+BYTE 255 ElbowRoomID
+BYTE 5 RallySklID
+BYTE 15 AegisID
+BYTE 00 00
+ALIGN 4
+
+KnightSkillList:
+BYTE 1 ProvokeID
+BYTE 10 NaturalCoverID
+BYTE 00 00
+ALIGN 4
+
+GeneralSkillList:
+BYTE 255 ProvokeID
+BYTE 255 NaturalCoverID
+BYTE 5 WaryFighterID
+BYTE 15 PaviseID
+BYTE 00 00
+ALIGN 4
+
+ThiefSkillList:
+BYTE 1 DespoilID
+BYTE 10 AcrobatID
+BYTE 00 00
+ALIGN 4
+
+MercenarySkillList:
+BYTE 1 RallyStrID
+BYTE 10 SealSpdID
+BYTE 00 00
+ALIGN 4
+
+HeroSkillList:
+BYTE 255 RallyStrID
+BYTE 255 SealSpdID
+BYTE 5 SolID
+BYTE 15 AxebreakerID
+BYTE 00 00
+ALIGN 4
+
+MyrmidonSkillList:
+BYTE 1 DuelistsBlowID
+BYTE 10 VantageID
+BYTE 00 00
+ALIGN 4
+
+SwordmasterSkillList:
+BYTE 255 DuelistsBlowID
+BYTE 255 VantageID
+BYTE 5 AstraID
+BYTE 15 SwordfaireID
+BYTE 00 00
+ALIGN 4
+
+AssassinSkillList:
+BYTE 255 AcrobatID
+BYTE 255 DespoilID
+BYTE 5 LifetakerID
+BYTE 15 PassID
+BYTE 00 00
+ALIGN 4
+
+ArcherSkillList:
+BYTE 1 CertainBlowID
+BYTE 10 SureShotID
+BYTE 00 00
+ALIGN 4
+
+SniperSkillList:
+BYTE 255 CertainBlowID
+BYTE 255 SureShotID
+BYTE 5 BowfaireID
+BYTE 15 GaleforceID
+BYTE 00 00
+ALIGN 4
+
+RangerSkillList:
+BYTE 255 CertainBlowID
+BYTE 255 SureShotID
+BYTE 5 CantoPlusID
+BYTE 15 BowbreakerID
+BYTE 00 00
+ALIGN 4
+
+WyvernRiderSkillList:
+BYTE 1 TantivyID
+BYTE 10 SwapID
+BYTE 00 00
+ALIGN 4
+
+WyvernLordSkillList:
+BYTE 255 TantivyID
+BYTE 255 SwapID
+BYTE 5 SavageBlowID
+BYTE 15 SwordbreakerID
+BYTE 00 00
+ALIGN 4
+
+WyvernKnightSkillList:
+BYTE 255 TantivyID
+BYTE 255 SwapID
+BYTE 5 RallyMovID
+BYTE 15 LancefaireID
+BYTE 00 00
+ALIGN 4
+
+MageSkillList:
+BYTE 1 FocusID
+BYTE 10 AdeptID
+BYTE 00 00
+ALIGN 4
+
+SageSkillList:
+BYTE 255 AdeptID
+BYTE 255 FocusID
+BYTE 5 TomefaireID
+BYTE 15 IgnisID
+BYTE 00 00
+ALIGN 4
+
+MageKnightSkillList:
+BYTE 255 AdeptID
+BYTE 255 FocusID
+BYTE 5 RallyResID
+BYTE 15 QuickBurnID
+BYTE 00 00
+ALIGN 4
+
+BishopSkillList:
+BYTE 255 MiracleID
+BYTE 255 LiveToServeID
+BYTE 5 BreathOfLifeID
+BYTE 15 CounterMagicID
+BYTE 00 00
+ALIGN 4
+
+ShamanSkillList:
+BYTE 1 MaleficAuraID
+BYTE 10 SpurDefID
+BYTE 00 00
+ALIGN 4
+
+DruidSkillList:
+BYTE 255 MaleficAuraID
+BYTE 255 SpurDefID
+BYTE 5 FrenzyID
+BYTE 15 TomebreakerID
+BYTE 00 00
+ALIGN 4
+
+SummonerSkillList:
+BYTE 255 MaleficAuraID
+BYTE 255 SpurDefID
+BYTE 5 AnathemaID
+BYTE 15 RenewalID
+BYTE 00 00
+ALIGN 4
+
+RogueSkillList:
+BYTE 255 DespoilID
+BYTE 255 AcrobatID
+BYTE 5 LungeID
+BYTE 15 CelerityID
+BYTE 00 00
+ALIGN 4
+
+GreatKnightSkillList:
+BYTE 255 ProvokeID
+BYTE 255 NaturalCoverID
+BYTE 5 LunaID
+BYTE 15 ArmoredBlowID
+BYTE 00 00
+ALIGN 4
+
+ManaketeFSkillList:
+BYTE 01 MiracleID
+BYTE 05 OddRhythmID
+BYTE 10 SpurDefID
+BYTE 00 00
+ALIGN 4
+
+FighterSkillList:
+BYTE 1 FieryBloodID
+BYTE 10 DesperationID
+BYTE 00 00
+ALIGN 4
+
+WarriorSkillList:
+BYTE 255 FieryBloodID
+BYTE 255 DesperationID
+BYTE 5 DeathBlowID
+BYTE 15 CounterID
+BYTE 00 00
+ALIGN 4
+
+BrigandSkillList:
+BYTE 1 IntimidateID
+BYTE 10 PragmaticID
+BYTE 00 00
+ALIGN 4
+
+PirateSkillList:
+BYTE 1 CamaraderieID
+BYTE 10 SealSklID
+BYTE 00 00
+ALIGN 4
+
+BerserkerSkillList:
+BYTE 255 CamaraderieID
+BYTE 255 SealSklID
+BYTE 5 WrathID
+BYTE 15 AxefaireID
+BYTE 00 00
+ALIGN 4
+
+MonkSkillList:
+BYTE 1 SpurSpdID
+BYTE 10 SealResID
+BYTE 00 00
+ALIGN 4
+
+PriestSkillList:
+BYTE 1 MiracleID
+BYTE 10 LiveToServeID
+BYTE 00 00
+ALIGN 4
+
+PegKnightSkillList:
+BYTE 1 DartingBlowID
+BYTE 10 RallySpdID
+BYTE 00 00
+ALIGN 4
+
+FalcoknightSkillList:
+BYTE 255 DartingBlowID
+BYTE 255 RallySpdID
+BYTE 5 SaviorID
+BYTE 15 WardingBlowID
+BYTE 00 00
+ALIGN 4
+
+ClericSkillList:
+BYTE 1 MiracleID
+BYTE 10 LiveToServeID
+BYTE 00 00
+ALIGN 4
+
+TroubadourSkillList:
+BYTE 10 DemoiselleID
+BYTE 20 VoiceOfPeaceID
+BYTE 00 00
+ALIGN 4
+
+ValkyrieSkillList:
+BYTE 255 DemoiselleID
+BYTE 255 VoiceOfPeaceID
+BYTE 5 SpurResID
+BYTE 15 CharmID
+BYTE 00 00
+ALIGN 4
+
+BardSkillList:
+DancerSkillList:
+BYTE 255 WaryFighterID
+BYTE 5 AmaterasuID
+BYTE 15 CelerityID
+BYTE 00 00
+ALIGN 4
+
+SoldierSkillList:
+BYTE 1 RepositionID
+BYTE 10 CamaraderieID
+BYTE 00 00
+ALIGN 4
+
+NecromancerSkillList:
+BYTE 255 MaleficAuraID
+BYTE 10 AnathemaID
+BYTE 20 TomefaireID
+BYTE 00 00
+ALIGN 4
+
+FleetSkillList:
+BYTE 00 00
+ALIGN 4
+
+PhantomSkillList:
+BYTE 00 00
+ALIGN 4
+
+SuperJourneymanSkillList:
+SuperPupilSkillList:
+SuperRecruitSkillList:
+BYTE 255 PatienceID
+BYTE 255  ParagonID
+BYTE 5 DazzleID
+BYTE 15 ColossusID
+BYTE 00 00
+ALIGN 4
+
+ManaketeMSkillList:
+BYTE 01 MiracleID
+BYTE 05 OddRhythmID
+BYTE 10 SpurDefID
+BYTE 00 00
+ALIGN 4
+
+RecruitSkillList:
+JourneymanSkillList:
+PupilSkillList:
+BYTE 1 PatienceID
+BYTE 10 ParagonID
+BYTE 00 00
+ALIGN 4
+
+DemonKingSkillList:
+BYTE 255 BaneID
+BYTE 255 SummonID
+BYTE 255 ReliefID
+BYTE 255 AnathemaID
+BYTE 00 00
+ALIGN 4
+
+RevenantSkillList:
+BYTE 10 RenewalID
+BYTE 00 00
+ALIGN 4
+
+EntombedSkillList:
+BYTE 255 RenewalID
+BYTE 10 BaneID
+BYTE 00 00
+ALIGN 4
+
+BonewalkerSkillList:
+BYTE 10 DeathBlowID
+BYTE 00 00
+ALIGN 4
+
+WightSkillList:
+BYTE 255 DeathBlowID
+BYTE 10 StrongRiposteID
+BYTE 00 00
+ALIGN 4
+
+BaelSkillList:
+BYTE 10 SealStrID
+BYTE 00 00
+ALIGN 4
+
+ElderBaelSkillList:
+BYTE 255 SealStrID
+BYTE 10 SwapID
+BYTE 00 00
+ALIGN 4
+
+CyclopsSkillList:
+BYTE 5 SavageBlowID
+BYTE 15 ColossusID
+BYTE 00 00
+ALIGN 4
+
+MautheDoogSkillList:
+BYTE 10 DartingBlowID
+BYTE 00 00
+ALIGN 4
+
+GwyllgiSkillList:
+BYTE 255 DartingBlowID
+BYTE 10 ReliefID
+BYTE 00 00
+ALIGN 4
+
+TarvosSkillList:
+BYTE 10 IntimidateID
+BYTE 00 00
+ALIGN 4
+
+MaelduinSkillList:
+BYTE 255 IntimidateID
+BYTE 10 PursuitID
+BYTE 00 00
+ALIGN 4
+
+MogallSkillList:
+BYTE 10 FocusID
+BYTE 00 00
+ALIGN 4
+
+ArchMogallSkillList:
+BYTE 255 FocusID
+BYTE 10 FuryID
+BYTE 00 00
+ALIGN 4
+
+GorgonSkillList:
+BYTE 10 LungeID
+BYTE 00 00
+ALIGN 4
+
+GargoyleSkillList:
+BYTE 10 TantivyID
+BYTE 00 00
+ALIGN 4
+
+DeathgoyleSkillList:
+BYTE 255 TantivyID
+BYTE 10 DesperationID
+BYTE 00 00
+ALIGN 4

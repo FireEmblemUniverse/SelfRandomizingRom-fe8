@@ -1,0 +1,6 @@
+//Dust Crystals
+DustCrystalsUsability:
+#incbin "ASM/DustCrystalsUsability.dmp"
+
+DustCrystalsEffect:
+#incbin "ASM/DustCrystalsEffect.dmp"

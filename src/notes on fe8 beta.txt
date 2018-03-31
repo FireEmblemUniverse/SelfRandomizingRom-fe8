@@ -1,0 +1,6 @@
+notes on fe8 beta
+
+savedrawline is the proc we want
+newproc_savedrawline at 80be1a8 (called by 80bbb30 - equivalent is 0x80a8cd4 in fe8u)
+proccode at 8b0b2ac
+

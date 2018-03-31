@@ -1,0 +1,111 @@
+## UM_Rally
+ Rally[X]
+
+## UM_RallyDesc
+Buff nearby allies.[X]
+
+## UM_Lunge
+ Lunge[X]
+
+## UM_LungeDesc
+Switch places with opponent[N]
+after combat.[X]
+
+## UM_Mercy
+ Mercy[X]
+
+## UM_MercyDesc
+Leave opponent with[N]
+at least 1 HP.[X]
+
+## UM_Gamble
+ Gamble[X]
+
+## UM_GambleDesc
+2x crit rate, 0.5x hit rate.[X]
+
+## UMText_DV
+ Launch[X]
+
+## UMText_DVDesc
+Use ballista to launch unit[N]
+to a distant tile (cost: 10HP)[X]
+
+## DVDisabledMessage
+You need to be holding[N]
+Mila's Turnwheel![X]
+
+## UMText_Transfer
+ Transfer[X]
+
+## UMText_TransferDesc
+Trade partners with an[N]
+adjacent unit.[X]
+
+## UMText_Switch
+ Switch[X]
+
+## UMText_SwitchDesc
+Trade places with[N]
+your partner.[X]
+
+## UMText_PairUp
+ Pair Up[X]
+
+## UMText_PairUpDesc
+Join an ally on an[.][N]
+adjacent space.[X]
+
+## UMText_Separate
+ Separate[.][X]
+
+## UMText_SeparateDesc
+Place partner unit on[.][N]
+an adjacent space.[X]
+
+## UMText_Shelter
+ Shelter[X]
+
+## UMText_ShelterDesc
+Rescue an ally from[.][N]
+an adjacent space.[X]
+
+## UM_Shove
+ Shove[X]
+
+## UM_ShoveDesc
+Push an adjacent unit one[N]
+tile away.[X]
+
+## UM_Smite
+ Smite[X]
+
+## UM_SmiteDesc
+Push an adjacent unit two[N]
+tiles away.[X]
+
+## UM_Pivot
+ Pivot[X]
+
+## UM_PivotDesc
+Move to opposite side of[N]
+an adjacent ally.[X]
+
+## UM_Reposition
+ Reposition[X]
+
+## UM_RepositionDesc
+Move adjacent ally to this[N]
+unit's opposite side.[X]
+
+## UM_Swap
+ Swap[X]
+
+## UM_SwapDesc
+Swap positions with adjacent[N]
+ally.[X]
+
+##UMText_Win
+ Skip[X]
+##UMDesc_Win
+ Skip this chapter.[X]

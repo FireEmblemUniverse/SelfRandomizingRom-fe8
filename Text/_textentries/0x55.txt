@@ -1,0 +1,2 @@
+Place partner unit on[.][N]
+an adjacent space.[X]

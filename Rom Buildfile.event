@@ -1,0 +1,173 @@
+#ifdef _FE8_
+    #include "EAstdlib.event"
+    #include "Custom Definitions.event"
+    #include "Extensions/Hack Installation.txt"
+    #include "Tools/Tool Helpers.txt"
+    
+    ORG FreeSpace
+    //Text first for Text ID definitions
+    #include "Text/Install Text Data.event"
+    MESSAGE Used text space ends at currentOffset
+
+    //CSV tables
+    #include "Tables/Table Installer.event"
+    MESSAGE Used table space ends at currentOffset
+
+    //C Hacks
+    PUSH
+    #define SkillCheckerThumb SkillTester|1
+    #define memcpy 0xD1C0D
+    #define __aeabi_uidiv 0xd167d
+    #define __aeabi_idiv 0xd167d
+    #define __aeabi_uidivmod 0xd1685
+    #define __aeabi_idivmod 0xd1685
+    #define RunEventEngine 0x800D07D
+
+    ORG $57436 //palette "fix"
+    SHORT $2800 $d001
+    ORG $57474
+    SHORT $2800 $d001
+
+    ORG $99e64  
+    POIN NewPrepScreenShopList
+
+    ORG $293c0
+    POIN NewMasterSealList
+
+    ORG $a20164
+    POIN DifficultyTacticianSelect
+
+    PUSH
+      ORG $44800
+      BYTE 9 //max name length
+      ORG $482bA
+      BYTE 9 //max cursor position
+    POP
+
+    ORG (0x809b10 + (MasterSeal*36) + 26)
+    SHORT 5000 //make master seals cheaper
+
+    ORG $2266c
+    BYTE 3 //disables guide from menu
+
+    ORG $9e1a
+    BL($48280) //make tactician name select pop up instead of sacred stones text
+
+    ORG 0x5514
+    replaceWithHack(NewPortraitGetter)
+
+    ORG $8C5F4+4; BL(NameStringWrapper)
+    ORG $86E50+4; BL(NameStringWrapper)
+    ORG $365F0+4; BL(NameStringWrapper)
+    ORG $9A5F0+4; BL(NameStringWrapper)
+    ORG $9A97E+4; BL(NameStringWrapper)
+    ORG $9954A+4; BL(NameStringWrapper)
+    ORG $9A1DA+4; BL(NameStringWrapper)
+    ORG $51F7C+4; BL(NameStringWrapper)
+    ORG $5203C+4; BL(NameStringWrapper)
+    ORG $923AC+4; BL(NameStringWrapper)
+    ORG $9ECCE+4; BL(NameStringWrapper)
+    ORG $8E240+4; BL(NameStringWrapper)
+    ORG $34984+4; BL(NameStringWrapper)
+    ORG $2D34E+4; BL(NameStringWrapper)
+    ORG $2D37C+4; BL(NameStringWrapper)
+    ORG $9B9F2+4; BL(NameStringWrapper)
+    ORG $9BA24+4; BL(NameStringWrapper)
+
+    ORG $839a8; BL(NewCheckCHES)
+    SHORT 0 0 0 0 0 0 0 0 //skipping rest of thing
+
+    ORG $105de; BL(RandomizeEventItem)
+
+    //fix summon
+    ORG $24436
+    BYTE 0xff
+    ORG $7ad66
+    BYTE 0xff
+    ORG $244a0
+    POIN NewSummonsTable+1
+    ORG $7ae04
+    POIN NewSummonsTable+1
+
+    #define WATP_ID 0xC0 //fix later
+    ORG $160d2; BL(FirMusicWrapper)
+    ORG $328b2; BL(FirMusicWrapper)
+    ORG $1ed62; BL(FirMusicWrapper)
+
+    ORG $9f03b8; BYTE 63 //set ross hp higher
+
+    ORG $C5808; POIN NewTitleImg
+
+    ORG $c5830; POIN NewTitleScroll
+
+    ORG $24df2; SHORT 0 //fix 5x money
+
+    ORG $4e70;
+        SHORT 0x1c20 //mov r0, r4
+        BL(SpeedUpAnims)
+
+    
+    //fix ballista anims
+    //archer f
+    ORG $8af172
+    BYTE 0x9f
+    ORG $8af176
+    BYTE 0x9f
+    ORG $8af17a
+    BYTE 0x9f
+    //sniper
+    ORG $8af18a
+    BYTE 0x9f
+    ORG $8af18e
+    BYTE 0x9f
+    ORG $8af192
+    BYTE 0x9f
+    //sniper f
+    ORG $8af1a2
+    BYTE 0x9f
+    ORG $8af1a6
+    BYTE 0x9f
+    ORG $8af1aa
+    BYTE 0x9f
+    POP
+
+    ALIGN 4
+    //Engine Hacks
+    #include "Engine Hacks/_MasterHackInstaller.event"
+    MESSAGE Used hax space ends at currentOffset
+
+    NewPrepScreenShopList:
+    SHLI $01 $14 $1F $2D $38 $45 $3F $4B ChestKey DoorKey AngelicRobe EnergyRing SecretBook Speedwings GoddessIcon Dragonshield Talisman MasterSeal
+    ALIGN 4
+
+    NewMasterSealList:
+    BYTE Thief EphraimLord EirikaLord Cavalier Cavalier_F Knight Knight_F Mercenary Mercenary_F Myrmidon Myrmidon_F Archer Archer_F WyvernRider WyvernRider_F Mage Mage_F Shaman Shaman_F Recruit_2 Fighter Brigand Pirate Monk Priest Bard PegasusKnight Cleric Troubadour Dancer Soldier Revenant Bonewalker Bonewalker_Bow Bael Mauthedoog Tarvos Mogall Gargoyle Journeyman_2 Pupil_2 0
+    ALIGN 4
+
+    Fir_Mug:
+    #incext PortraitFormatter "fircher.png"
+    setMugEntry(0x1, Fir_Mug, 2, 6, 3, 4)
+
+    Fir_Shop:
+    #incext PortraitFormatter "firshop.png"
+    setMugEntry(0xac,Fir_Shop, 3,2,3,6)
+
+    #include "Music/Music Installer.event"
+
+    NewTitleImg:
+    #incext Png2Dmp "FE_Title.png" --lz77
+
+    NewTitleScroll:
+    #incext Png2Dmp "TitleScroll.png" --lz77
+
+    //spinny proc!
+    #include "spin/spin.event"
+    // #include "PrologueTact.event"
+    EndOfFreeSpace:
+
+    //DRM LOL
+    ORG $AC
+    // String(_D2D)
+#else
+    ERROR You are not assembling FE8 events!
+#endif

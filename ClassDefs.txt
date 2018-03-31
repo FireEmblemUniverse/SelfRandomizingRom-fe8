@@ -1,0 +1,13 @@
+//Class defs
+#define RubyLord	0x1
+#define WeissLord	0x2
+#define BlakeLord	0x3
+#define YangLord	0x4
+
+//more classes here
+//was manakete
+#define PennyBot	0x3c
+
+//was recruit
+#define Hoplite	0x37
+

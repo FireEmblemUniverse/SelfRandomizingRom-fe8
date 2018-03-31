@@ -1,0 +1,27 @@
+
+I'm essentially doing the same as the Regular Target Selection 6C: Take as argument a pointer to somewhere in ROM
+
+Free Select 6C:
+	2C | word | Pointer to useful routines in rom
+	30 | word | Pointer to cursor TCS
+
+useful routines in rom:
+	00 | word | OnInit   | Called when the 6C gets constructed
+	04 | word | OnEnd    | Called when the 6C gets destructed
+	08 | word | OnAPress | Called when the A button is pressed
+	0C | word | OnBPress | Called when the B button is pressed
+	10 | word | OnRPress | Called when the R button is pressed
+	14 | word | OnChange | Called when the cursor changed positions
+	
+	Arguments:
+		r0 = 6C
+		r1 = Cursor x
+		r2 = Cursor y
+	
+	Return values:
+		& 0x02 | Ends selection when set
+		& 0x04 | Plays beep sound (sound Id 0x6A) when set
+		& 0x08 | Plays boop sound (sound Id 0x6B) when set
+		& 0x10 | Plays gurr sound (sound Id 0x6C) when set
+		& 0x20 | Sets cursor gfx to valid
+		& 0x40 | Sets cursor gfx to invalid

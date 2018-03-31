@@ -1,0 +1,52 @@
+#FE8 Spell Association Editor
+
+1
+FE8 Spell Association Editor
+0x8AFBD8
+162
+16
+NULL
+NULL
+
+Item Index
+0
+2
+NEHU
+NULL
+
+Units involved in animation (1 or 2)
+2
+2
+NEDU
+NULL
+
+Spell Animation Index
+4
+2
+NEHU
+NULL
+
+Map: 6C Pointer
+8
+4
+NEHU
+NULL
+
+Map: Return Camera
+12
+1
+NEHU
+NULL
+
+Map: Facing
+13
+1
+NEHU
+NULL
+
+Map: Flash Color
+14
+1
+NEHU
+NULL
+

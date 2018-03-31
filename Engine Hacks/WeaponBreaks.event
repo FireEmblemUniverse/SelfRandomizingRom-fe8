@@ -1,0 +1,23 @@
+#ifdef inBLRange
+
+PUSH
+  //Don't break weapons (other than tomes/staves) when 0 durability
+    ORG $16b0c
+    BL(WeaponBreaks)
+    ORG $1657a
+    BYTE 0xff 0x2d 0 0xda
+    ORG $16564
+    BYTE 0xff
+    ORG $2b026
+    BYTE 0xff 0x28 2 0xda
+    ORG $2b81a
+    BYTE 0 0 0xff 0x28 3 0xda
+POP
+
+ALIGN 4
+WeaponBreaks:
+#incbin "ASM/weaponbreaks.dmp"
+
+#else
+ERROR _file_ is not in BL Range
+#endif

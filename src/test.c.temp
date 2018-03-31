@@ -1,0 +1,589 @@
+#include "gbafe.h"
+#include "classes.h"
+#include "skills.h"
+#pragma long_calls
+#define eventSlot gEventSlot
+extern int eventSlot[];
+
+//declarations
+u32* const seed_value = (u32*) 0x3005264; //last 4 bytes of event ids (unused)
+int GetGameClock();
+void SetGameClock(int value);
+char* GetTacticianNameString(); //0x80314E5
+int NextRN_N(int max);
+void HideAllUnits(int something);
+u32* const Debuff_Table = (u32*) 0x203f100;
+u8* const chapNum = (u8*) 0x202bcfe;
+void LoadBgConfig(u8 Value);
+
+typedef struct {
+  u32 x;
+  u32 y;
+} LocationTable;
+
+typedef struct {
+  Proc Header;
+  u8 CursorIndex;
+  u8 VariationPercent;
+  u8 RandomizeThieves;
+  u8 RandomizeSkills;
+  u8 EnemyClassGroups;
+  u8 RandomizeItemStats;
+  //more options here
+} OptionsProc;
+
+//80ac3f0 is a pointer to the new game ProcCode.
+void EnableAllGfx();
+void NewFadeIn();
+void NewFadeOut();
+void FadeInExists();
+void FadeOutExists();
+void nullsub_64();
+void Loop6C_savemenu();
+void NewNewGameDifficultySelect();
+void NewFadeInBlack(int duration);
+void NewFadeOutBlack(int duration);
+void PlaySound(int sound);
+void SetPrimaryHBlankCallback();
+void ClearOAMBuffer();
+void BlockGameGraphicsLogic();
+void LZ77UnCompVram();
+void DBG_BG_Print();
+void DrawTextInline();
+void RandomOptionsSetup(OptionsProc* CurrentProc);
+void RandomOptionsLoop(OptionsProc* CurrentProc);
+void SetupDebugFontForBG();
+void CpuSet();
+void SetupDebugFontForOBJ();
+void PrintDebugNumberDec();
+void PrintDebugNumberHex();
+void DrawDecNumber();
+void Font_ResetAllocation(); 
+void UpdateHandCursor();
+void ClearBG0BG1();
+
+#define BGLoc(BGOffset, x, y) (BGOffset + 0x2 * x + 0x40 * y)
+#define BG0Buffer 0x02022CA8
+#define BG1Buffer 0x020234A8
+#define BG2Buffer 0x02023CA8
+#define BG3Buffer 0x020244A8 
+#define BG0Offset 0x6006000
+#define SetFont ((void (*)(u32 fontStructPointer))(0x8003D38+1))
+#define LoadFontUI ((void (*))(0x80043A8+1))
+#define InitDefaultFont ((void (*)())(0x8003C94+1))
+#define InitText ((void (*)(int TextStruct, int TextTileWidth))(0x8003D5C+1))
+#define ClearText ((void (*)(int TextStruct))(0x08003DC8+1))
+#define PrintInline ((void (*)(int TextStruct, int TilePointerRoot, int ColorID, int localX, int TileWidth, char *Text))(0x0800443C+1))
+#define UncompTID ((void (*)(u16 TID, char *Buffer))(0x800A280+1))
+#define UpdateBG3HOffset ((void (*)())(0x8086B7C+1))
+#define CursorMaxIndex sizeof(CursorLocationTable)/sizeof(CursorLocationTable[0])-1
+static const ProcCode NewSaveMenu[]={
+  //setup stuff
+    PROC_SET_NAME("savemenu"),
+    PROC_LABEL(0),
+    PROC_YIELD,
+    PROC_CALL_ROUTINE(0x80a8c2c+1),
+    PROC_YIELD,
+    PROC_CALL_ROUTINE(0x80a8cd4+1),
+    PROC_CALL_ROUTINE(0x80a8f04+1),
+    PROC_YIELD,
+    PROC_CALL_ROUTINE_ARG(NewFadeIn, 8),
+    PROC_WHILE_ROUTINE(FadeInExists),
+    PROC_YIELD,
+    PROC_WHILE_ROUTINE(0x8002a6c+1),
+    PROC_CALL_ROUTINE(0x80a9014+1),
+  //main loop?
+    PROC_LABEL(2),
+    PROC_LOOP_ROUTINE(Loop6C_savemenu),
+    PROC_GOTO(0xF),
+  //what happens if new game
+    PROC_LABEL(1),
+      PROC_CALL_ROUTINE(0x80aa1ec+1),
+      PROC_CALL_ROUTINE_ARG(NewFadeOut, 8),
+      PROC_WHILE_ROUTINE(FadeOutExists),
+      PROC_CALL_ROUTINE(0x80ad5b4+1),
+      PROC_CALL_ROUTINE(NewNewGameDifficultySelect),
+      PROC_YIELD,
+      PROC_CALL_ROUTINE(0x80aa30c+1),
+      PROC_CALL_ROUTINE(0x80aa1ec+1),
+      PROC_CALL_ROUTINE_ARG(NewFadeIn, 8),
+      PROC_WHILE_ROUTINE(FadeInExists),
+      PROC_CALL_ROUTINE(0x80aa458+1),
+  //when choosing a slot to save new game in?
+    PROC_LABEL(5),
+      PROC_CALL_ROUTINE(0x80aa47c+1),
+      PROC_YIELD,
+      PROC_LOOP_ROUTINE(0x80a9494+1),
+      PROC_GOTO(0xF),
+  //sth
+    PROC_LABEL(7),
+      PROC_SLEEP(5),
+      PROC_CALL_ROUTINE(0x80a9d60+1),
+      PROC_GOTO(5),
+  //update savedata?
+    PROC_LABEL(6),
+      PROC_SLEEP(1),
+      PROC_CALL_ROUTINE(0x80a96dc+1),
+      PROC_SLEEP(1),
+      PROC_LOOP_ROUTINE(0x80a96ec+1),
+      PROC_GOTO(5),
+  //
+    PROC_LABEL(3),
+      PROC_LOOP_ROUTINE(0x80a99c0+1),
+      PROC_GOTO(5),
+  //
+    PROC_LABEL(4),
+      PROC_CALL_ROUTINE(0x80aa4b4+1),
+      PROC_LOOP_ROUTINE(0x80a9a18+1),
+      PROC_GOTO(2),
+  //
+    PROC_LABEL(8),
+      PROC_LOOP_ROUTINE(0x80a9a68+1),
+    PROC_LABEL(9),
+      PROC_LOOP_ROUTINE(0x80a9ab0+1),
+    PROC_LABEL(0xC),
+      PROC_CALL_ROUTINE(0x80a9a08+1),
+      PROC_LOOP_ROUTINE(0x80a9af4+1),
+    PROC_LABEL(0xD),
+      PROC_LOOP_ROUTINE(0x80a9b44+1),
+    PROC_LABEL(0xA),
+      PROC_LOOP_ROUTINE(0x80a9b90+1),
+    PROC_LABEL(0xB),
+      PROC_CALL_ROUTINE(0x80aa49c+1),
+      PROC_YIELD,
+      PROC_LOOP_ROUTINE(0x80a9e1c+1),
+    PROC_LABEL(0xE),
+      PROC_CALL_ROUTINE_ARG(NewFadeOut, 8),
+      PROC_WHILE_ROUTINE(FadeOutExists),
+      PROC_WHILE_ROUTINE(0x8002950+1),
+      PROC_CALL_ROUTINE(0x80aa158+1),
+      PROC_YIELD,
+      PROC_CALL_ROUTINE(0x80a8c2c+1),
+      PROC_YIELD,
+      PROC_CALL_ROUTINE(0x80a8cd4+1),
+      PROC_CALL_ROUTINE(0x80a8f04+1),
+      PROC_YIELD,
+      PROC_CALL_ROUTINE_ARG(NewFadeIn, 8),
+      PROC_WHILE_ROUTINE(FadeInExists),
+      PROC_WHILE_ROUTINE(0x8002950+1),
+      PROC_CALL_ROUTINE(0x80aa1bc+1),
+    PROC_LABEL(0x15),
+      PROC_BLOCK,
+    PROC_LABEL(0x12),
+      PROC_CALL_ROUTINE_ARG(NewFadeOut, 4),
+      PROC_WHILE_ROUTINE(FadeOutExists),
+      PROC_GOTO(0xF),
+    PROC_LABEL(0x11),
+      PROC_CALL_ROUTINE_ARG(NewFadeOut, 8),
+      PROC_WHILE_ROUTINE(FadeOutExists),
+    PROC_LABEL(0xF),
+      PROC_YIELD,
+      PROC_CALL_ROUTINE(0x80aa030+1),
+      PROC_YIELD,
+      PROC_END
+};
+
+
+static const ProcCode RandomOptionsProc[] = {
+  PROC_SET_NAME("RandomizerOpt"),
+  PROC_CALL_ROUTINE(LockGameLogic),
+  // PROC_CALL_ROUTINE(BlockGameGraphicsLogic),
+  // PROC_YIELD,
+  PROC_END_ALL(0x8a20b1c),
+  // PROC_CALL_ROUTINE_ARG(NewFadeIn, 0x10),
+  // PROC_WHILE_ROUTINE(FadeInExists),          //when done fading
+  // PROC_YIELD,                         //when done fading
+  PROC_CALL_ROUTINE(RandomOptionsSetup),
+  PROC_LOOP_ROUTINE(RandomOptionsLoop), //wait for B button
+  
+  PROC_CALL_ROUTINE_ARG(NewFadeOut, 0x10),
+  PROC_WHILE_ROUTINE(FadeOutExists),
+
+  PROC_END
+};
+
+static const ProcCode NewGameDifficultySelect[] = {
+  PROC_SET_NAME("DifficultySelect"),
+
+  // PROC_CALL_ROUTINE(0x8048280+1), //the tactician name lol
+  // PROC_YIELD,
+  // PROC_WHILE_EXISTS(0x85a9614), //name select
+  // PROC_CALL_ROUTINE(nullsub_64), //wait for name select to go away?
+  // PROC_YIELD,
+
+  PROC_SET_DESTRUCTOR(0x80ac078+1),
+  PROC_CALL_ROUTINE(0x80ad5b4+1),
+  PROC_YIELD,
+  PROC_CALL_ROUTINE(0x80ac1a8+1),
+  PROC_SLEEP(1),
+  PROC_CALL_ROUTINE(EnableAllGfx),//EnableAllGfx
+  PROC_CALL_ROUTINE_ARG(NewFadeIn, 8),
+  PROC_WHILE_ROUTINE(FadeInExists),
+  PROC_LABEL(0),
+  PROC_LOOP_ROUTINE(0x80ac288+1),
+  PROC_LABEL(1),
+  PROC_SLEEP(10),
+  PROC_NEW_CHILD_BLOCKING(RandomOptionsProc),
+  PROC_SLEEP(10),
+  PROC_LABEL(2),
+  PROC_CALL_ROUTINE_ARG(NewFadeOut, 8),
+  PROC_WHILE_ROUTINE(FadeOutExists),
+  PROC_CALL_ROUTINE(nullsub_64),
+
+  PROC_YIELD,
+  // PROC_NEW_CHILD_BLOCKING(0x859e64c),//combat record screen!
+
+  // PROC_YIELD,
+  // PROC_CALL_ROUTINE(LockGameLogic),
+  // PROC_CALL_ROUTINE(0x80ac078+1),
+  // // PROC_CALL_ROUTINE(EnableAllGfx),//EnableAllGfx
+  // // PROC_CALL_ROUTINE_ARG(NewFadeIn, 8),
+  // // PROC_WHILE_ROUTINE(FadeInExists),
+  
+  // PROC_CALL_ROUTINE_ARG(NewFadeOut, 0x10),
+  // PROC_CALL_ROUTINE(BlockGameGraphicsLogic),
+  // PROC_WHILE_ROUTINE(FadeOutExists),          //when done fading
+  // PROC_CALL_ROUTINE_ARG(NewFadeIn, 0x10),
+  // // PROC_YIELD,                         //when done fading
+  // PROC_CALL_ROUTINE(RandomOptionsSetup),
+  // PROC_SLEEP(120),
+
+  PROC_CALL_ROUTINE(0x80a8c2c+1),
+  PROC_YIELD,
+  PROC_CALL_ROUTINE(0x80a8cd4+1),
+  PROC_CALL_ROUTINE(0x80a8f04+1),
+  PROC_YIELD,
+  PROC_CALL_ROUTINE(UnlockGameLogic),
+  PROC_END
+};
+
+static const LocationTable CursorLocationTable[] = {
+  {10, 0x30},
+  {10, 0x40},
+  {10, 0x50},
+  {10, 0x60},
+  {10, 0x70}
+};
+
+//functions
+void GenerateBGTsa(u16 *MapOffset, u32 NumberOfTiles, u8 PaletteId) {
+  for(int i = 0; i < NumberOfTiles; i++) {
+    MapOffset[i] = (i | (PaletteId << 12));
+  }
+}
+
+void SetNewGameSeed(){ //replaces bit where new game sets clock to 0
+  *seed_value = GetGameClock();
+  SetGameClock(0);
+};
+
+//POIN to this at $a20164
+void DifficultyTacticianSelect(ProcState* input){
+  StartBlockingProc(NewGameDifficultySelect, input);
+};
+
+//hook at 801096c
+void ClearDebuffsBeforePrepScreen(int something){
+  for (int i = 0; i < 100; ++i)
+  {
+    *(Debuff_Table+i) = 0;
+  };
+  HideAllUnits(something);
+};
+
+//take number and modify by 25%, using RNG 
+//TODO: modify so it reads a specific value from options
+u8 RandomizeByPercentage(u8 number){
+  int variation = 25;
+  int percentage = NextRN_N(variation*2) + (100-variation); //75-125%
+  int ret = ((number * percentage)/100);
+  if (ret < 0) ret = 0;
+  return (u8) ret;
+};
+
+u8 HashByte_N(u8 number, u8 noise, int max){
+  u32 hash = 5381;
+  hash = ((hash * 33) ^ number);
+  hash = ((hash * 33) ^ noise);
+  hash = ((hash * 33) ^ *seed_value);
+  // hash = ((hash * 33) ^ *seed_value);
+  return (u16) hash % max;
+};
+
+u8 HashByte32(u8 number, u8 noise){
+  u8 hash = HashByte_N(number, noise, 63);
+  hash += 0x44;
+  return (u8) ((hash*number)/100);
+};
+
+//Personal skill randomizer
+u8 PersonalSkillGetter(u8 charNum){
+  u8 static const PSkills[] = {AcrobatID, PassID, CantoPlusID, WaryFighterID, SureShotID, ProvokeID, SaviorID, MercyID, FrenzyID, AdeptID, LethalityID, LunaID, SolID, AetherID, AstraID, DisciplineID, SwordbreakerID, LancebreakerID, AxebreakerID, BowbreakerID, TomebreakerID, AegisID, PaviseID, DuelistsBlowID, DeathBlowID, DartingBlowID, WardingBlowID, CertainBlowID, ArmoredBlowID, VantageID, DesperationID, WrathID, CounterID, CounterMagicID, MiracleID, SwordfaireID, LancefaireID, AxefaireID, BowfaireID, TomefaireID, LifetakerID, GaleforceID, RenewalID, NiceThighsID, DemoiselleID, GentilhommeID, MaleficAuraID, InspirationID, CharmID, VoiceOfPeaceID, AmaterasuID, SpurStrID, SpurMagID, SpurSpdID, SpurDefID, SpurResID, NihilID, ParagonID, ImpaleID, ColossusID, RallyStrID, RallySklID, RallySpdID, RallyLukID, RallyDefID, RallyResID, RallyMovID, RallySpectrumID, StaffSavantID, LiveToServeID, IgnisID, LifeAndDeathID, LungeID, IntimidateID, CamaraderieID, SavageBlowID, ReliefID, TantivyID, FocusID, BondID, AnathemaID, LilysPoiseID, CelerityID, FieryBloodID, ElbowRoomID, NaturalCoverID, SealStrID, SealSklID, SealSpdID, SealLukID, SealDefID, SealResID, GambleID, PersonalityID, QuickDrawID, WindDiscipleID, StrongRiposteID, PatienceID, PursuitID, LightWeightID, KillingMachineID, CriticalForceID, ChivalryID, PragmaticID, ShoveID, SmiteID, BaneID, RightfulKingID, RightfulGodID, LuckySevenID, OddRhythmID, EvenRhythmID, QuickBurnID, SlowBurnID, DespoilID, PivotID, RepositionID, SwapID, BreathOfLifeID, FuryID, DazzleID, CharismaID, HeroesDeathBlowID};
+  if ((charNum<0x45)|((64<charNum)&(charNum<111))){
+    u8 num = HashByte_N(charNum, 37, sizeof(PSkills));
+    return PSkills[num];
+  };
+  return 0;
+};
+
+u8 Get_Hp_Growth(Unit* unit){
+  CharacterData* charData = unit->pCharacterData;
+  u8 baseGrowth = charData->growthHP;
+  int unrounded = (int) HashByte32(baseGrowth, (u8)((*seed_value+0) % 7));
+	unrounded = (unrounded+2)/5;
+	return 5*unrounded;
+};
+
+u8 Get_Str_Growth(Unit* unit){
+  CharacterData* charData = unit->pCharacterData;
+  u8 baseGrowth = charData->growthPow;
+  int unrounded = (int) HashByte32(baseGrowth, (u8)((*seed_value+1) % 7));
+	unrounded = (unrounded+2)/5;
+	return 5*unrounded;
+};
+
+u8 Get_Skl_Growth(Unit* unit){
+  CharacterData* charData = unit->pCharacterData;
+  u8 baseGrowth = charData->growthSkl;
+  int unrounded = (int) HashByte32(baseGrowth, (u8)((*seed_value+2) % 7));
+	unrounded = (unrounded+2)/5;
+	return 5*unrounded;
+};
+
+u8 Get_Spd_Growth(Unit* unit){
+  CharacterData* charData = unit->pCharacterData;
+  u8 baseGrowth = charData->growthSpd;
+  int unrounded = (int) HashByte32(baseGrowth, (u8)((*seed_value+3) % 7));
+	unrounded = (unrounded+2)/5;
+	return 5*unrounded;
+};
+
+u8 Get_Def_Growth(Unit* unit){
+  CharacterData* charData = unit->pCharacterData;
+  u8 baseGrowth = charData->growthDef;
+  int unrounded = (int) HashByte32(baseGrowth, (u8)((*seed_value+4) % 7));
+	unrounded = (unrounded+2)/5;
+	return 5*unrounded;
+};
+
+u8 Get_Res_Growth(Unit* unit){
+  CharacterData* charData = unit->pCharacterData;
+  u8 baseGrowth = charData->growthRes;
+  int unrounded = (int) HashByte32(baseGrowth, (u8)((*seed_value+5) % 7));
+	unrounded = (unrounded+2)/5;
+	return 5*unrounded;
+};
+
+u8 Get_Luk_Growth(Unit* unit){
+  CharacterData* charData = unit->pCharacterData;
+  u8 baseGrowth = charData->growthLck;
+  int unrounded = (int) HashByte32(baseGrowth, (u8)((*seed_value+6) % 7));
+	unrounded = (unrounded+2)/5;
+	return 5*unrounded;
+};
+
+//randomize unit bases
+void LoadUnitStats_Randomized(Unit* unit, CharacterData* charData){
+  ClassData* class = unit->pClassData;
+  u8 baseHP = class->baseHP + charData->baseHP;
+  unit->maxHP = RandomizeByPercentage(baseHP) + 1; //in case 0 hp lol
+  u8 basePow = class->basePow + charData->basePow;
+  unit->pow = RandomizeByPercentage(basePow);
+  u8 baseSkl = class->baseSkl + charData->baseSkl;
+  unit->skl = RandomizeByPercentage(baseSkl);
+  u8 baseSpd = class->baseSpd + charData->baseSpd;
+  unit->spd = RandomizeByPercentage(baseSpd);
+  u8 baseDef = class->baseDef + charData->baseDef;
+  unit->def = RandomizeByPercentage(baseDef);
+  u8 baseRes = class->baseRes + charData->baseRes;
+  unit->res = RandomizeByPercentage(baseRes);
+  u8 baseLck = charData->baseLck;
+  unit->lck = RandomizeByPercentage(baseLck);
+  unit->conBonus = 0;
+
+  //skipping unit wranks, class only
+  int i;
+  for (i=0; i<8; i++){
+    unit->ranks[i] = class->ranks[i];
+  };
+  if (unit->index & 0xc0){ //enemies and npcs have -- exp
+    unit->exp = 0xFF;
+  };
+  if (unit->level == 20){ //units with lv20 have -- exp
+    unit->exp = 0xFF;
+  };
+};
+
+int RandomizeUnitClass(u8 originalClass){
+  int a;
+  u8 static const T1Classes[] = {EphraimLord, EirikaLord, Cavalier, Cavalier_F, Knight, Knight_F, Mercenary, Mercenary_F, Myrmidon, Myrmidon_F, Archer, Archer_F, WyvernRider, WyvernRider_F, Mage, Mage_F, Shaman, Shaman_F, Recruit_2, Fighter, Brigand, Pirate, Monk, Priest, Bard, PegasusKnight, Cleric, Troubadour, Dancer, Soldier, Revenant, Bonewalker, Bonewalker_Bow, Bael, Mauthedoog, Tarvos, Mogall, Gargoyle, Journeyman_2, Pupil_2};
+  u8 static const T2Classes[] = {EphraimMasterLord, EirikaMasterLord, Paladin, Paladin_F, General, General_F, Hero, Hero_F, Swordmaster, Swordmaster_F, Assassin, Assassin_F, Sniper, Sniper_F, Ranger, Ranger_F, WyvernLord, WyvernLord_F, WyvernKnight, WyvernKnight_F, Sage, Sage_F, MageKnight, MageKnight_F, Bishop, Bishop_F, Druid, Druid_F, Summoner, Summoner_F, Rogue, GreatKnight, GreatKnight_F, Journeyman_3, Pupil_3, Recruit_3, Warrior, Berserker, FalcoKnight, Valkyrie, Entombed, Wight, Wight_Bow, ElderBael, Cyclops, Gwyllgi, Maelduin, ArchMogall, Gorgon, Deathgoyle};
+  int i;
+
+  //check if original is t1
+  for (i=0; i < sizeof(T1Classes); i++){
+    if (T1Classes[i] == originalClass){
+      a = T1Classes[HashByte_N(originalClass+(*chapNum), 17, sizeof(T1Classes))];
+      return a;
+    };
+  };
+  for (i=0; i < sizeof(T2Classes); i++){
+    if (T2Classes[i] == originalClass){
+      a = T2Classes[HashByte_N(originalClass+(*chapNum), 23, sizeof(T2Classes))];
+      return a;
+    };
+  };
+  //handle trainees & myrrh
+  switch(originalClass){
+    case Manakete_2_F:
+    case Recruit_1:
+    case Pupil_1:
+    case Journeyman_1:
+    case 0:
+      a = T1Classes[HashByte_N(originalClass+(*chapNum), 29, sizeof(T1Classes))];
+      return a;
+    default:
+      return (int) originalClass;
+  };
+};
+
+
+void updateRandomOptionsPage(OptionsProc* CurrentProc){
+  //clear bg font buffers
+  Font_ResetAllocation();
+  ClearBG0BG1();
+  //Print Headings
+  DrawTextInline(0, BGLoc(BG0Buffer, 2, 0), 4, 0, 10, "New Game Setup");
+  DrawTextInline(0, BGLoc(BG0Buffer, 2, 3), 2, 0, 15, "Set Randomization Options");
+  //option names
+  DrawTextInline(0, BGLoc(BG0Buffer, 2, 6), 3, 0, 15, "% variation:");
+  DrawTextInline(0, BGLoc(BG0Buffer, 2, 8), 3, 0, 15, "Thieves:");
+  DrawTextInline(0, BGLoc(BG0Buffer, 2, 10), 3, 0, 15, "Personal Skills:");
+  DrawTextInline(0, BGLoc(BG0Buffer, 2, 12), 1, 0, 15, "Random Class by:");
+  DrawTextInline(0, BGLoc(BG0Buffer, 2, 14), 1, 0, 15, "Item Stats:");
+
+  
+  //option values
+  if (CurrentProc->RandomizeThieves == 0){
+    DrawTextInline(0, BGLoc(BG0Buffer, 15, 8), 2, 0, 5, "Fixed");
+  }
+  else DrawTextInline(0, BGLoc(BG0Buffer, 15, 8), 2, 0, 5, "Random");
+
+  if (CurrentProc->RandomizeSkills == 0){
+    DrawTextInline(0, BGLoc(BG0Buffer, 15, 10), 2, 0, 5, "Fixed");
+  }
+  else DrawTextInline(0, BGLoc(BG0Buffer, 15,10), 2, 0, 5, "Random");
+
+  if (CurrentProc->EnemyClassGroups == 0){
+    DrawTextInline(0, BGLoc(BG0Buffer, 15, 12), 2, 0, 5, "Unit");
+  }
+  else DrawTextInline(0, BGLoc(BG0Buffer, 15,12), 2, 0, 5, "Group");
+
+  if (CurrentProc->RandomizeItemStats == 0){
+    DrawTextInline(0, BGLoc(BG0Buffer, 15, 14), 2, 0, 5, "Fixed");
+  }
+  else DrawTextInline(0, BGLoc(BG0Buffer, 15, 14), 2, 0, 5, "Random");
+
+  //numbers after text?
+  DrawDecNumber(BGLoc(BG0Buffer, 17, 6), 2, CurrentProc->VariationPercent);
+};
+
+
+void RandomOptionsSetup(OptionsProc* CurrentProc){
+  //set up bg graphics
+  LoadBgConfig(0);
+  LZ77UnCompVram(0x8b12db4, 0x6008000); //bg
+  CpuSet(0x8b1754c, (0x020228A8 + 14 * 0x20), 0x20); //bg pal
+  GenerateBGTsa((u16 *)BG3Buffer, 0x280, 14); //needed???
+  CpuSet(0x859ED70, (0x020228A8 + 16 * 0x20), 0x20); //ui palette
+  
+  //Load fonts
+  SetupDebugFontForBG(2, 0);
+  // SetupDebugFontForOBJ(-1, 14);
+  SetupDebugFontForOBJ(0x6017800, 14);
+  InitDefaultFont();
+  InitText(0, 0);
+
+  //set up cursor
+  CurrentProc->CursorIndex = 0;
+  CurrentProc->VariationPercent = 30;
+  CurrentProc->RandomizeThieves = 0;
+  CurrentProc->RandomizeSkills = 1;
+  CurrentProc->EnemyClassGroups = 1;
+  CurrentProc->RandomizeItemStats = 0;
+
+  updateRandomOptionsPage(CurrentProc);
+  };
+
+void RandomOptionsLoop(OptionsProc* CurrentProc){
+  UpdateBG3HOffset();
+  UpdateHandCursor(CursorLocationTable[CurrentProc->CursorIndex].x, CursorLocationTable[CurrentProc->CursorIndex].y);
+
+  if ((sInput->newPress & InputStart) != 0) { //press A to continue
+    BreakProcLoop((Proc *)CurrentProc);
+    PlaySound(0x6B); 
+  };
+
+  if ((sInput->newPress & InputDown) != 0) {
+    if (CurrentProc->CursorIndex < CursorMaxIndex) CurrentProc->CursorIndex++;
+    else CurrentProc->CursorIndex = 0;
+  };
+
+  if ((sInput->newPress & InputUp) != 0) {
+    if (CurrentProc->CursorIndex != 0) CurrentProc->CursorIndex--;
+    else CurrentProc->CursorIndex = CursorMaxIndex;
+  };
+
+  //change variation
+  if (CurrentProc->CursorIndex == 0) {
+    if ((sInput->newPress & InputLeft) != 0) {
+      if (CurrentProc->VariationPercent < 4){
+        PlaySound(0xE7);
+      }
+      else {
+        CurrentProc->VariationPercent-=5;
+        updateRandomOptionsPage(CurrentProc);
+      };
+    };
+
+    if ((sInput->newPress & InputRight) != 0) {
+      if (CurrentProc->VariationPercent > 99){
+        PlaySound(0xE7);
+      }
+      else {
+        CurrentProc->VariationPercent+=5;
+        updateRandomOptionsPage(CurrentProc);
+      };
+    };
+  };
+
+  //change thieves
+  if (CurrentProc->CursorIndex == 1) {
+    if ((sInput->newPress & InputLeft) != 0) {
+      if (CurrentProc->RandomizeThieves == 0) CurrentProc->RandomizeThieves = 1;
+      else CurrentProc->RandomizeThieves = 0;
+      updateRandomOptionsPage(CurrentProc);
+    };
+    if ((sInput->newPress & InputRight) != 0) {
+      if (CurrentProc->RandomizeThieves == 0) CurrentProc->RandomizeThieves = 1;
+      else CurrentProc->RandomizeThieves = 0;
+      updateRandomOptionsPage(CurrentProc);
+    };
+  };
+
+  //change personal skills
+  if (CurrentProc->CursorIndex == 2) {
+    if ((sInput->newPress & InputLeft) != 0) {
+      if (CurrentProc->RandomizeSkills == 0) CurrentProc->RandomizeSkills = 1;
+      else CurrentProc->RandomizeSkills = 0;
+      updateRandomOptionsPage(CurrentProc);
+    };
+    if ((sInput->newPress & InputRight) != 0) {
+      if (CurrentProc->RandomizeSkills == 0) CurrentProc->RandomizeSkills = 1;
+      else CurrentProc->RandomizeSkills = 0;
+      updateRandomOptionsPage(CurrentProc);
+    };
+  };
+};
+
+#pragma long_calls_off

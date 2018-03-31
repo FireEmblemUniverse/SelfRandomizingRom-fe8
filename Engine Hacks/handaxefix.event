@@ -1,0 +1,8 @@
+//skip hand axe wait for return
+
+PUSH
+ORG $514e
+SHORT 0
+ORG $58c90
+POIN $596cc
+POP

@@ -1,0 +1,42 @@
+self randomizing rom!
+
+1. each new game should have a seed value dependent on game clock or sth?
+  a. look up how Linear Congruential Generators work! also refer to RNG.C (use the clock as the seed - we need 4 bytes of saved data, .... somewhere)
+  b. seed value + fixed value for each table? + base value + something idk
+      c. store it in the "last killed by? bytes?" look into 80a4684 NO
+  c.ACTUALLY store at 3005264 (last 4 bytes of permanent eventids!)
+2. when units are first loaded, they get assigned a random class not dependent on seed
+  a. if player unit (read from list) they get assigned a random character (that doesn't already exist)?
+  b. growths for each player are modified - look into teq's metis tome hack? according to the seed (should be 1.5rn - avg 1 and 2rn values)
+  c. bases for each player are modified by +-30%
+3. when class assigned - they get autoleveled weapon ranks and inventory decided by the thing
+4. Item stats - weapon mt, hit, wt, etc are modified by +-50% dependent on seed? range maybe one of 1/2/1-2/1-3/2-3/3=10???
+5. Skill randomization - this needs to depend on the seed as well. Class skills maybe not randomized but personal skills and learnable skills do - maybe don't change the levels though!
+
+
+X. how do randomizers determine which mug to show for whom? i don't know but this is less important tbh
+
+global clock stored at 0300:0014
+    new game sets clock at 080a4ea4 - hook via bl?
+    
+palettes: break at load of 895e0a4
+loops through 7 classes - if not - do something!
+probably will want asm not C for this
+
+8057436
+SHORT $2800 $d001 (use the first palette that fits)
+
+same at 8057474
+SHORT $2800 $d001
+
+Replace seed with tactician name select???
+
+801096c BL to our own thing once loaded
+  clear data at 203f100-203ff00?
+  bl to hideallunits
+
+Class cap? - how to do???
+goals:
+1. fliers and brigands and pirates able to cross terrain
+  
+2. limit of 15 enemy classes per map?

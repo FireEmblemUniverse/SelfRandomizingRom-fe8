@@ -1,0 +1,12 @@
+PUSH
+ORG $58290
+jumpToHack(RangeAnimHack)
+POP
+
+RangeAnimHack:
+#incbin "rangecheck.dmp"
+POIN RangeAnimList
+
+RangeAnimList:
+BYTE IronBow SteelBow KillerBow SilverBow BraveBow ShortBow Longbow PoisonBow HandAxe Tomahawk Hatchet Runesword WindSword 0
+ALIGN 4

@@ -1,0 +1,11 @@
+#include "drumfix_fe8.event"
+#define SongTableOffset  0x224470
+#define SongTable(index,SongPointer,Group) "PUSH; ORG SongTableOffset+(8*index); POIN SongPointer; SHORT Group Group; POP"
+
+ALIGN 4
+voicegroup000:
+#incbin "FE8_NI_Map.bin"
+
+ALIGN 4
+SongTable(WATP_ID,watp,1)
+#include "watp.event"

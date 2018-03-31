@@ -1,0 +1,198 @@
+//Pair Up requires Expanded Suspend data to work correctly
+//MAKE SURE TO EDIT THE INJECT CON GETTERS
+
+#ifdef inBLRange
+PUSH
+  //Pair Up Suite
+    ORG $27218
+      BL(PairUpMapSprite)
+    ORG $272c8 //draw rescued but not dead units
+      // WORD 0x20C
+      POIN MapSpriteFix_PU|1
+    ORG $271DA
+      SHORT $4700 //bx MapSpriteFix_PU|1
+    ORG $3280a
+      BYTE 05 //kill dead units (fix fading issues)
+    ORG $278B4 //don't draw rescuing icon
+      SHORT 0xe03c
+    ORG $28112 //fix moving enemies with partners
+      SHORT 0
+    ORG $3A03C //fix fading in and out between turns
+      WORD 0
+
+    // ORG $320E2 //sets 0x40 bit when waiting/taking actions.
+    //   SHORT 0
+
+    ORG $320EE  //actual pair up routine (combined rescue/pair up depending on selected command)
+      BL(PairUp)
+    ORG $1833E    //ignore con/aid check
+      SHORT 0
+    ORG $25356    //can't pair up with green units
+      BL(0x24DA4)
+    ORG $1CA9E    //set original unit
+      BL(SwitchCanceler)
+    ORG $1d158    //check if should switch
+      BL(SwitchCanceler+0x14)
+    ORG $59d44c   //Give effect pointer
+      POIN TransferEffect+1
+    ORG $59d42c   //Take effect pointer
+      POIN TransferEffect+1
+    ORG $229b0    //Allow transfers between pairs
+      SHORT 0
+    ORG $25538    //Allow transfers between pairs
+      SHORT 0
+    ORG $883bf    //Don't draw down arrows when rescuing
+      BYTE $e0
+    // ORG $59d1f2   //Make the unit menu wider (to fit longer words) (already done)
+      // BYTE 0x8
+
+  //Pair Up Bonus Previews
+    ORG $35212
+    BYTE $E //width
+    ORG $35226
+    BYTE $E //width
+    ORG $3522a
+    BYTE 0 //top box height
+    ORG $35252
+    SHORT 0 0 //nop drawing Aid
+    ORG $3525c
+    SHORT 0 0 //nop drawing mounted icon
+    ORG $35264
+    SHORT $2104 //bottom box height
+    ORG $3526c
+    BYTE 4 //bottom box Y coord
+    ORG $35272
+    SHORT 0
+    jumpToHack(PairUpBonusPreview)
+    ORG $35294
+    BYTE $17 //move pointy hand up
+    ORG $351DE
+    BL(StatBoostDisplayHelper) //allocate tile mem
+    ORG $35222 //swap places if pair up selected
+    BL(StatBoostDisplayHelper_A)
+    ORG $35268 //as above
+    BL(StatBoostDisplayHelper_B)
+
+  //Transfer Preview
+    ORG $352DC
+    SHORT $1C2F //draw rescuer not rescuee
+    ORG $34AAE
+    SHORT $4678 $8D00 //load text ID
+    ORG $34ADA
+    SHORT $4F9 //text ID
+    ORG $34AC4
+    BL($193E8) //fetch trv or --
+    ORG $34ACC
+    SHORT $2118 //set X-coord
+    ORG $34AD0
+    BL($4480) //draw trv/--
+    ORG $34AA0
+    SHORT $4F9 //text ID
+    ORG $34A78
+    SHORT $1C20
+    BL($193E8) //fetch trv/--
+    SHORT 0 0 0 0 0 0 0 $1C03 $1C28 $2118 $2202 //padding and set x-coord
+    BL($4480) //draw trv/--
+    ORG $353D2
+    SHORT 0 0 0
+    ORG $3531E
+    SHORT 0 0 //don't draw mounted icon
+    ORG $35448
+    SHORT 0 0 //don't draw mounted icon
+
+    PROTECT $34a7a $34a7e
+POP
+
+ALIGN 4
+PairUp:
+#incbin "ASM/pairup.dmp"
+PairUpMapSprite:
+#incbin "ASM/mapsprite.dmp"
+SwitchCanceler:
+#incbin "ASM/switch2.dmp"
+
+ALIGN 4
+StatBoostDisplayHelper:
+#incbin "ASM/StatBoostDisplayHelper.dmp"
+StatBoostDisplayHelper_A:
+BYTE $04 $4A $05 $4D $12 $78 $02 $2A $01 $D0 $29 $68 $00 $E0 $41 $46 $70 $47 $00 $00 $01 $F1 $03 $02 $50 $4E $00 $03
+StatBoostDisplayHelper_B:
+BYTE $06 $4A $12 $78 $02 $2A $03 $D0 $29 $68 $0F $1C $41 $46 $02 $E0 $29 $68 $47 $46 $88 $46 $22 $1C $70 $47 $00 $00 $01 $F1 $03 $02
+
+////////////////the following don't need to be in bl range but w/e
+
+ALIGN 4
+MapSpriteFix_PU:
+#incbin "MapSpriteFix_PU.dmp"
+
+ALIGN 4
+SwitchUsability:
+#incbin "ASM/SwitchCheck.dmp"
+ALIGN 4
+SwitchCommand:
+#incbin "ASM/switch.dmp"
+
+ALIGN 4
+TransferUsability:
+#incbin "ASM/TransferUsability.dmp"
+ALIGN 4
+TransferTarget:
+#incbin "ASM/TransferTarget.dmp"
+ALIGN 4
+TransferEffect:
+#incbin "ASM/TransferEffect.dmp"
+
+ALIGN 4
+UsabilityChecks:      //////////////////Pair Up at $0, Rescue at $18
+#incbin "ASM/usabilitychecks.dmp"
+
+ALIGN 4
+RescueEffect: //sets 203f101 to 1
+BYTE $00 $B5 $02 $49 $01 $20 $08 $70 $01 $49 $08 $47 $01 $F1 $03 $02 $DF $28 $02 $08
+PairUpEffect: //sets 203f101 to 2
+BYTE $00 $B5 $02 $49 $02 $20 $08 $70 $01 $49 $08 $47 $01 $F1 $03 $02 $DF $28 $02 $08
+
+//Preview of stat bonuses
+
+ALIGN 4
+PairUpBonusPreview:
+#incbin "ASM/PairUpBonusPreview.dmp"
+//literal pool for getters
+POIN StrBonusGetter
+POIN SklBonusGetter
+POIN SpdBonusGetter
+POIN LukBonusGetter
+POIN DefBonusGetter
+POIN ResBonusGetter
+POIN ConBonusGetter
+POIN MovBonusGetter
+
+//temporary getters
+StrBonusGetter:
+#incbin "ASM/Pair Up Bonuses/Str Boost.dmp"
+POIN PairUpBonusesTable
+ConBonusGetter:
+#incbin "ASM/Pair Up Bonuses/Mag Boost.dmp"
+POIN PairUpBonusesTable
+SklBonusGetter:
+#incbin "ASM/Pair Up Bonuses/Skl Boost.dmp"
+POIN PairUpBonusesTable
+SpdBonusGetter:
+#incbin "ASM/Pair Up Bonuses/Spd Boost.dmp"
+POIN PairUpBonusesTable
+LukBonusGetter:
+#incbin "ASM/Pair Up Bonuses/Luk Boost.dmp"
+POIN PairUpBonusesTable
+DefBonusGetter:
+#incbin "ASM/Pair Up Bonuses/Def Boost.dmp"
+POIN PairUpBonusesTable
+ResBonusGetter:
+#incbin "ASM/Pair Up Bonuses/Res Boost.dmp"
+POIN PairUpBonusesTable
+MovBonusGetter:
+#incbin "ASM/Pair Up Bonuses/Mov Boost.dmp"
+POIN PairUpBonusesTable
+
+#else
+ERROR _file_ is not in BL Range
+#endif
