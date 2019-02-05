@@ -456,3 +456,111 @@ ORG SkillIcon(HeroesLifeAndDeathID)
 
 ORG SkillIcon(CatchEmAllID)
 #incext Png2Dmp "Skill Icons\CatchEmAll.png"
+
+ORG SkillIcon(VantagePlusID)
+#incext Png2Dmp "Skill Icons\VantagePlus.png"
+
+ORG SkillIcon(HawkeyeID)
+#incext Png2Dmp "Skill Icons\Hawkeye.png"
+
+ORG SkillIcon(SolidarityID)
+#incext Png2Dmp "Skill Icons\Solidarity.png"
+
+ORG SkillIcon(BracingStanceID)
+#incext Png2Dmp "Skill Icons\Bracing Stance.png"
+
+ORG SkillIcon(DartingStanceID)
+#incext Png2Dmp "Skill Icons\Darting Stance.png"
+
+ORG SkillIcon(FierceStanceID)
+#incext Png2Dmp "Skill Icons\Fierce Stance.png"
+
+ORG SkillIcon(KestrelStanceID)
+#incext Png2Dmp "Skill Icons\Kestrel Stance.png"
+
+ORG SkillIcon(MirrorStanceID)
+#incext Png2Dmp "Skill Icons\Mirror Stance.png"
+
+ORG SkillIcon(ReadyStanceID)
+#incext Png2Dmp "Skill Icons\Ready Stance.png"
+
+ORG SkillIcon(SteadyStanceID)
+#incext Png2Dmp "Skill Icons\Steady Stance.png"
+
+ORG SkillIcon(SturdyStanceID)
+#incext Png2Dmp "Skill Icons\Sturdy Stance.png"
+
+ORG SkillIcon(SwiftStanceID)
+#incext Png2Dmp "Skill Icons\Swift Stance.png"
+
+ORG SkillIcon(WardingStanceID)
+#incext Png2Dmp "Skill Icons\Warding Stance.png"
+
+ORG SkillIcon(SpectrumStanceID)
+#incext Png2Dmp "Skill Icons\Spectrum Stance.png"
+
+ORG SkillIcon(StealID)
+#incext Png2Dmp "Skill Icons\Steal.png"
+
+ORG SkillIcon(StealPlusID)
+#incext Png2Dmp "Skill Icons\StealPlus.png"
+
+ORG SkillIconOffset(FortressDefenseID)
+#incext Png2Dmp "Skill Icons\FortressDefense.png"
+
+ORG SkillIconOffset(FortressResistanceID)
+#incext Png2Dmp "Skill Icons\FortressResistance.png"
+
+ORG SkillIconOffset(ForesightID)
+#incext Png2Dmp "Skill Icons\Foresight.png"
+
+ORG SkillIconOffset(AxefaithID)
+#incext Png2Dmp "Skill Icons\Axefaith.png"
+
+ORG SkillIconOffset(ArmorMarchID)
+#incext Png2Dmp "Skill Icons\ArmorMarch.png"
+
+ORG SkillIconOffset(VigorDanceID)
+#incext Png2Dmp "Skill Icons\VigorDance.png"
+
+ORG SkillIconOffset(ForagerID)
+#incext Png2Dmp "Skill Icons\Forager.png"
+
+ORG SkillIconOffset(FullMetalBodyID)
+#incext Png2Dmp "Skill Icons\FullMetalBody.png"
+
+ORG SkillIconOffset(LiquidOozeID)
+#incext Png2Dmp "Skill Icons\LiquidOoze.png"
+
+ORG SkillIconOffset(ShadowgiftID)
+#incext Png2Dmp "Skill Icons\Shadowgift.png"
+
+ORG SkillIconOffset(LuminaID)
+#incext Png2Dmp "Skill Icons\Lumina.png"
+
+ORG SkillIconOffset(DevilsLuckID)
+#incext Png2Dmp "Skill Icons\DevilsLuck.png"
+
+ORG SkillIconOffset(DevilsPactID)
+#incext Png2Dmp "Skill Icons\DevilsPact.png"
+
+ORG SkillIconOffset(DevilsWhimID)
+#incext Png2Dmp "Skill Icons\DevilsWhim.png"
+
+ORG SkillIconOffset(PoisonStrikeID)
+#incext Png2Dmp "Skill Icons\PoisonStrike.png"
+
+ORG SkillIconOffset(GrislyWoundID)
+#incext Png2Dmp "Skill Icons\GrislyWound.png"
+
+ORG SkillIconOffset(HexID)
+#incext Png2Dmp "Skill Icons\Hex.png"
+
+ORG SkillIconOffset(BarricadeID)
+#incext Png2Dmp "Skill Icons\Barricade.png"
+
+ORG SkillIconOffset(BarricadePlusID)
+#incext Png2Dmp "Skill Icons\BarricadePlus.png"
+
+ORG SkillIcon(PointBlankID) //make actual icon later
+#incext Png2Dmp "Skill Icons\0.png" //placeholder

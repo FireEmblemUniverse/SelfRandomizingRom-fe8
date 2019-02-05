@@ -1,1 +1,3 @@
-Set's Litany[X]
+Ready Stance: +4 speed[N]
+and defense when foe[N]
+initiates battle.[X]

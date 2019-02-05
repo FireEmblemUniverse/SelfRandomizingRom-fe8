@@ -1,1 +1,2 @@
-Filla's Might[X]
+Fierce Stance: +6 attack[N]
+when foe initiates battle.[X]

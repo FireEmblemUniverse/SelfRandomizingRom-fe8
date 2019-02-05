@@ -183,6 +183,14 @@ TxtData0x63:
 #incext ParseFile "_textentries\0x63.txt"
 setText(0x63,TxtData0x63)
 
+TxtData0x64:
+#incext ParseFile "_textentries\0x64.txt"
+setText(0x64,TxtData0x64)
+
+TxtData0x65:
+#incext ParseFile "_textentries\0x65.txt"
+setText(0x65,TxtData0x65)
+
 TxtData0xc53:
 #incext ParseFile "_textentries\0xc53.txt"
 setText(0xc53,TxtData0xc53)
@@ -830,6 +838,158 @@ setText(0xcf3,TxtData0xcf3)
 TxtData0xcf4:
 #incext ParseFile "_textentries\0xcf4.txt"
 setText(0xcf4,TxtData0xcf4)
+
+TxtData0xcf5:
+#incext ParseFile "_textentries\0xcf5.txt"
+setText(0xcf5,TxtData0xcf5)
+
+TxtData0xcf6:
+#incext ParseFile "_textentries\0xcf6.txt"
+setText(0xcf6,TxtData0xcf6)
+
+TxtData0xcf7:
+#incext ParseFile "_textentries\0xcf7.txt"
+setText(0xcf7,TxtData0xcf7)
+
+TxtData0xcf8:
+#incext ParseFile "_textentries\0xcf8.txt"
+setText(0xcf8,TxtData0xcf8)
+
+TxtData0xcf9:
+#incext ParseFile "_textentries\0xcf9.txt"
+setText(0xcf9,TxtData0xcf9)
+
+TxtData0xcfa:
+#incext ParseFile "_textentries\0xcfa.txt"
+setText(0xcfa,TxtData0xcfa)
+
+TxtData0xcfb:
+#incext ParseFile "_textentries\0xcfb.txt"
+setText(0xcfb,TxtData0xcfb)
+
+TxtData0xcfc:
+#incext ParseFile "_textentries\0xcfc.txt"
+setText(0xcfc,TxtData0xcfc)
+
+TxtData0xcfd:
+#incext ParseFile "_textentries\0xcfd.txt"
+setText(0xcfd,TxtData0xcfd)
+
+TxtData0xcfe:
+#incext ParseFile "_textentries\0xcfe.txt"
+setText(0xcfe,TxtData0xcfe)
+
+TxtData0xcff:
+#incext ParseFile "_textentries\0xcff.txt"
+setText(0xcff,TxtData0xcff)
+
+TxtData0xd00:
+#incext ParseFile "_textentries\0xd00.txt"
+setText(0xd00,TxtData0xd00)
+
+TxtData0xd01:
+#incext ParseFile "_textentries\0xd01.txt"
+setText(0xd01,TxtData0xd01)
+
+TxtData0xd02:
+#incext ParseFile "_textentries\0xd02.txt"
+setText(0xd02,TxtData0xd02)
+
+TxtData0xd03:
+#incext ParseFile "_textentries\0xd03.txt"
+setText(0xd03,TxtData0xd03)
+
+TxtData0xd04:
+#incext ParseFile "_textentries\0xd04.txt"
+setText(0xd04,TxtData0xd04)
+
+TxtData0xd05:
+#incext ParseFile "_textentries\0xd05.txt"
+setText(0xd05,TxtData0xd05)
+
+TxtData0xd06:
+#incext ParseFile "_textentries\0xd06.txt"
+setText(0xd06,TxtData0xd06)
+
+TxtData0xd07:
+#incext ParseFile "_textentries\0xd07.txt"
+setText(0xd07,TxtData0xd07)
+
+TxtData0xd08:
+#incext ParseFile "_textentries\0xd08.txt"
+setText(0xd08,TxtData0xd08)
+
+TxtData0xd09:
+#incext ParseFile "_textentries\0xd09.txt"
+setText(0xd09,TxtData0xd09)
+
+TxtData0xd0a:
+#incext ParseFile "_textentries\0xd0a.txt"
+setText(0xd0a,TxtData0xd0a)
+
+TxtData0xd0b:
+#incext ParseFile "_textentries\0xd0b.txt"
+setText(0xd0b,TxtData0xd0b)
+
+TxtData0xd0c:
+#incext ParseFile "_textentries\0xd0c.txt"
+setText(0xd0c,TxtData0xd0c)
+
+TxtData0xd0d:
+#incext ParseFile "_textentries\0xd0d.txt"
+setText(0xd0d,TxtData0xd0d)
+
+TxtData0xd0e:
+#incext ParseFile "_textentries\0xd0e.txt"
+setText(0xd0e,TxtData0xd0e)
+
+TxtData0xd0f:
+#incext ParseFile "_textentries\0xd0f.txt"
+setText(0xd0f,TxtData0xd0f)
+
+TxtData0xd10:
+#incext ParseFile "_textentries\0xd10.txt"
+setText(0xd10,TxtData0xd10)
+
+TxtData0xd11:
+#incext ParseFile "_textentries\0xd11.txt"
+setText(0xd11,TxtData0xd11)
+
+TxtData0xd12:
+#incext ParseFile "_textentries\0xd12.txt"
+setText(0xd12,TxtData0xd12)
+
+TxtData0xd13:
+#incext ParseFile "_textentries\0xd13.txt"
+setText(0xd13,TxtData0xd13)
+
+TxtData0xd14:
+#incext ParseFile "_textentries\0xd14.txt"
+setText(0xd14,TxtData0xd14)
+
+TxtData0xd15:
+#incext ParseFile "_textentries\0xd15.txt"
+setText(0xd15,TxtData0xd15)
+
+TxtData0xd16:
+#incext ParseFile "_textentries\0xd16.txt"
+setText(0xd16,TxtData0xd16)
+
+TxtData0xd17:
+#incext ParseFile "_textentries\0xd17.txt"
+setText(0xd17,TxtData0xd17)
+
+TxtData0xd18:
+#incext ParseFile "_textentries\0xd18.txt"
+setText(0xd18,TxtData0xd18)
+
+TxtData0xd19:
+#incext ParseFile "_textentries\0xd19.txt"
+setText(0xd19,TxtData0xd19)
+
+TxtData0xd1a:
+#incext ParseFile "_textentries\0xd1a.txt"
+setText(0xd1a,TxtData0xd1a)
 
 TxtData0xd4b:
 #incext ParseFile "_textentries\0xd4b.txt"

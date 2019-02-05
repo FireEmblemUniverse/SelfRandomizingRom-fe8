@@ -109,3 +109,10 @@ ally.[X]
  Skip[X]
 ##UMDesc_Win
  Skip this chapter.[X]
+
+## UM_Capture
+ Capture[X]
+
+## UM_CaptureDesc
+Strike a fatal blow with reduced[N]
+stats to capture an enemy.[X]

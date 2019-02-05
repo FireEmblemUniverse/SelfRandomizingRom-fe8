@@ -1,2 +1,2 @@
-Pierce: An attack that ignores[N]
-Defence. (Level % activation)[X]
+Vantage+: User always attacks first,[N]
+even if attacked. Negates crits.[X]

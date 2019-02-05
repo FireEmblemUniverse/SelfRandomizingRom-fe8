@@ -28,9 +28,8 @@ Byte 0x2:
   0x01 Pierce
   0x02 
   0x04 
-  0x08 End Battle //nope start battle??
+  0x08 End Battle
   0x10 
-  0x80 End Battle
 Byte 0x3 is damage dealt
 
 for each routine:
