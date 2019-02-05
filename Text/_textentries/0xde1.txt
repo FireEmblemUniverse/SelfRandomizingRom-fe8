@@ -1,2 +1,2 @@
-Shadow: Use a shadow clone to dodge[N]
-the next attack. (Cost: 10HP)[X]
+Identity Problems: This unit can't[N]
+decide on a name or face.[X]

@@ -1,2 +1,2 @@
-Adept: Gain a consecutive attack.[N]
-(Speed % activation)[X]
+#writes into expanded text table
+Enemy Control ON[X]

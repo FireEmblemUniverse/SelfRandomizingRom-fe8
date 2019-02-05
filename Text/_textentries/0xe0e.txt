@@ -1,0 +1,2 @@
+Great Shield: Blocks all damage.[N]
+(Enemy Level % activation)[X]

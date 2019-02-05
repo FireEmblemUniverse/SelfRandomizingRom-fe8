@@ -18,7 +18,7 @@ Core A FE8 "-output:%~dp0FE8SR.gba" "-input:%~dp0Rom Buildfile.event"  "-symOutp
 
 cd "%~dp0devkitARM\bin"
 
-gbafix "%~dp0FE8SR.gba" -tCIRCLEEMBLEM -cSR.8 -mCE -r12
+rem gbafix "%~dp0FE8SR.gba" -tCIRCLEEMBLEM -cSR.8 -mCE -r12
 
 cd "%~dp0ups"
 

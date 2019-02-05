@@ -1,0 +1,2 @@
+Silencer: Instantly kill opponent.[N]
+(Critical/2 % activation)[X]

@@ -1,9 +1,15 @@
 #ifdef _FE8_
+    #define TextTable $E47180 //so we can expand it
     #include "EAstdlib.event"
     #include "Custom Definitions.event"
     #include "Extensions/Hack Installation.txt"
     #include "Tools/Tool Helpers.txt"
     
+    #include "repointedTextTable.event"
+
+    ORG TextTable
+    #incbin "Text/NewTextTable.dmp"
+
     ORG FreeSpace
     //Text first for Text ID definitions
     #include "Text/Install Text Data.event"

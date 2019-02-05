@@ -15,8 +15,11 @@ Learned  [X]
 
 #include "unitmenu_text.txt"
 
-#0xc53 ControlONMessage
-#replaces support convos
+#0xd4c
+Donate to Circles[X]
+
+#0xd4d ControlONMessage
+#writes into expanded text table
 Enemy Control ON[X]
 
 ## ControlOFFMessage
@@ -38,9 +41,6 @@ Thor's Ire[X]
 
 ## nameSets
 Set's Litany[X]
-
-#0xd4b
-Donate to Circles[X]
 
 # 0x0447
 The breath of a dragon corpse.[X]
