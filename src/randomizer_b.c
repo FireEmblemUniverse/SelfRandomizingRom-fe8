@@ -17,10 +17,16 @@ static const ProcCode RandomOptionsProc[] = {
   PROC_END_ALL(0x8a20b1c),
 
   PROC_CALL_ROUTINE(RandomOptionsSetup),
+
+    PROC_CALL_ROUTINE_ARG(NewFadeIn, 8),
+    PROC_WHILE_ROUTINE(FadeInExists),
+    PROC_SLEEP(1),
+
   PROC_LOOP_ROUTINE(RandomOptionsLoop), //wait for B button
   
   PROC_CALL_ROUTINE_ARG(NewFadeOut, 0x10),
   PROC_WHILE_ROUTINE(FadeOutExists),
+  PROC_SLEEP(10),
 
   PROC_END
 };
@@ -50,14 +56,15 @@ static const ProcCode NewGameDifficultySelect[] = {
   PROC_LABEL(0),
   PROC_LOOP_ROUTINE(0x80ac288+1),
   PROC_LABEL(1),
-    // PROC_CALL_ROUTINE_ARG(NewFadeOut, 8),
-    // PROC_WHILE_ROUTINE(FadeOutExists),
+    PROC_CALL_ROUTINE_ARG(NewFadeOut, 8),
+    PROC_WHILE_ROUTINE(FadeOutExists),
     PROC_SLEEP(10),
     
       PROC_NEW_CHILD(SpinProc), //one spinny boi
 
     PROC_NEW_CHILD_BLOCKING(RandomOptionsProc),
     PROC_SLEEP(10),
+
   PROC_LABEL(2),
   PROC_CALL_ROUTINE_ARG(NewFadeOut, 8),
   PROC_WHILE_ROUTINE(FadeOutExists),
@@ -89,7 +96,7 @@ static const LocationTable CursorLocationTable[] = {
 void GenerateBGTsa(u16 *MapOffset, u32 NumberOfTiles, u8 PaletteId, u16 baseTile) {
   for(u16 i = baseTile; i < (baseTile+NumberOfTiles/2)+1; i++) {
     MapOffset[i-baseTile] = (i | (PaletteId << 12));
-    MapOffset[NumberOfTiles-(i-baseTile)] = (i | (PaletteId << 12) | (3<<11)); //v and h flipped
+    MapOffset[NumberOfTiles-(i-baseTile)] = (i | (PaletteId << 12) | (3<<10)); //v and h flipped
   }
 }
 
@@ -116,8 +123,8 @@ void DifficultyTacticianSelect(ProcState* input){
 //Personal skill randomizer
 u8 PersonalSkillGetter(u8 charNum){
   // no personal skills if option not selected
-  if (OptionsSaved->RandomizeSkills == 0) return 0;
   if (FirMode()) return NiceThighsID;
+  if (OptionsSaved->RandomizeSkills != 2) return 0;
 
   if (NamedCharacter(charNum)){
     u8 num = HashByte_N(charNum, 37, sizeof(PSkills));
@@ -126,17 +133,25 @@ u8 PersonalSkillGetter(u8 charNum){
   return 0;
 };
 
+//Turn skills off
+u8 SkillsOffChecker(){
+  return OptionsSaved->RandomizeSkills;
+}
+
 
 void updateRandomOptionsPage(OptionsProc* CurrentProc){
+
   //clear bg font buffers
   Font_ResetAllocation();
-  ClearBG0BG1();
+  // ClearBG0BG1();
+  FillBgMap(BG0Buffer, 0);
+  EnableBgSyncByIndex(0);
   //Print Headings
   DrawTextInline(0, BGLoc(BG0Buffer, 2, 0), 4, 0, 15, "Set Randomization Options");
   //option names
   DrawTextInline(0, BGLoc(BG0Buffer, 2, 3), 3, 0, 7, "% variation:");
-  DrawTextInline(0, BGLoc(BG0Buffer, 2, 5), 3, 0, 6, "Thieves:");
-  DrawTextInline(0, BGLoc(BG0Buffer, 2, 7), 3, 0, 10, "Personal Skills:");
+  DrawTextInline(0, BGLoc(BG0Buffer, 2, 5), 3, 0, 7, "Don't Change:");
+  DrawTextInline(0, BGLoc(BG0Buffer, 2, 7), 3, 0, 6, "Skills:");
   DrawTextInline(0, BGLoc(BG0Buffer, 2, 9), 3, 0, 10, "Peak/Water Units:");
   DrawTextInline(0, BGLoc(BG0Buffer, 2, 11), 3, 0, 8, "Weapon Stats:");
   DrawTextInline(0, BGLoc(BG0Buffer, 2, 13), 3, 0, 8, "Random Items:");
@@ -145,15 +160,24 @@ void updateRandomOptionsPage(OptionsProc* CurrentProc){
 
   
   //option values
-  if (CurrentProc->RandomizeThieves == 0){
-    DrawTextInline(0, BGLoc(BG0Buffer, 15, 5), 2, 0, 5, "Fixed");
+  if (CurrentProc->RandomizeClasses == 0){
+    DrawTextInline(0, BGLoc(BG0Buffer, 15, 5), 2, 0, 5, "None");
   }
-  else DrawTextInline(0, BGLoc(BG0Buffer, 15, 5), 2, 0, 5, "Random");
+  else if (CurrentProc->RandomizeClasses == 1){
+    DrawTextInline(0, BGLoc(BG0Buffer, 15, 5), 2, 0, 5, "Thieves");
+  } 
+  else if (CurrentProc->RandomizeClasses == 2){
+    DrawTextInline(0, BGLoc(BG0Buffer, 15, 5), 2, 0, 5, "Generics");
+  }
+  else DrawTextInline(0, BGLoc(BG0Buffer, 15, 5), 2, 0, 5, "Both");
 
   if (CurrentProc->RandomizeSkills == 0){
-    DrawTextInline(0, BGLoc(BG0Buffer, 15, 7), 2, 0, 5, "None");
+    DrawTextInline(0, BGLoc(BG0Buffer, 15, 7), 2, 0, 10, "Vanilla");
   }
-  else DrawTextInline(0, BGLoc(BG0Buffer, 15,7), 2, 0, 5, "Random");
+  else if (CurrentProc->RandomizeSkills == 1){
+    DrawTextInline(0, BGLoc(BG0Buffer, 15, 7), 2, 0, 10, "Class");
+  }
+  else DrawTextInline(0, BGLoc(BG0Buffer, 15,7), 2, 0, 10, "Class+Personal");
 
   if (CurrentProc->ClassByTerrain == 0){
     DrawTextInline(0, BGLoc(BG0Buffer, 15, 9), 2, 0, 10, "Pure Random");
@@ -188,7 +212,7 @@ void updateRandomOptionsPage(OptionsProc* CurrentProc){
 
   //actually update the options
   OptionsSaved->Variation = CurrentProc->VariationPercent;
-  OptionsSaved->RandomizeThieves = CurrentProc->RandomizeThieves;
+  OptionsSaved->RandomizeClasses = CurrentProc->RandomizeClasses;
   OptionsSaved->RandomizeSkills = CurrentProc->RandomizeSkills;
   OptionsSaved->ClassByTerrain = CurrentProc->ClassByTerrain;
   OptionsSaved->RandomizeItemStats = CurrentProc->RandomizeItemStats;
@@ -201,25 +225,34 @@ void updateRandomOptionsPage(OptionsProc* CurrentProc){
 
 void RandomOptionsSetup(OptionsProc* CurrentProc){
   //set up bg graphics
-  // LoadBgConfig(0); //breaks bg2
-  LZ77UnCompVram(0x8b12db4, 0x6003000); //bg (changed from 0x6008000) //no room in vram!
-  CpuSet(0x8b1754c+0x20, (0x020228A8 + 14 * 0x20), 0x20); //bg pal
-  // GenerateBGTsa((u16 *)BG1Buffer, 0x280, 14); //needed??? changed from bg3 to bg1
-  GenerateBGTsa((u16*)BG1Buffer, 0x280, 14, 0x180);
+  ClearBG0BG1();
+  // EnableBgSyncByIndex(1);
   CpuSet(0x859ED70, (0x020228A8 + 16 * 0x20), 0x20); //ui palette
+
+
+  CpuSet(0x8b1754c+0x20, (0x020228A8 + 8 * 0x20), 0x20); //bg palette
+
+  VBlankIntrWait();
+  LZ77UnCompVram(0x8b12db4, 0x6003000); //bg (changed from 0x6008000)
+  GenerateBGTsa((u16*)BG1Buffer, 0x280, 8, 0x180); //was BG1Buffer
+  FillBgMap(0x6006000, 0); //clear bg0 tilemap
+  FillBgMap(0x6006800, 0); //clear bg1 tilemap
+  VBlankIntrWait();
+  *gColorSpecialEffectsSelectionBuffer = 0xA44; //blending set
+  *gBg1ControlBuffer = 0xD03; //priority set
   
   //Load fonts
   // SetupDebugFontForBG(2, 0);
   // SetupDebugFontForOBJ(-1, 14);
   // SetupDebugFontForOBJ(0x6017800, 14);
   InitDefaultFont();
-  InitText(0, 0);
+  // InitText(0, 0);
 
   //set up cursor
   CurrentProc->CursorIndex = 0;
   CurrentProc->VariationPercent = 30;
-  CurrentProc->RandomizeThieves = 0;
-  CurrentProc->RandomizeSkills = 1;
+  CurrentProc->RandomizeClasses = 1;
+  CurrentProc->RandomizeSkills = 2;
   CurrentProc->ClassByTerrain = 1;
   CurrentProc->RandomizeItemStats = 1;
   CurrentProc->RandomizeChests = 1;
@@ -231,6 +264,10 @@ void RandomOptionsSetup(OptionsProc* CurrentProc){
   };
 
 void RandomOptionsLoop(OptionsProc* CurrentProc){
+
+  //make snowflakes white
+  *(u32*) 0x5000262 = 0x739eFFFF; //fill in the only obj palette colour that matters lol
+
   // UpdateBG3HOffset();
   UpdateHandCursor(CursorLocationTable[CurrentProc->CursorIndex].x, CursorLocationTable[CurrentProc->CursorIndex].y);
 
@@ -272,30 +309,37 @@ void RandomOptionsLoop(OptionsProc* CurrentProc){
     };
   };
 
-  //change thieves
+  //change thieves/generics
+  //0 = None
+  //1 = Thieves
+  //2 = Generics
+  //3 = Both
   if (CurrentProc->CursorIndex == 1) {
     if ((sInput->newPress & InputLeft) != 0) {
-      if (CurrentProc->RandomizeThieves == 0) CurrentProc->RandomizeThieves = 1;
-      else CurrentProc->RandomizeThieves = 0;
+      if (CurrentProc->RandomizeClasses == 0) CurrentProc->RandomizeClasses = 3;
+      else CurrentProc->RandomizeClasses--;
       updateRandomOptionsPage(CurrentProc);
     };
     if ((sInput->newPress & InputRight) != 0) {
-      if (CurrentProc->RandomizeThieves == 0) CurrentProc->RandomizeThieves = 1;
-      else CurrentProc->RandomizeThieves = 0;
+      if (CurrentProc->RandomizeClasses == 3) CurrentProc->RandomizeClasses = 0;
+      else CurrentProc->RandomizeClasses++;
       updateRandomOptionsPage(CurrentProc);
     };
   };
 
   //change personal skills
+  // 0 = None
+  // 1 = Class only
+  // 2 = Random Personal
   if (CurrentProc->CursorIndex == 2) {
     if ((sInput->newPress & InputLeft) != 0) {
-      if (CurrentProc->RandomizeSkills == 0) CurrentProc->RandomizeSkills = 1;
-      else CurrentProc->RandomizeSkills = 0;
+      if (CurrentProc->RandomizeSkills == 0) CurrentProc->RandomizeSkills = 2;
+      else CurrentProc->RandomizeSkills -= 1;
       updateRandomOptionsPage(CurrentProc);
     };
     if ((sInput->newPress & InputRight) != 0) {
-      if (CurrentProc->RandomizeSkills == 0) CurrentProc->RandomizeSkills = 1;
-      else CurrentProc->RandomizeSkills = 0;
+      if (CurrentProc->RandomizeSkills == 2) CurrentProc->RandomizeSkills = 0;
+      else CurrentProc->RandomizeSkills += 1;
       updateRandomOptionsPage(CurrentProc);
     };
   };
@@ -402,7 +446,7 @@ int GetItemHit(Item item){
   u8 itemID = (u8) item;
   const ItemData* data = GetItemData(itemID);
   int hit = data->hit;
-  if(OptionsSaved->RandomizeItemStats) hit = HashByPercentage(hit, itemID);
+  if(OptionsSaved->RandomizeItemStats) hit = (3 * HashByPercentage(hit, itemID) + HashByPercentage(hit, itemID+43))/4;
   return hit;
 };
 
@@ -463,7 +507,7 @@ void StoreMovCostTable(const u8 MovCostTable[], int unk1, Unit* currentUnit){
   int stuck = 0;
   if (OptionsSaved->ClassByTerrain) stuck =CheckIfStuck(unit, MovCostTable); //returns 0 or unit's max move
 
-  for (int i = 0; i < 0x40; ++i)
+  for (int i = 0; i <= 0x40; ++i)
   {
     u8 cost = MovCostTable[i];
     if(acro && (cost>0) && (cost<31)) cost = 1;
@@ -472,5 +516,26 @@ void StoreMovCostTable(const u8 MovCostTable[], int unk1, Unit* currentUnit){
   }
 };
 
+// extern Round* gpCurrentRound;
+
+// void MakeBattle(){
+//   BattleUnit* attacker;
+//   BattleUnit* defender;
+
+//   ClearRounds();
+//   GetBattleUnitPointers(&attacker, &defender);
+
+//   gpCurrentRound->startFlag=1;
+//   if (MakeBattleRound(attacker,defender) == 0){
+//     gpCurrentRound->counterAtkFlag=1;
+//     if (MakeBattleRound(defender,attacker) == 0){
+//       if (BattleCheckDoubling(attacker, defender)) {
+//         gpCurrentRound->followUpFlag=1;
+//         MakeBattleRound(attacker,defender);
+//       }
+//     }
+//   }
+//   gpCurrentRound->endFlag=1;
+// }
 
 #pragma long_calls_off

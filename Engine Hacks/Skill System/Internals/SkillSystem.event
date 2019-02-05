@@ -63,6 +63,8 @@ Skill_Getter: //gets a list of skills
 POIN PersonalSkillGetter
 POIN ClassSkillTable
 POIN LevelUpSkillTable
+POIN SkillsOffChecker
+POIN VanillaClassSkillTable
 
 SkillTesterOriginal: //does unit have X skill?
 #incbin skillTester.dmp
@@ -132,6 +134,7 @@ SkillLearner:
 #incbin learnskill.dmp
 POIN LevelUpSkillTable
 POIN SkillAdder
+POIN SkillsOffChecker
 
 // now managed by Icon Rework (see Engine Hacks/IconRework) -Stan
 // AlternateIconPopup:

@@ -53,6 +53,13 @@
     ORG $9e1a
     BL($48280) //make tactician name select pop up instead of sacred stones text
 
+    ORG 0x726DA
+    BL(RandomizeBattleMusicWrapper)
+    SHORT 0 0
+
+    ORG 0x8AF622
+    BYTE $B7 //make maelduins use the right animation for hatchets
+
     ORG 0x5514
     replaceWithHack(NewPortraitGetter)
 
@@ -73,6 +80,11 @@
     ORG $2D37C+4; BL(NameStringWrapper)
     ORG $9B9F2+4; BL(NameStringWrapper)
     ORG $9BA24+4; BL(NameStringWrapper)
+    ORG $9F02C; BL(NameStringWrapper)
+    
+    //show tactician name at world map
+    ORG $BE932; BL(TactNameStringWrapper)
+    ORG $C0AAC; BL(TactNameStringWrapper)
 
     ORG $839a8; BL(NewCheckCHES)
     SHORT 0 0 0 0 0 0 0 0 //skipping rest of thing
@@ -163,11 +175,10 @@
     //spinny proc!
     #include "spin/spin.event"
     // #include "PrologueTact.event"
+
+    #include "Animations/Master Graphics Installer.event"
     EndOfFreeSpace:
 
-    //DRM LOL
-    ORG $AC
-    // String(_D2D)
 #else
     ERROR You are not assembling FE8 events!
 #endif

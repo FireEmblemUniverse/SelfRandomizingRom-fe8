@@ -1,12 +1,28 @@
 .org 0
 .thumb
+.equ LoopTable, SkillsOffChecker+4
 @replaces routine at 2b3ec
-Wrapper:
+CheckForVanillaMode:
 push    {r4-r7,r14}                @ 0802B3EC B5F0     
 mov     r7,r10                @ 0802B3EE 4657     
 mov     r6,r9                @ 0802B3F0 464E     
 mov     r5,r8                @ 0802B3F2 4645     
-push    {r5-r7}                @ 0802B3F4 B4E0     
+push    {r5-r7}                @ 0802B3F4 B4E0  
+mov r6, r0
+mov r8, r1
+
+ldr r0, SkillsOffChecker
+mov lr, r0
+.short 0xf800
+cmp r0, #0 @if no skills, we do the vanilla battle routine
+bne Wrapper
+
+	ldr r0, =0x802b3fb
+	bx r0
+
+Wrapper:
+mov r0, r6 @put them back in r0 and r1
+mov r1, r8 @
 
 mov     r8,r0             @Attacker                @ 0802B3F6 1C06     
 mov     r9,r1             @Defender                @ 0802B3F8 4688     
@@ -57,5 +73,6 @@ bx      r4                @ 0802B56A 4700
 
 .ltorg
 .align 2
-LoopTable:
+SkillsOffChecker:
+@POIN routine followed by LoopTable
 @this is a table of pointers

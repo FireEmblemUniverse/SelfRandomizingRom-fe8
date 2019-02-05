@@ -2,6 +2,7 @@
 
 .equ SkillAdder, LevelUpSkillTable+4
 .equ PopupStruct, SkillAdder+4
+.equ SkillsOffChecker, PopupStruct+4
 .macro blh to, reg=r3
   ldr \reg, =\to
   mov lr, \reg
@@ -33,6 +34,17 @@ ldr r4, =0x203e18c
 ldr r0, [r4]
 @ mov r0, r4 @check for level up now
 push {r4}
+
+  mov r4, r0 @save this
+  @check if vanilla mode is on
+  ldr r3, SkillsOffChecker
+  mov lr, r3
+  .short 0xf800
+  cmp r0, #0
+  beq NoLevelUp
+  mov r0, r4 @restore it
+
+
 ldrb r1, [r0, #0x8] @current level
 mov r4, r1 @save the current level, we'll need it
 mov r2, #0x70
@@ -131,3 +143,4 @@ LevelUpSkillTable:
 @POIN LevelUpSkillTable
 @POIN SkillAdder
 @POIN PopupStruct
+@POIN SkillsOffChecker

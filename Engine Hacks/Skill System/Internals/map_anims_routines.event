@@ -5,6 +5,9 @@ POIN MapAnimsSkillRoutines
 ORG $9a3860
 POIN MapAnimsSkillRoutines
 
+ORG $7f120
+POIN DanceLevelProc
+
 ORG $7a8c0
 POIN MidMASRoutines
 POP
@@ -59,6 +62,7 @@ SkillCheckAnimsOff:
 POIN LevelUpSkillTable
 POIN SkillAdder
 POIN PopupStruct
+POIN SkillsOffChecker
 
 PopupStruct:
 BYTE $0C $00 $00 $00 $5A $00 $00 $00 //sound played is 5A
@@ -66,3 +70,33 @@ BYTE $06 $00 $00 $00; WORD LearnedSkillText //8 is text ID
 BYTE $0D $00 $00 $00 $00 $00 $00 $00 //run skill icon routine
 BYTE $06 $00 $00 $00 $01 $00 $00 $00 
 BYTE $00 $00 $00 $00 $00 $00 $00 $00
+
+DanceLevelProc:
+BYTE $04 $00 $00 $00 $5D $F5 $07 $08 
+BYTE $0E $00 $01 $00 $00 $00 $00 $00 
+BYTE $02 $00 $00 $00 $25 $F1 $07 $08 
+BYTE $02 $00 $00 $00 $79 $F4 $07 $08 
+BYTE $0E $00 $00 $00 $00 $00 $00 $00 
+BYTE $02 $00 $00 $00 $8D $F4 $07 $08 
+BYTE $0E $00 $46 $00 $00 $00 $00 $00 
+BYTE $02 $00 $00 $00 $3D $F5 $07 $08 
+BYTE $0E $00 $01 $00 $00 $00 $00 $00 
+BYTE $02 $00 $00 $00 $49 $F5 $07 $08 
+BYTE $0E $00 $00 $00 $00 $00 $00 $00 
+BYTE $02 $00 $00 $00 $AD $F1 $07 $08 
+BYTE $0E $00 $00 $00 $00 $00 $00 $00 
+BYTE $03 $00 $00 $00 $0D $F3 $07 $08 
+BYTE $0E $00 $1E $00 $00 $00 $00 $00 
+BYTE $03 $00 $00 $00 $9D $F3 $07 $08 
+BYTE $0E $00 $3C $00 $00 $00 $00 $00 
+BYTE $02 $00 $00 $00 $75 $EE $07 $08 
+BYTE $0E $00 $01 $00 $00 $00 $00 $00 
+BYTE $03 $00 $00 $00 $55 $F3 $07 $08 
+BYTE $02 $00 $00 $00 $91 $F1 $07 $08 
+BYTE $02 $00 $00 $00 $51 $0E $01 $08 
+BYTE $0E $00 $04 $00 $00 $00 $00 $00 
+//inserted
+BYTE $02 $00 $00 $00; POIN SkillCheckAnimsOff|1 //checks skill learned?
+BYTE $0E $00 $00 $00 $00 $00 $00 $00 
+
+BYTE $00 $00 $00 $00 $00 $00 $00 $00 

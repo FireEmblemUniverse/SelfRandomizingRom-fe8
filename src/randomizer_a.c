@@ -7,10 +7,11 @@
 #pragma long_calls
 #define eventSlot gEventSlot
 extern int eventSlot[];
+extern int WATP_ID;
 
 //data
 u8 static const Weapons[] = {itemIronSword, itemSlimSword, itemSteelSword, itemSilverSword, itemIronBlade, itemSteelBlade, itemSilverBlade, itemPoisonSword, itemBraveSword, itemShamshir, itemKillingEdge, itemArmourslayer, itemWyrmslayer, itemLightBrand, itemRunesword, itemLancereaver, itemLongsword, itemIronLance, itemSlimLance, itemSteelLance, itemSilverLance, itemPoisonLance, itemBraveLance, itemKillerLance, itemHorseslayer, itemJavelin, itemSpear, itemAxereaver, itemIronAxe, itemSteelAxe, itemSilverAxe, itemPoisonAxe, itemBraveAxe, itemKillerAxe, itemHalberd, itemHammer, itemDevilAxe, itemHandAxe, itemTomahawk, itemSwordreaver, itemSwordslayer, itemHatchet, itemIronBow, itemSteelBow, itemSilverBow, itemPoisonBow, itemKillerBow, itemBraveBow, itemShortBow, itemLongbow, itemBallista, itemIronBallista, itemKillerBallista, itemFire, itemThunder, itemElfire, itemBolting, itemFimbulvetr, itemLightning, itemShine, itemDivine, itemPurge, itemAura, itemFlux, itemLuna, itemNosferatu, itemEclipse, itemFenrir, itemHeal, itemMend, itemRecover, itemPhysic, itemFortify, itemRestore, itemSilence, itemSleep, itemBerserk, itemWarp, itemRescue, itemTorchStaff, itemHammerne, itemUnlock, itemBarrier, itemDragonAxe, itemShadowKiller, itemBrightLance, itemFiendCleaver, itemBeaconBow, itemBattleAxe, itemDragonSpear, itemHeavySpear, itemShortSpear, itemWindSword};
-u8 static const WeaponsRare[] = {itemGleipnir, itemIvaldi, itemLatona, itemVidofnir, itemNaglfar, itemAudomra, itemGarm, itemNidhogg, itemHolyDragonStone};
+u8 static const WeaponsRare[] = {itemGleipnir, itemExcalibur,itemIvaldi, itemLatona, itemVidofnir, itemNaglfar, itemAudomra, itemGarm, itemNidhogg, itemHolyDragonStone};
 u8 static const Items[] = {itemAngelicRobe, itemEnergyRing, itemSecretBook, itemSpeedwings, itemGoddessIcon, itemDragonshield, itemTalisman, itemBoots, itemBodyRing, itemHeroCrest, itemKnightCrest, itemOrionBolt, itemElysianWhip, itemGuidingRing, itemMasterProof, itemMoonBracelet, itemSunBracelet};
 u8 static const ItemsRare[] = {itemLockpick, itemVulnerary, itemElixir, itemPureWater, itemAntidote, itemTorch, itemDelphiShield, itemMemberCard, itemSilverCard, itemWhiteGem, itemBlueGem, itemRedGem, itemMine, itemLightRune, itemHoplonShield, itemFillasMight, itemNinissGrace, itemThorsIre, itemSetsLitany, itemBlackGem, itemGoldGem};
 u8 static const T1Classes[] = {Thief, EphraimLord, EirikaLord, Cavalier, Cavalier_F, Knight, Knight_F, Mercenary, Mercenary_F, Myrmidon, Myrmidon_F, Archer, Archer_F, WyvernRider, WyvernRider_F, Mage, Mage_F, Shaman, Shaman_F, Recruit_2, Fighter, Brigand, Pirate, Monk, Priest, PegasusKnight, Cleric, Bard, Troubadour, Dancer, Soldier, Revenant, Bonewalker, Bonewalker_Bow, Bael, Mauthedoog, Tarvos, Mogall, Gargoyle, Journeyman_2, Pupil_2};
@@ -22,6 +23,7 @@ u8 static const T2Peakwalkers[] = {Berserker, ElderBael, Berserker, ElderBael, B
 u8 static const T2Fliers[] = {FalcoKnight, WyvernKnight, WyvernKnight_F, WyvernLord, WyvernLord_F, Deathgoyle, ArchMogall};
 u8 static const T2Waterwalkers[] = {Berserker, Berserker, Berserker, Berserker, FalcoKnight, WyvernKnight, WyvernKnight_F, WyvernLord, WyvernLord_F, Deathgoyle, ArchMogall};
 
+u8 static const MapMusicList[] = {4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,36,37,38,49,50,55,69,84, 0xC0}; //0xc0 is WATP_ID
 //functions
 
 //hook at 801096c
@@ -127,7 +129,7 @@ u8 Get_Luk_Growth(Unit* unit){
 void LoadUnitStats_Randomized(Unit* unit, CharacterData* charData){
   ClassData* class = unit->pClassData;
   u8 baseHP = class->baseHP + charData->baseHP;
-  unit->maxHP = HashByPercentage(baseHP, 3) + 1; //in case 0 hp lol
+  unit->maxHP = (HashByPercentage(baseHP, 43) + HashByPercentage(baseHP, 3)*3)/4 + 1; //1.5RN HP, +1 in case 0 hp lol
   u8 basePow = class->basePow + charData->basePow;
   unit->pow = HashByPercentage(basePow, 5);
   u8 baseSkl = class->baseSkl + charData->baseSkl;
@@ -169,10 +171,35 @@ int IsT1(u8 classID){
   return 0;
 };
 
+Unit* LoadUnitWrapper(EventUnit* eventdata){
+  //basically if it's a (non-monster) generic and we're not randomizing generics
+  if (eventdata->monsterFlag){
+    return LoadUnit(eventdata);
+  }
+  else if (NamedCharacter(eventdata->charIndex)) {
+    return LoadUnit(eventdata);
+  }
+  else if (FirMode()) {
+    return LoadUnit(eventdata);
+  }
+  else if (OptionsSaved->RandomizeClasses & 2) {
+    return LoadNormalUnit(eventdata);
+  }
+  else return LoadUnit(eventdata);
+}
+
 int RandomizeUnitClass(EventUnit* eventdata){
   u8 originalClass = eventdata->classIndex;
   int a;
   int r = 0;
+
+  //if random monster and don't randomize generics option is on:
+  if ((eventdata->monsterFlag) & (OptionsSaved->RandomizeClasses & 2)) {
+    return GenerateMonsterClass(eventdata->classIndex);
+  }
+
+
+
   r = NextRN_N(2); //2 choices of class!
 
   if (NamedCharacter(eventdata->charIndex)) r = 0; //named characters don't randomize
@@ -216,7 +243,7 @@ int RandomizeUnitClass(EventUnit* eventdata){
   //handle trainees & myrrh
   switch(originalClass){
     case Thief:
-      if (OptionsSaved->RandomizeThieves == 0) return originalClass;
+      if (OptionsSaved->RandomizeClasses & 1) return originalClass; //randomize thieves or both
     case Manakete_2_F:
     case Manakete:
     case Recruit_1:
@@ -226,7 +253,7 @@ int RandomizeUnitClass(EventUnit* eventdata){
       a = T1Classes[HashByte_N(originalClass+(*chapNum), 29+r, sizeof(T1Classes))];
       return a;
     case Rogue:
-      if (OptionsSaved->RandomizeThieves == 0) return originalClass;
+      if (OptionsSaved->RandomizeClasses & 1) return originalClass; //
     default:
       //check if original is t1
       if (IsT1(originalClass)) return T1Classes[HashByte_N(originalClass+(*chapNum), 17+r, sizeof(T1Classes))];
@@ -252,6 +279,21 @@ int NameStringWrapper(int textID){
   if (FirMode()) num = (u16) (&FirName);
   //if randomize units also hash num again??? shit this won't work
   return GetStringFromIndex(num);
+};
+
+char* TactNameStringWrapper(){
+  static char* const textBuffer = (char* const) (0x0202a6ac);
+  for (int i = 0; i < 10; ++i)
+  {
+    if (TacticianName[i]){
+      textBuffer[i] = TacticianName[i];
+    }
+    else {
+      textBuffer[i] = 0;
+      break;
+    }
+  }
+  return textBuffer;
 };
 
 int CasualModeCheck(){
@@ -336,10 +378,16 @@ void RandomizeEventItem(ProcState* CurrentProc, Unit* CurrentUnit, int ItemID){
 };
 
 int FirMusicWrapper(){
-  extern int WATP_ID;
   if(FirMode()) return (u16) &WATP_ID;
-  else if (OptionsSaved->RandomizeMusic) return SoundRoomTable[NextRN_N(0x44)].songID;
+  // else if (OptionsSaved->RandomizeMusic) return SoundRoomTable[HashByte_N(*chapNum, *turnNum + *currentPhase, 0x44)].songID;
+  else if (OptionsSaved->RandomizeMusic) return MapMusicList[HashByte_N(*chapNum, *turnNum ^ (*currentPhase >> 6), sizeof(MapMusicList))]; //we have to limit this to map music
   else return GetCurrentMapMusicIndex();
+};
+
+int RandomizeBattleMusic(u8 isDefending){ //passes result to RandomizeBattleMusicWrapper which puts it in r6
+  if(OptionsSaved->RandomizeMusic) return SoundRoomTable[NextRN_N(0x44)].songID;
+  else if (isDefending) return 0x1A;
+  else return 0x19;
 };
 
 int SpeedUpAnims(u16 AISPointer[], u16 duration){

@@ -54,7 +54,8 @@ jumpToHack(Provoke)
 
 //LethalitySkill
 ORG $2ACF8  //ignore the vanilla lethality routine
-SHORT 0x4770
+// SHORT 0x4770
+jumpToHack(VanillaCheck_Silencer)
 
 //Frenzy
 ORG $2AB4C
@@ -101,8 +102,10 @@ ORG $2c1f4
 // jumpToHack(Armsthrift)
 
 //remove critup ability (for critup skill)
-ORG $2AC4A
-SHORT 0x46C0
+// ORG $2AC4A
+// SHORT 0x46C0 //we're just gonna ignore it because of vanilla mode
+
+
 POP
 
 NonGBALethalitySkill: //makes lethality skill/x% (/2 by default, and halved on bosses) instead of crit/2%, include this in the battle calculations after LethalitySkill (do NOT remove LethalitySkill)
@@ -378,6 +381,10 @@ TraceSkill:
 POIN SkillTester
 WORD TraceID
 POIN Skill_Getter
+
+VanillaCheck_Silencer:
+#incbin "Other Skills/VanillaCheck_Silencer.dmp"
+POIN SkillsOffChecker
 
 // #include "Other Skills/RandomMugs.event"
 

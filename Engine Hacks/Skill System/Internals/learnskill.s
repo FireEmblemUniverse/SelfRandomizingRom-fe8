@@ -15,6 +15,7 @@
 @ so. on levelup, look up the active unit's class in a table.
 @ the table is a pointer to a list of skills and levels - BYTE level1 skill1 level2 skill2 00 00
 .equ SkillAdder, LevelUpSkillTable+4
+.equ SkillsOffChecker, SkillAdder+4
 .macro blh to, reg=r3
   ldr \reg, =\to
   mov lr, \reg
@@ -34,13 +35,24 @@ ldr		r1,=#0x30005F4
 strb	r0,[r1,#0x2]
 ldr		r0,[r4]			@put things back
 
-  push {r4}
+push {r4}
+  mov r4, r0 @save this
+  @check if vanilla mode is on
+  ldr r3, SkillsOffChecker
+  mov lr, r3
+  .short 0xf800
+  cmp r0, #0
+  beq NoLevelUp
+  mov r0, r4 @restore it
+
+
 ldrb r1, [r0, #0x8] @current level
 mov r4, r1 @save the current level, we'll need it
 mov r2, #0x70
 ldrb r2, [r0, r2] @previous level
 cmp r1, r2
 beq NoLevelUp
+
   @now check the table for the class to see if it learns anything this level
   @write skill to r5, 4e
   ldr r1, [r0, #4] @class
@@ -90,3 +102,4 @@ bx r1
 LevelUpSkillTable:
 @POIN LevelUpSkillTable
 @POIN SkillAdder
+@POIN SkillsOffChecker

@@ -1,1 +1,2 @@
-Filla's Might[X]
+Sure Strike: An attack that[N]
+always hits. (Level % activation)[X]

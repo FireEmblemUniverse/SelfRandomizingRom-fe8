@@ -8,10 +8,45 @@ int NextRN_N(int max);
 void HideAllUnits(int something);
 u32* const Debuff_Table = (u32*) 0x203f100;
 u8* const chapNum = (u8*) 0x202bcfe;
+u8* const currentPhase = (u8*) 0x202bcff;
+#define PLAYER_PHASE 0;
+#define ALLY_PHASE 0x40;
+#define ENEMY_PHASE 0x80;
+u16* const turnNum = (u16*) 0x202bd00;
 void LoadBgConfig(u8 Value);
 extern int SkillCheckerThumb(Unit* unit, u8 skillID);
 
 // extern int gMapTerrain;
+
+typedef struct Round {
+  u32 critFlag: 1; //1
+  u32 missFlag: 1; //2
+  u32 followUpFlag: 1; //4
+  u32 counterAtkFlag: 1; //8
+  u32 braveFlag: 1; //10
+  u32 unk0_5: 1; //20
+  u32 poisonFlag: 1; //40
+  u32 devilFlag: 1; //80
+  u32 stealHPFlag: 1; //1 00 also used for updating attacker's hp
+  u32 unk1_1: 1; //2 00
+  u32 triAtkFlag: 1; //4 00
+  u32 lethalityFlag: 1; //8 00
+  u32 unk1_4: 1; //10 00 no counter???
+  u32 stoneFlag: 1; //20 00
+  u32 sureShotFlag: 1; //40 00 also used for offensive skills
+  u32 greatShieldFlag: 1; //80 00 also used for defensive skills
+  u32 pierceFlag: 1; //1 00 00
+  u32 unk2_1: 2; //20000, 4 00 00
+  u32 startFlag: 4; //8 00 00
+  u32 endFlag: 1;
+  // u32 unk2_3: 4; //10 00 00, 20 00 00, 40 00 00, 80 00 00
+  u32 dmg: 8; //FF 00 00 00
+  /// end of original round data
+  u8 activeSkill; //skill ID
+  s8 HPChange; //+- HP for attacker or number of Astra attacks???
+  u8 AstraAttacks; //could probably be used for sth else too
+  u8 padding;
+} Round;
 
 typedef struct SoundRoomData {
   int songID;
@@ -47,23 +82,24 @@ typedef struct {
 typedef struct {
   u8 Variation;
   
-  u8 RandomizeThieves:1; //1
-  u8 RandomizeSkills:1;//2
-  u8 ClassByTerrain:2;//4
-  u8 RandomizeItemStats:1;//10
-  u8 RandomizeChests:1;//20
-  u8 RandomizeEventItems:1;//40
-  u8 CasualMode:1;//80
+  u8 Unused0:1; //1
+  u8 RandomizeSkills:2;//2
+  u8 ClassByTerrain:2;//8
+  u8 RandomizeItemStats:1;//20
+  u8 RandomizeChests:1;//40
+  u8 RandomizeEventItems:1;//80
 
-  u16 RandomizeMusic:1;
-  u16 UnusedShort:15;
+  u16 CasualMode:1;//1
+  u16 RandomizeMusic:1;//2
+  u16 RandomizeClasses:2; //2
+  u16 UnusedShort:12;
 } OptionsStruct;
 
 typedef struct {
   Proc Header;
   u8 CursorIndex;
   u8 VariationPercent;
-  u8 RandomizeThieves;
+  u8 RandomizeClasses;
   u8 RandomizeSkills;
   u8 ClassByTerrain;
   u8 RandomizeItemStats;
@@ -111,9 +147,13 @@ void DrawDecNumber();
 void Font_ResetAllocation(); 
 void UpdateHandCursor();
 void ClearBG0BG1();
+void FillBgMap();
+void EnableBgSyncByIndex();
 int GetStringFromIndex();
 void NewItemGot();
 int GetCurrentMapMusicIndex();
+int MakeBattleRound(BattleUnit*, BattleUnit*);
+int BattleCheckDoubling(BattleUnit*, BattleUnit*);
 
 //fron randomizer_a
 u8 RandomizeByPercentage(u8 number);
@@ -127,16 +167,23 @@ u8 Get_Def_Growth(Unit* unit);
 u8 Get_Res_Growth(Unit* unit);
 u8 Get_Luk_Growth(Unit* unit);
 void LoadUnitStats_Randomized(Unit* unit, CharacterData* charData);
+Unit* LoadUnitWrapper(EventUnit*);
+Unit* LoadNormalUnit(EventUnit*);
 int RandomizeUnitClass(EventUnit* eventdata);
+int GenerateMonsterClass(u8);
 int NewPortraitGetter(int mugID);
 int NameStringWrapper(int textID);
 int CasualModeCheck();
 int NewCheckCHES(u8 num, u8 unk1, LOCAstack* stack, LOCAdata* LOCA);
 void RandomizeEventItem(ProcState* CurrentProc, Unit* CurrentUnit, int ItemID);
 int FirMusicWrapper();
+int RandomizeBattleMusic(u8);
+void ClearRounds();
+void GetBattleUnitPointers(BattleUnit**, BattleUnit**);
 
 //from randomizer_b
 void GenerateBGTsa(u16 *MapOffset, u32 NumberOfTiles, u8 PaletteId, u16 baseTile);
+void VBlankIntrWait();
 int FirMode();
 int NamedCharacter(u8 charNum);
 void DifficultyTacticianSelect(ProcState* input);
@@ -158,6 +205,8 @@ int GetTerrainType(int x, int y);
 #define BG2Buffer 0x02023CA8
 #define BG3Buffer 0x020244A8 
 #define BG0Offset 0x6006000
+#define gColorSpecialEffectsSelectionBuffer (u16*) 0x030030BC
+#define gBg1ControlBuffer (u16*) 0x03003090
 #define SoundRoomTable ((struct SoundRoomData*) 0x8A20E74)
 #define SetFont ((void (*)(u32 fontStructPointer))(0x8003D38+1))
 #define LoadFontUI ((void (*))(0x80043A8+1))

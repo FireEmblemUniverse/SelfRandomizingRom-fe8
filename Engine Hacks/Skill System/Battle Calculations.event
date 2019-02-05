@@ -17,6 +17,7 @@ POP
 ALIGN 4
 BtlLoopParent:
 #incbin "Internals/FE8_calc_loop.dmp"
+POIN SkillsOffChecker
 BtlLoopTable:
 POIN BC_DefRes BC_Power BC_ASpd BC_Hit BC_Avo BC_Crit CritUpSkill BC_Dodge BC_Support BC_WRank BC_Status //these are the existing battle calculation routines
 POIN FaireCheck

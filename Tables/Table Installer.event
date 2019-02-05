@@ -14,6 +14,8 @@
 
 #include "FE8 Nightmare modules\FE8 Skill Description Editor.event"
 
+#include "FE8 Nightmare modules\FE8 Vanilla Class Skill Editor.event"
+
 #include "FE8 Nightmare modules\Promotion\Promotion Branch Editor.event"
 
 #include "FE8 Nightmare modules\Randomized Class&Inventory editors\FE8 Class Changer.event"

@@ -4,11 +4,19 @@
 .set SkillsBuffer, 0x202b6d0 @0x202b156 @0x202a6ac
 .set ClassSkillTable, PersonalSkillGetter+4
 .set LevelUpSkillTable, ClassSkillTable+4
+.set SkillsOffChecker, LevelUpSkillTable+4
+.set VanillaClassSkillTable, SkillsOffChecker+4
 .set BWLTable, 0x203e884
 
 push {r4-r7,lr}
 mov r4, r0 @save it
 ldr r5, =SkillsBuffer
+
+ldr r1, SkillsOffChecker
+mov lr, r1
+.short 0xf800
+cmp r0, #0
+beq VanillaSkills
 
 @personal skill first, if any
 ldr r0, [r4]
@@ -95,7 +103,19 @@ pop {r4-r7}
 pop {r2}
 bx r2
 
+VanillaSkills:
+@vanilla skills table
+ldr r0, [r4,#4]
+ldrb r0, [r0,#4] @class number
+lsl r0, #1 @ table is 2 bytes per row
+ldr r1, VanillaClassSkillTable
+ldrh r2, [r1, r0] @2 skills per
+strh r2, [r5]
+add r5, #2
+b TerminateList
+
 .ltorg
 PersonalSkillGetter:
 @POIN PersonalSkillTable
 @POIN ClassSkillTable
+@POIN VanillaClassSkillTable

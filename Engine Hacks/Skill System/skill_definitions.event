@@ -150,3 +150,7 @@
 #define HeroesDeathBlowID 149 //DONE
 #define HeroesLifeAndDeathID 150 //DONE
 #define CatchEmAllID 151 //DONE
+#define PierceID 152 //display only
+#define GreatShieldID 153 //display only
+#define SureStrikeID 154 //display only
+#define SilencerID 155 //display only

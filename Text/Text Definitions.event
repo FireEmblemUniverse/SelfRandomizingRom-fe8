@@ -199,8 +199,12 @@
 #define SD_HeroesDeathBlow 0xce9
 #define SD_HeroesLifeAndDeath 0xcea
 #define SD_CatchEmAll 0xceb
-#define FirName 0xcec
-#define nameFillas 0xced
-#define nameNinis 0xcee
-#define nameThors 0xcef
-#define nameSets 0xcf0
+#define SD_Pierce 0xcec
+#define SD_SureStrike 0xced
+#define SD_GreatShield 0xcee
+#define SD_Silencer 0xcef
+#define FirName 0xcf0
+#define nameFillas 0xcf1
+#define nameNinis 0xcf2
+#define nameThors 0xcf3
+#define nameSets 0xcf4

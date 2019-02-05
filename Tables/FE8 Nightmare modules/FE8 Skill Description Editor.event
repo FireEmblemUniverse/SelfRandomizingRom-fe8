@@ -1,6 +1,6 @@
 #define csvmacro005(arg000) "SHORT arg000 "
 
-#inctext PFinder "C:\Users\bovie_000\Documents\GitHub\SelfRandomizingRom\FE8_clean.gba" 0xe47180 SkillDescTable
+#inctext PFinder "C:\Users\bovie\Documents\GitHub\SelfRandomizingRom\FE8_clean.gba" 0xe47180 SkillDescTable
 
 ALIGN 4
 SkillDescTable:
@@ -155,11 +155,11 @@ csvmacro005(SD_IdentityProblems)
 csvmacro005(SD_Charisma)
 csvmacro005(SD_HeroesDeathBlow)
 csvmacro005(SD_HeroesLifeAndDeath)
-csvmacro005(0x0)
-csvmacro005(0x0)
-csvmacro005(0x0)
-csvmacro005(0x0)
-csvmacro005(0x0)
+csvmacro005(SD_CatchEmAll)
+csvmacro005(SD_Pierce)
+csvmacro005(SD_GreatShield)
+csvmacro005(SD_SureStrike)
+csvmacro005(SD_Silencer)
 csvmacro005(0x0)
 csvmacro005(0x0)
 csvmacro005(0x0)

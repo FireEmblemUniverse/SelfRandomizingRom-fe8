@@ -815,6 +815,22 @@ TxtData0xcf0:
 #incext ParseFile "_textentries\0xcf0.txt"
 setText(0xcf0,TxtData0xcf0)
 
+TxtData0xcf1:
+#incext ParseFile "_textentries\0xcf1.txt"
+setText(0xcf1,TxtData0xcf1)
+
+TxtData0xcf2:
+#incext ParseFile "_textentries\0xcf2.txt"
+setText(0xcf2,TxtData0xcf2)
+
+TxtData0xcf3:
+#incext ParseFile "_textentries\0xcf3.txt"
+setText(0xcf3,TxtData0xcf3)
+
+TxtData0xcf4:
+#incext ParseFile "_textentries\0xcf4.txt"
+setText(0xcf4,TxtData0xcf4)
+
 TxtData0xd4b:
 #incext ParseFile "_textentries\0xd4b.txt"
 setText(0xd4b,TxtData0xd4b)

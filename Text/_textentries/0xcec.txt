@@ -1,1 +1,2 @@
-Fir[X]
+Pierce: An attack that ignores[N]
+Defence. (Level % activation)[X]

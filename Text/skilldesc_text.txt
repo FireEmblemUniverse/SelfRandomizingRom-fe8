@@ -609,3 +609,19 @@ Life and Death: Grants[N]
 ## SD_CatchEmAll
 Catch 'Em All: Grants[N]
 the user every skill.[X]
+
+## SD_Pierce
+Pierce: An attack that ignores[N]
+Defence. (Level % activation)[X]
+
+## SD_SureStrike
+Sure Strike: An attack that[N]
+always hits. (Level % activation)[X]
+
+## SD_GreatShield
+Great Shield: Blocks all damage.[N]
+(Enemy Level % activation)[X]
+
+## SD_Silencer
+Silencer: Instantly kill opponent.[N]
+(Critical/2 % activation)[X]

@@ -120,17 +120,18 @@ struct _BattleUnit {
 };
 
 struct _EventUnit {
-	uint8_t charIndex;
-	uint8_t classIndex;
-	uint8_t leaderCharIndex;
+	uint8_t charIndex; //0
+	uint8_t classIndex; //1
+	uint8_t leaderCharIndex; //2
 
-	uint8_t autolevel  : 1;
+	uint8_t autolevel  : 1; //3
 	uint8_t allegiance : 2;
 	uint8_t level      : 5;
 
-	uint16_t xPosition : 6;
+	uint16_t xPosition : 6; //4
 	uint16_t yPosition : 6;
-	uint16_t extraData : 4;
+	uint16_t monsterFlag : 1;
+	uint16_t extraData : 3;
 
 	uint8_t  _u06;
 

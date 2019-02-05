@@ -10,7 +10,27 @@ push {r4, lr}
 
 mov	r4,r0		@get user into r4 for later
 
+@check if user has crit up ability, and if so, reduce crit by 15 (because otherwise it gets added twice)
+@needed to allow nihil
+ldr r0, [r4]
+ldr r1, [r4, #4]
+ldr r0, [r0, #0x28]
+ldr r1, [r1, #0x28]
+orr r0, r1 @get ability bitfield
+mov r1, #0x40
+and r0, r1 @check for vanilla crit up
+cmp r0, #0
+beq NoFlag
+	mov r0, #0xF @subtract the 15 crit that was added
+	mov r2, r4
+	add r2, #0x66
+	ldrb r1, [r2]
+	sub r1, r0
+	strb r1, [r2]
+
+NoFlag:
 @go to skill check
+mov r0, r4
 ldr	r1,CritUpID
 ldr	r2,SkillTester	@test for critup skill
 mov	r14,r2
