@@ -41,8 +41,8 @@
 #define AxefaireID 40 //DONE
 #define BowfaireID 41 //DONE
 #define TomefaireID 42 //DONE
-#define CritUpID 43 //display only
-#define SlayerID 44 //display only
+#define CritUpID 43 //DONE
+#define SlayerID 44 //DONE (and has a rework)
 #define SummonID 45 //display only
 #define DanceID 46 //display only
 #define LifetakerID 47 //DONE
@@ -62,7 +62,7 @@
 #define SpurDefID 61 //DONE
 #define SpurResID 62 //DONE
 #define NihilID 63 //DONE
-#define NullifyID 64
+#define NullifyID 64 //DONE
 #define ParagonID 65 //DONE
 #define ImpaleID 66 //DONE
 #define ColossusID 67 //DONE
@@ -75,16 +75,16 @@
 #define RallyResID 74 //DONE
 #define RallyMovID 75 //DONE
 #define RallySpectrumID 76 //DONE
-#define BowRangeUpID 77
-#define StaffSavantID 78 //half done (mag/2 only)
+#define BowRangeUpID 77 //DONE
+#define StaffSavantID 78 //DONE
 #define LiveToServeID 79 //DONE
 #define IgnisID 80 //DONE
 #define LifeAndDeathID 81 //DONE
-#define LockTouchID 82 //Display only
+#define LockTouchID 82 //DONE
 #define LungeID 83 //DONE
 #define IntimidateID 84 //DONE
-#define OpportunistID 85
-#define TrampleID 86
+#define OpportunistID 85 //DONE
+#define TrampleID 86 //DONE
 #define CamaraderieID 87 //DONE
 #define ForeignPrincessID 88
 #define SavageBlowID 89 //DONE
@@ -94,7 +94,7 @@
 #define BondID 93 //DONE
 #define AnathemaID 94 //DONE
 #define LilysPoiseID 95 //DONE
-#define ExpertiseID 96
+#define ExpertiseID 96 //DONE
 #define CelerityID 97 //DONE
 #define FieryBloodID 98 //DONE
 #define ElbowRoomID 99 //DONE
@@ -118,8 +118,8 @@
 #define CriticalForceID 117 //DONE
 #define ChivalryID 118 //DONE
 #define PragmaticID 119 //DONE
-#define ArmsthriftID 120 //REMOVED because it breaks things
-#define MoonbowID 121 //REMOVED because it breaks things
+#define ArmsthriftID 120 //DONE
+#define MoonbowID 121 //DONE
 #define ShoveID 122 //DONE
 #define SmiteID 123 //DONE
 #define BaneID 124 //DONE
@@ -140,7 +140,7 @@
 #define BreathOfLifeID 139 //DONE
 #define FuryID 140 //DONE
 #define DazzleID 141 //DONE
-#define TriAdeptID 142 //not done
+#define TriAdeptID 142 //DONE
 #define SupplyID 143 //Display only
 #define Roll12ID 144 //DONE
 #define TraceID 145 //DONE
@@ -148,3 +148,49 @@
 #define IdentityProblemsID 147 //DONE
 #define CharismaID 148 //DONE
 #define HeroesDeathBlowID 149 //DONE
+#define HeroesLifeAndDeathID 150 //DONE
+#define CatchEmAllID 151 //DONE
+#define VantagePlusID 152 //DONE
+#define HawkeyeID 153 //wip
+#define SolidarityID 154 //DONE
+#define BracingStanceID 155 //DONE
+#define DartingStanceID 156 //DONE
+#define FierceStanceID 157 //DONE
+#define KestrelStanceID 158 //DONE
+#define MirrorStanceID 159 //DONE
+#define ReadyStanceID 160 //DONE
+#define SteadyStanceID 161 //DONE
+#define SturdyStanceID 162 //DONE
+#define SwiftStanceID 163 //DONE
+#define WardingStanceID 164 //DONE
+#define SpectrumStanceID 165 //DONE
+#define StealID 166 //DONE
+#define StealPlusID 167 //DONE
+#define CaptureID 168 //DONE
+#define BlackMagicID 169 //DONE
+#define FortressDefenseID 170 //DONE
+#define FortressResistanceID 171 //DONE
+#define ForesightID 172 //DONE
+#define AxeFaithID 173 //DONE
+#define AxefaithID AxeFaithID //Alias
+#define ArmorMarchID 174 //DONE
+#define VigorDanceID 175 //DONE
+#define InspiringTuneID 175 //Alias
+#define ForagerID 176 //DONE
+#define FullMetalBodyID 177 //DONE
+#define LiquidOozeID 178 //DONE
+#define ShadowgiftID 179 //DONE
+#define LuminaID 180 //DONE
+#define DevilsLuckID 181 //DONE
+#define DevilsPactID 182 //DONE
+#define DevilsWhimID 183 //DONE
+#define PoisonStrikeID 184 //DONE
+#define GrislyWoundID 185 //DONE
+#define HexID 186 //DONE
+#define BarricadeID 187 //DONE
+#define BarricadePlusID 188 //DONE
+#define PointBlankID 189 //DONE
+#define PierceID 190 //display only
+#define GreatShieldID 191 //display only
+#define SureStrikeID 192 //display only
+#define SilencerID 193 //display only
