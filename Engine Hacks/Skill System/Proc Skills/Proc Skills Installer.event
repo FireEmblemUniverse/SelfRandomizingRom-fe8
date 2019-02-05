@@ -14,6 +14,7 @@ POP
 
 ProcLoopParent:
 #incbin "proc_loop.dmp"
+POIN SkillsOffChecker
 POIN Proc_Start	//start
 
 POIN Proc_Devil	//devil effect
