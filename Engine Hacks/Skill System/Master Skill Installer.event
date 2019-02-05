@@ -455,6 +455,7 @@ VigorDanceSkill: //set a bit in the debuff table's entry for the refreshed unit
 POIN SkillTester
 WORD VigorDanceID
 WORD DebuffTable
+WORD VigorDanceBit
 WORD 8 //size of a debuff table entry
 
 VigorDanceCheck: //check if the bit is set and if so give the unit some stats
