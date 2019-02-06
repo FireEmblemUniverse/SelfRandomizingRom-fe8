@@ -112,7 +112,9 @@ int FirMode(){
 };
 
 int NamedCharacter(u8 charNum){
-  return ((charNum<0x45)|((64<charNum)&(charNum<111)));
+  // return ((charNum<45)|((64<charNum)&(charNum<111)));
+  if (gCharacterData[charNum].portraitId) return 1; //if the character has a portrait, they're not generic
+  return 0;
 };
 
 //POIN to this at $a20164
