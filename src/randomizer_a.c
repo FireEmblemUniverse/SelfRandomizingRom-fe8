@@ -64,7 +64,7 @@ u8 HashByPercentage(u8 number, u8 noise){
   int percentage = HashByte_N(number, noise, variation*2);
   percentage += (100-variation);
   int ret = (percentage * number)/100;
-  if (ret > 127) ret = 127;
+  while (ret > 127) ret -= variation;
   if (ret < 0) ret = 0;
   return (u8) ret;
 };
