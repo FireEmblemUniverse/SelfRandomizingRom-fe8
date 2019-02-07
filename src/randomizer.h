@@ -158,7 +158,7 @@ int BattleCheckDoubling(BattleUnit*, BattleUnit*);
 //fron randomizer_a
 u8 RandomizeByPercentage(u8 number);
 u8 HashByte_N(u8 number, u8 noise, int max);
-u8 HashByPercentage(u8 number, u8 noise);
+s8 HashByPercentage(s8 number, u8 noise);
 u8 Get_Hp_Growth(Unit* unit);
 u8 Get_Str_Growth(Unit* unit);
 u8 Get_Skl_Growth(Unit* unit);

@@ -58,15 +58,15 @@ u8 HashByte_N(u8 number, u8 noise, int max){
   return (u16) hash % max;
 };
 
-u8 HashByPercentage(u8 number, u8 noise){
+s8 HashByPercentage(s8 number, u8 noise){
   if (number < 0) number = 0;
   int variation = OptionsSaved->Variation;
-  int percentage = HashByte_N(number, noise, variation*2);
-  percentage += (100-variation);
-  int ret = (percentage * number)/100;
-  while (ret > 127) ret -= variation;
+  int percentage = HashByte_N(number, noise, variation*2); //rn up to 150 e.g. 125
+  percentage += (100-variation); // 125 + 25 = 150
+  int ret = percentage * number / 100; //1.5 * 120 (we want to negate this)
+  if (ret > 127) ret = (200 - percentage) * number / 100;
   if (ret < 0) ret = 0;
-  return (u8) ret;
+  return ret;
 };
 
 //TODO: support metis boosts and teq stuff
@@ -130,19 +130,19 @@ u8 Get_Luk_Growth(Unit* unit){
 //randomize unit bases
 void LoadUnitStats_Randomized(Unit* unit, CharacterData* charData){
   ClassData* class = unit->pClassData;
-  u8 baseHP = class->baseHP + charData->baseHP;
+  s8 baseHP = class->baseHP + charData->baseHP;
   unit->maxHP = (HashByPercentage(baseHP, 43) + HashByPercentage(baseHP, 3)*3)/4 + 1; //1.5RN HP, +1 in case 0 hp lol
-  u8 basePow = class->basePow + charData->basePow;
+  s8 basePow = class->basePow + charData->basePow;
   unit->pow = HashByPercentage(basePow, 5);
-  u8 baseSkl = class->baseSkl + charData->baseSkl;
+  s8 baseSkl = class->baseSkl + charData->baseSkl;
   unit->skl = HashByPercentage(baseSkl, 7);
-  u8 baseSpd = class->baseSpd + charData->baseSpd; //TODO: handle negative base spd
+  s8 baseSpd = class->baseSpd + charData->baseSpd; //TODO: handle negative base spd
   unit->spd = HashByPercentage(baseSpd, 11);
-  u8 baseDef = class->baseDef + charData->baseDef;
+  s8 baseDef = class->baseDef + charData->baseDef;
   unit->def = HashByPercentage(baseDef, 13);
-  u8 baseRes = class->baseRes + charData->baseRes;
+  s8 baseRes = class->baseRes + charData->baseRes;
   unit->res = HashByPercentage(baseRes, 17);
-  u8 baseLck = charData->baseLck;
+  s8 baseLck = charData->baseLck;
   unit->lck = HashByPercentage(baseLck, 19);
   unit->conBonus = 0;
 
