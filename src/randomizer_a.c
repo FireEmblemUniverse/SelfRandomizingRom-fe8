@@ -59,10 +59,12 @@ u8 HashByte_N(u8 number, u8 noise, int max){
 };
 
 u8 HashByPercentage(u8 number, u8 noise){
+  if (number < 0) number = 0;
   int variation = OptionsSaved->Variation;
   int percentage = HashByte_N(number, noise, variation*2);
   percentage += (100-variation);
   int ret = (percentage * number)/100;
+  if (ret > 127) ret = 127;
   if (ret < 0) ret = 0;
   return (u8) ret;
 };

@@ -159,7 +159,7 @@
     ALIGN 4
 
     NewMasterSealList:
-    BYTE Thief EphraimLord EirikaLord Cavalier Cavalier_F Knight Knight_F Mercenary Mercenary_F Myrmidon Myrmidon_F Archer Archer_F WyvernRider WyvernRider_F Mage Mage_F Shaman Shaman_F Recruit_2 Fighter Brigand Pirate Monk Priest Bard PegasusKnight Cleric Troubadour Dancer Soldier Revenant Bonewalker Bonewalker_Bow Bael Mauthedoog Tarvos Mogall Gargoyle Journeyman_2 Pupil_2 0
+    BYTE Thief EphraimLord EirikaLord Cavalier Cavalier_F Knight Knight_F Mercenary Mercenary_F Myrmidon Myrmidon_F Archer Archer_F WyvernRider WyvernRider_F Mage Mage_F Shaman Shaman_F Recruit_2 Fighter Brigand Pirate Monk Priest PegasusKnight Cleric Troubadour Dancer Soldier Revenant Bonewalker Bonewalker_Bow Bael Mauthedoog Tarvos Mogall Gargoyle Journeyman_2 Pupil_2 0
     ALIGN 4
 
     Fir_Mug:
