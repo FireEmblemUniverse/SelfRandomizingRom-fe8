@@ -189,6 +189,9 @@ int NamedCharacter(u8 charNum);
 void DifficultyTacticianSelect(ProcState* input);
 void ClearDebuffsBeforePrepScreen(int something);
 u8 PersonalSkillGetter(u8 charNum);
+u8 SkillAdderWrapper(Unit* unit, u8 skillID);
+u8 pSkillAdder(Unit* unit, u8 skillID); //this is the asm one
+u8 SkillGetterHelper(Unit* unit, u8 skillID);
 void updateRandomOptionsPage(OptionsProc* CurrentProc);
 void RandomOptionsSetup(OptionsProc* CurrentProc);
 void RandomOptionsLoop(OptionsProc* CurrentProc);

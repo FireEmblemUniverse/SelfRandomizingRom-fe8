@@ -120,7 +120,7 @@ prLearnNewSkill:
 {
 	#incbin "asm/LearnNewSkill.bin"
 	POIN p6C_NewSkillLearn
-	POIN (SkillAdder+1)
+	POIN (SkillAdderWrapper+1)
 
 p6C_NewSkillLearn:
 	_6C_SET_NAME(_psName)

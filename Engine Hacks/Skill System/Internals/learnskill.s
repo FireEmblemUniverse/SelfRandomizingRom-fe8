@@ -16,6 +16,7 @@
 @ the table is a pointer to a list of skills and levels - BYTE level1 skill1 level2 skill2 00 00
 .equ SkillAdder, LevelUpSkillTable+4
 .equ SkillsOffChecker, SkillAdder+4
+.equ SkillGetterHelper, SkillsOffChecker+4
 .macro blh to, reg=r3
   ldr \reg, =\to
   mov lr, \reg
@@ -84,8 +85,17 @@ beq NoLevelUp
     .short 0xf800 @try to add the skill
     cmp r0, #0 @did it add?
     beq NoLevelUp
-      mov r0, #0x4e
-      strb r4, [r5,r0]
+      @now we need to check if it randomizes
+      ldr r0, SkillGetterHelper
+      mov lr, r0
+      pop {r0}
+      push {r0} @forgive me, stack
+      ldr r0, [r0]
+      mov r1, r4
+      .short 0xf800
+
+      mov r1, #0x4e
+      strb r0, [r5,r1]
 
   @and if so, write the skill number to byte 0x4e
 NoLevelUp:

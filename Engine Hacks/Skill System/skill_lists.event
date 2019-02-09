@@ -281,8 +281,8 @@ BYTE 00 00
 ALIGN 4
 
 TroubadourSkillList:
-BYTE 10 DemoiselleID
-BYTE 20 VoiceOfPeaceID
+BYTE 1 DemoiselleID
+BYTE 10 VoiceOfPeaceID
 BYTE 00 00
 ALIGN 4
 

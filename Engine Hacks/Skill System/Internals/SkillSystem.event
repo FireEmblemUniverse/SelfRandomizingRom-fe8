@@ -63,6 +63,7 @@ POIN ClassSkillTable
 POIN LevelUpSkillTable
 POIN SkillsOffChecker
 POIN VanillaClassSkillTable
+POIN SkillGetterHelper
 
 SkillTesterOriginal: //does unit have X skill?
 #incbin skillTester.dmp
@@ -134,8 +135,9 @@ ALIGN 4
 SkillLearner:
 #incbin learnskill.dmp
 POIN LevelUpSkillTable
-POIN SkillAdder
+POIN SkillAdderWrapper
 POIN SkillsOffChecker
+POIN SkillGetterHelper
 
 // now managed by Icon Rework (see Engine Hacks/IconRework) -Stan
 // AlternateIconPopup:
@@ -149,7 +151,7 @@ WORD LearnedSkillText
 AddSkillsOnLoad:
 #incbin "unitloading.dmp"
 POIN LevelUpSkillTable
-POIN SkillAdder
+POIN SkillAdderWrapper
 POIN ChargeupTable
 POIN Skill_Getter
 

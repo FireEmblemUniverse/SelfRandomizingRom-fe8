@@ -6,6 +6,7 @@
 .set LevelUpSkillTable, ClassSkillTable+4
 .set SkillsOffChecker, LevelUpSkillTable+4
 .set VanillaClassSkillTable, SkillsOffChecker+4
+.set SkillGetterHelper, VanillaClassSkillTable+4
 .set BWLTable, 0x203e884
 
 push {r4-r7,lr}
@@ -86,7 +87,14 @@ CheckLoop:
   add r6, #2
   b CheckLoop
   FoundSkill:
-  ldrb r1, [r6, #1]
+    @r4 contains the unit pointer
+  ldrb r1, [r6, #1] @r1 is the list
+    ldr r0, SkillGetterHelper
+    mov lr, r0
+    mov r0, r4
+    .short 0xf800
+    mov r1, r0 @this randomizes it if the option was on
+
   strb r1, [r5]
   add r5, #1
   add r6, #2

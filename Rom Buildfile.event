@@ -28,6 +28,7 @@
     #define __aeabi_uidivmod 0xd1685
     #define __aeabi_idivmod 0xd1685
     #define RunEventEngine 0x800D07D
+    #define pSkillAdder SkillAdder|1
 
     ORG $57436 //palette "fix"
     SHORT $2800 $d001

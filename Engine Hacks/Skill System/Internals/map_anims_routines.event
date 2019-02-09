@@ -60,9 +60,10 @@ BYTE $00 $00 $00 $00 $00 $00 $00 $00
 SkillCheckAnimsOff:
 #incbin "skillCheckAnimsOff.dmp"
 POIN LevelUpSkillTable
-POIN SkillAdder
+POIN SkillAdderWrapper
 POIN PopupStruct
 POIN SkillsOffChecker
+POIN SkillGetterHelper
 
 PopupStruct:
 BYTE $0C $00 $00 $00 $5A $00 $00 $00 //sound played is 5A

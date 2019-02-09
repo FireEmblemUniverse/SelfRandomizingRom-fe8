@@ -126,7 +126,7 @@ void DifficultyTacticianSelect(ProcState* input){
 u8 PersonalSkillGetter(u8 charNum){
   // no personal skills if option not selected
   if (FirMode()) return NiceThighsID;
-  if (OptionsSaved->RandomizeSkills != 2) return 0;
+  if (OptionsSaved->RandomizeSkills == 0) return 0;
 
   if (NamedCharacter(charNum)){
     u8 num = HashByte_N(charNum, 37, sizeof(PSkills));
@@ -135,10 +135,28 @@ u8 PersonalSkillGetter(u8 charNum){
   return 0;
 };
 
+u8 SkillAdderWrapper(Unit* unit, u8 skillID){
+  u8 tmp = skillID;
+  if (OptionsSaved->RandomizeSkills == 2) {
+    tmp = HashByte_N(unit->pClassData->number, skillID, sizeof(PSkills));
+    tmp = PSkills[tmp];
+  }
+  return pSkillAdder(unit, tmp);
+};
+
+u8 SkillGetterHelper(Unit* unit, u8 skillID){
+  u8 tmp = skillID;
+  if (OptionsSaved->RandomizeSkills == 2) {
+    tmp = HashByte_N(unit->pClassData->number, skillID, sizeof(PSkills));
+    tmp = PSkills[tmp];
+  }
+  return tmp;
+};
+
 //Turn skills off
 u8 SkillsOffChecker(){
   return OptionsSaved->RandomizeSkills;
-}
+};
 
 
 void updateRandomOptionsPage(OptionsProc* CurrentProc){
@@ -177,7 +195,7 @@ void updateRandomOptionsPage(OptionsProc* CurrentProc){
     DrawTextInline(0, BGLoc(BG0Buffer, 15, 7), 2, 0, 10, "Vanilla");
   }
   else if (CurrentProc->RandomizeSkills == 1){
-    DrawTextInline(0, BGLoc(BG0Buffer, 15, 7), 2, 0, 10, "Class");
+    DrawTextInline(0, BGLoc(BG0Buffer, 15, 7), 2, 0, 10, "Personal");
   }
   else DrawTextInline(0, BGLoc(BG0Buffer, 15,7), 2, 0, 10, "Class+Personal");
 
@@ -254,7 +272,7 @@ void RandomOptionsSetup(OptionsProc* CurrentProc){
   CurrentProc->CursorIndex = 0;
   CurrentProc->VariationPercent = 30;
   CurrentProc->RandomizeClasses = 1;
-  CurrentProc->RandomizeSkills = 2;
+  CurrentProc->RandomizeSkills = 1;
   CurrentProc->ClassByTerrain = 1;
   CurrentProc->RandomizeItemStats = 1;
   CurrentProc->RandomizeChests = 1;

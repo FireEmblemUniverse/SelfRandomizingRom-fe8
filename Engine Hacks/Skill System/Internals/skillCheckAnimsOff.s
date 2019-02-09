@@ -3,6 +3,7 @@
 .equ SkillAdder, LevelUpSkillTable+4
 .equ PopupStruct, SkillAdder+4
 .equ SkillsOffChecker, PopupStruct+4
+.equ SkillGetterHelper, SkillsOffChecker+4
 .macro blh to, reg=r3
   ldr \reg, =\to
   mov lr, \reg
@@ -81,8 +82,17 @@ beq NoLevelUp
     .short 0xf800 @try to add the skill
     cmp r0, #0 @did it add?
     beq NoLevelUp
+      @now check skillgetterhelper to randomize it
+      ldr r0, SkillGetterHelper
+      mov lr, r0
+      pop {r0}
+      push {r0} @forgive me, stack
+      ldr r0, [r0]
+      mov r1, r4
+      .short 0xf800
+
       @and if so, draw the skill popup
-      mov r0, r4
+        @ mov r0, r4 @no need it's in r0 already
       mov r1, r6
       bl DrawPopup
 
