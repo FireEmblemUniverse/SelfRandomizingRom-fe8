@@ -25,5 +25,6 @@ weaponTypeAnim(animDark, 0x6)
 weaponAnimEnd
 
 #include "brdm_no1 Installer.event"
+#include "danf_da1 Installer.event"
 
 #include "Palettes/Palette Setup.event"

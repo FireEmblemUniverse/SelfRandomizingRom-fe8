@@ -1,28 +1,27 @@
 EphraimLordSkillList:
 BYTE 1 BondID
-BYTE 10 AetherID
+BYTE 10 CaptureID
 BYTE 00 00
 ALIGN 4
 
 EirikaLordSkillList:
 BYTE 1 BondID
-BYTE 10 AetherID
+BYTE 10 CaptureID
 BYTE 00 00
 ALIGN 4
 
 EphraimGreatLordSkillList:
 BYTE 255 BondID
-BYTE 255 AetherID //255 means "automatically given to prepromotes"
-BYTE 5 RallySpectrumID
+BYTE 255 CaptureID //255 means "automatically given to prepromotes"
+BYTE 5 AetherID
 BYTE 15 AxebreakerID
 BYTE 00 00
 ALIGN 4
 
 EirikaGreatLordSkillList:
 BYTE 255 BondID
-BYTE 255 AetherID
-// BYTE 255 SmiteID
-BYTE 5 NihilID
+BYTE 255 CaptureID
+BYTE 5 AetherID
 BYTE 15 LancebreakerID
 BYTE 00 00
 ALIGN 4
@@ -41,15 +40,15 @@ BYTE 00 00
 ALIGN 4
 
 KnightSkillList:
-BYTE 1 ProvokeID
+BYTE 1 SpurDefID
 BYTE 10 NaturalCoverID
 BYTE 00 00
 ALIGN 4
 
 GeneralSkillList:
-BYTE 255 ProvokeID
+BYTE 255 SpurDefID
 BYTE 255 NaturalCoverID
-BYTE 5 WaryFighterID
+BYTE 5 BarricadeID
 BYTE 15 PaviseID
 BYTE 00 00
 ALIGN 4
@@ -62,13 +61,13 @@ ALIGN 4
 
 MercenarySkillList:
 BYTE 1 RallyStrID
-BYTE 10 SealSpdID
+BYTE 10 SturdyStanceID
 BYTE 00 00
 ALIGN 4
 
 HeroSkillList:
 BYTE 255 RallyStrID
-BYTE 255 SealSpdID
+BYTE 255 SturdyStanceID
 BYTE 5 SolID
 BYTE 15 AxebreakerID
 BYTE 00 00
@@ -172,13 +171,13 @@ ALIGN 4
 
 ShamanSkillList:
 BYTE 1 MaleficAuraID
-BYTE 10 SpurDefID
+BYTE 10 HexID
 BYTE 00 00
 ALIGN 4
 
 DruidSkillList:
 BYTE 255 MaleficAuraID
-BYTE 255 SpurDefID
+BYTE 255 HexID
 BYTE 5 FrenzyID
 BYTE 15 TomebreakerID
 BYTE 00 00
@@ -186,8 +185,8 @@ ALIGN 4
 
 SummonerSkillList:
 BYTE 255 MaleficAuraID
-BYTE 255 SpurDefID
-BYTE 5 AnathemaID
+BYTE 255 HexID
+BYTE 5 PoisonStrikeID
 BYTE 15 RenewalID
 BYTE 00 00
 ALIGN 4
@@ -237,13 +236,13 @@ ALIGN 4
 
 PirateSkillList:
 BYTE 1 CamaraderieID
-BYTE 10 SealSklID
+BYTE 10 DartingStanceID
 BYTE 00 00
 ALIGN 4
 
 BerserkerSkillList:
 BYTE 255 CamaraderieID
-BYTE 255 SealSklID
+BYTE 255 DartingStanceID
 BYTE 5 WrathID
 BYTE 15 AxefaireID
 BYTE 00 00
@@ -251,7 +250,7 @@ ALIGN 4
 
 MonkSkillList:
 BYTE 1 SpurSpdID
-BYTE 10 SealResID
+BYTE 10 MirrorStanceID
 BYTE 00 00
 ALIGN 4
 
@@ -297,7 +296,6 @@ ALIGN 4
 
 BardSkillList:
 DancerSkillList:
-BYTE 255 WaryFighterID
 BYTE 5 AmaterasuID
 BYTE 15 CelerityID
 BYTE 00 00
@@ -364,7 +362,7 @@ ALIGN 4
 
 EntombedSkillList:
 BYTE 255 RenewalID
-BYTE 10 BaneID
+BYTE 10 FuryID
 BYTE 00 00
 ALIGN 4
 
@@ -375,18 +373,18 @@ ALIGN 4
 
 WightSkillList:
 BYTE 255 DeathBlowID
-BYTE 10 StrongRiposteID
+BYTE 10 HeroesLifeAndDeathID
 BYTE 00 00
 ALIGN 4
 
 BaelSkillList:
-BYTE 10 SealStrID
+BYTE 10 LiquidOozeID
 BYTE 00 00
 ALIGN 4
 
 ElderBaelSkillList:
-BYTE 255 SealStrID
-BYTE 10 SwapID
+BYTE 255 LiquidOozeID
+BYTE 10 PoisonStrikeID
 BYTE 00 00
 ALIGN 4
 
@@ -425,7 +423,7 @@ ALIGN 4
 
 ArchMogallSkillList:
 BYTE 255 FocusID
-BYTE 10 FuryID
+BYTE 10 ForesightID
 BYTE 00 00
 ALIGN 4
 
