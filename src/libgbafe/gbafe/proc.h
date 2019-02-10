@@ -18,15 +18,15 @@ struct _ProcInstruction {
 };
 
 struct _ProcState {
-	ProcInstruction* codeStart;
-	ProcInstruction* codeNext;
-	void (*onEnd)(ProcState*);
-	void (*onCycle)(ProcState*);
-	const char* name;
-	ProcState* parent;
-	ProcState* child;
-	ProcState* previous;
-	ProcState* next;
+	ProcInstruction* codeStart; //0
+	ProcInstruction* codeNext; //4
+	void (*onEnd)(ProcState*); //8
+	void (*onCycle)(ProcState*); //c
+	const char* name; //10
+	ProcState* parent; //14
+	ProcState* child; //18
+	ProcState* previous; //1c
+	ProcState* next; //20
 	uint16_t sleepTime;
 	uint8_t  mark;
 	uint8_t  statebits;

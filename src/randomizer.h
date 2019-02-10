@@ -201,6 +201,25 @@ int GetItemHit(Item item);
 int GetItemWeight(Item item);
 int GetItemCrit(Item item) ;
 int GetTerrainType(int x, int y);
+void prLearnNewSkill(Unit* unit, u8 skill, Proc* parent);
+void PrepItemEffectWrapper(Proc* parent);
+
+
+//Action Struct
+typedef struct {
+  u8 pad1[0xC];
+  u8 currentAllegiance;
+  u8 targetAllegiance;
+  u8 newX;
+  u8 newY;
+  u8 squaresMoved;
+  u8 actionTaken;
+  u8 invSlot;
+  u8 targetX;
+  u8 targetY;
+  u8 snagHP;
+}ActionStruct;
+#define sAction ((ActionStruct*)0x203A958)
 
 #define BGLoc(BGOffset, x, y) (BGOffset + 0x2 * x + 0x40 * y)
 #define BG0Buffer 0x02022CA8

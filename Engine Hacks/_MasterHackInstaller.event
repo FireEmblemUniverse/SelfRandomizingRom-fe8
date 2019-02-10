@@ -94,6 +94,21 @@ ORG FreeSpaceBLRange //defined in custom definitions
   LoadNormalUnit_:
   #incbin "LoadNormalUnit.dmp"
 
+  //Skill Scroll use effect (teaches random skill)
+  PUSH
+  ORG $9cd10
+  POIN NewPrepScreenItemsProc
+  ORG $9cb74
+  BL(CheckExpandedPrepItemIDsWrapper)
+  POP
+
+  CheckExpandedPrepItemIDsWrapper:
+  #incbin "CheckExpandedPrepItemIDsWrapper.dmp"
+
+  prAddRandomSkillWrapper:
+  #incbin "AddRandomSkillWrapper.dmp"
+  POIN AddRandomSkill
+
 
 #undef inBLRange
 POP

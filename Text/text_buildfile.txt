@@ -42,6 +42,18 @@ Thor's Ire[X]
 ## nameSets
 Set's Litany[X]
 
+## nameAmnesia
+Amnesia Scr.[X]
+
+## descAmnesia
+Forget a learned skill.[X]
+
+## nameSkillScroll
+Skill Scroll[X]
+
+## descSkillScroll
+Learn a random skill.[X]
+
 # 0x0447
 The breath of a dragon corpse.[X]
 

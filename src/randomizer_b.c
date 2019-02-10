@@ -31,6 +31,82 @@ static const ProcCode RandomOptionsProc[] = {
   PROC_END
 };
 
+static const ProcCode PrepItemUsedProc[] = {
+  PROC_SET_DESTRUCTOR(0x809d1c0+1), //the juna fruit one lol
+  PROC_CALL_ROUTINE_ARG(NewFadeIn, 8),
+  PROC_WHILE_ROUTINE(FadeInExists),
+  PROC_SLEEP(8),
+  PROC_CALL_ROUTINE(PrepItemEffectWrapper),
+  PROC_SLEEP(0x10),
+  PROC_CALL_ROUTINE_ARG(NewFadeOut, 0x10),
+  PROC_WHILE_ROUTINE(FadeOutExists),
+  // PROC_CALL_ROUTINE(DrawPopup),
+  PROC_END
+};
+
+const ProcCode NewPrepScreenItemsProc[] = {
+  PROC_SET_NAME("PrepItems"),
+  PROC_SLEEP(0),
+  PROC_LABEL(0),
+  PROC_CALL_ROUTINE(0x809c4d8+1),
+  PROC_CALL_ROUTINE(0x809c4e4+1),
+  PROC_CALL_ROUTINE_ARG(NewFadeIn, 0x10),
+  PROC_WHILE_ROUTINE(FadeInExists),
+  PROC_LABEL(1),
+  PROC_LOOP_ROUTINE(0x809c820+1),
+  PROC_LABEL(2),
+  PROC_CALL_ROUTINE(0x809c9f4+1),
+  PROC_LOOP_ROUTINE(0x809ca14+1),
+  PROC_GOTO(1),
+  PROC_LABEL(3),
+  PROC_CALL_ROUTINE(0x809cb38+1), //actually using an item - we want to replace this later
+  //if statbooster
+  PROC_NEW_CHILD_BLOCKING(0x8a191a4),
+  PROC_GOTO(1),
+  //if juna fruit
+  PROC_LABEL(4),
+  PROC_NEW_CHILD_BLOCKING(0x8a191c4),
+  PROC_GOTO(1),
+  //if promo item
+  PROC_LABEL(5),
+  PROC_CALL_ROUTINE_ARG(NewFadeOut, 0x10),
+  PROC_WHILE_ROUTINE(FadeOutExists),
+  PROC_CALL_ROUTINE(0x8013d68+1),
+  PROC_LOOP_ROUTINE(0x8014068+1),
+  PROC_CALL_ROUTINE(0x80cc990+1),
+  PROC_SLEEP(8),
+  PROC_CALL_ROUTINE(0x809cc9c+1),
+  PROC_SLEEP(0x1e),
+  PROC_CALL_ROUTINE(0x809cc60+1),
+  PROC_CALL_ROUTINE(0x809c4e4+1),
+  PROC_CALL_ROUTINE_ARG(NewFadeIn, 0x10),
+  PROC_WHILE_ROUTINE(FadeInExists),
+  PROC_WHILE_ROUTINE(0x8002a6c+1),
+  PROC_GOTO(1),
+
+  //if new item
+  PROC_LABEL(8),
+      PROC_CALL_ROUTINE_ARG(NewFadeOut, 0x10),
+      PROC_WHILE_ROUTINE(FadeOutExists),
+
+      PROC_CALL_ROUTINE(0x809c940+1), //does this kill the face?
+      // PROC_CALL_ROUTINE(PrepItemEffectWrapper),
+      // PROC_SLEEP(0x10),
+  PROC_NEW_CHILD_BLOCKING(PrepItemUsedProc),
+      PROC_CALL_ROUTINE(0x809c4d8+1),
+      PROC_CALL_ROUTINE(0x809c4e4+1),
+      PROC_CALL_ROUTINE_ARG(NewFadeIn, 0x10),
+      PROC_WHILE_ROUTINE(FadeInExists),
+  PROC_GOTO(1),
+
+  PROC_LABEL(6),
+  PROC_CALL_ROUTINE_ARG(NewFadeOut, 0x10),
+  PROC_WHILE_ROUTINE(FadeOutExists),
+  PROC_LABEL(7),
+  PROC_CALL_ROUTINE(0x809c940+1),
+  PROC_END
+};
+
 extern int SpinRoutine1;
 extern int SpinRoutine2;
 
@@ -534,6 +610,36 @@ void StoreMovCostTable(const u8 MovCostTable[], int unk1, Unit* currentUnit){
     if(stuck && (cost==31)) cost = stuck;
     gMovCostTableBuffer[i]=cost;
   }
+};
+
+void AddRandomSkill(Unit* unit, Proc* parent){
+  //who knows
+  u8 tmp = NextRN_N(sizeof(PSkills));
+  u8 skillToAdd = PSkills[tmp];
+  (void) (prLearnNewSkill+1)(unit, skillToAdd, parent);
+};
+
+void PrepItemEffectWrapper(Proc* parent){
+
+  //set up bg graphics
+  ClearBG0BG1();
+
+  FillBgMap(BG2Buffer, 0);
+  EnableBgSyncByIndex(0);
+  EnableBgSyncByIndex(1);
+  EnableBgSyncByIndex(2);
+  FillBgMap(0x6010000, 0); //clear oam tilemap
+  CpuSet(0x859ED70, (0x020228A8 + 16 * 0x20), 0x20); //ui palette
+
+  Proc* grandparent = parent->parent;
+  Unit** tmp = (Unit**) (grandparent + 1);
+  Unit* unit = *tmp; //byte 0x2c of the grandparent
+  // Unit* unit = *(Unit**) (parent + 1); //byte 0x2c of the grandparent
+  AddRandomSkill(unit, parent);
+  PlaySound(0xe7);
+    //decrease uses
+  u8 slot = *(u8*) ((int) tmp + 4);
+  ValidateUnitItem(unit, slot);
 };
 
 // extern Round* gpCurrentRound;

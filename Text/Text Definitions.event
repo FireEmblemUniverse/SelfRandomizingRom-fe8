@@ -248,3 +248,7 @@
 #define nameNinis 0xe12
 #define nameThors 0xe13
 #define nameSets 0xe14
+#define nameAmnesia 0xe15
+#define descAmnesia 0xe16
+#define nameSkillScroll 0xe17
+#define descSkillScroll 0xe18
