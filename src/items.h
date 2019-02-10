@@ -188,3 +188,5 @@
     #define item200G 0xB9
     #define itemBlackGem 0xBA
     #define itemGoldGem 0xBB
+    #define itemAmnesiaScroll 0xBC
+    #define itemSkillScroll 0xBD
