@@ -113,6 +113,7 @@ WORD DebuffTable
 ALIGN 4
 damagedThisTurn:
 #incbin "ASM/Debuffs/Set Damaged This Turn.dmp"
+POIN Proc_FlashyMode
 
 ALIGN 4
 setDebuffs:

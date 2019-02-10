@@ -171,7 +171,7 @@ void updateRandomOptionsPage(OptionsProc* CurrentProc){
   //option names
   DrawTextInline(0, BGLoc(BG0Buffer, 2, 3), 3, 0, 7, "% variation:");
   DrawTextInline(0, BGLoc(BG0Buffer, 2, 5), 3, 0, 7, "Don't Change:");
-  DrawTextInline(0, BGLoc(BG0Buffer, 2, 7), 3, 0, 6, "Skills:");
+  DrawTextInline(0, BGLoc(BG0Buffer, 2, 7), 3, 0, 7, "Random Skills:");
   DrawTextInline(0, BGLoc(BG0Buffer, 2, 9), 3, 0, 10, "Peak/Water Units:");
   DrawTextInline(0, BGLoc(BG0Buffer, 2, 11), 3, 0, 8, "Weapon Stats:");
   DrawTextInline(0, BGLoc(BG0Buffer, 2, 13), 3, 0, 8, "Random Items:");
@@ -195,7 +195,7 @@ void updateRandomOptionsPage(OptionsProc* CurrentProc){
     DrawTextInline(0, BGLoc(BG0Buffer, 15, 7), 2, 0, 10, "Vanilla");
   }
   else if (CurrentProc->RandomizeSkills == 1){
-    DrawTextInline(0, BGLoc(BG0Buffer, 15, 7), 2, 0, 10, "Personal");
+    DrawTextInline(0, BGLoc(BG0Buffer, 15, 7), 2, 0, 10, "Personal only");
   }
   else DrawTextInline(0, BGLoc(BG0Buffer, 15,7), 2, 0, 10, "Class+Personal");
 
