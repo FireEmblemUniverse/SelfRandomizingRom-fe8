@@ -198,11 +198,23 @@ void DifficultyTacticianSelect(ProcState* input){
   StartBlockingProc(NewGameDifficultySelect, input);
 };
 
+bool ThraciaMode(){
+  if (TacticianName[0]=='7'){
+    if (TacticianName[1]=='7'){
+      if (TacticianName[2]=='6'){
+        return 1;
+      }
+    }
+  }
+  return 0;
+};
+
 //Personal skill randomizer
 u8 PersonalSkillGetter(u8 charNum){
   // no personal skills if option not selected
   if (FirMode()) return NiceThighsID;
   if (OptionsSaved->RandomizeSkills == 0) return 0;
+  if (ThraciaMode()) return CaptureID;
 
   if (NamedCharacter(charNum)){
     u8 num = HashByte_N(charNum, 37, sizeof(PSkills));
