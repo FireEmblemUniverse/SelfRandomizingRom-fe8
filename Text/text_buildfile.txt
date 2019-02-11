@@ -54,6 +54,9 @@ Skill Scroll[X]
 ## descSkillScroll
 Learn a random skill.[X]
 
+## ForgotSkillText
+Got bonked on the head![X]
+
 # 0x0447
 The breath of a dragon corpse.[X]
 

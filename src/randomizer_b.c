@@ -213,9 +213,11 @@ u8 PersonalSkillGetter(u8 charNum){
 
 u8 SkillAdderWrapper(Unit* unit, u8 skillID){
   u8 tmp = skillID;
-  if (OptionsSaved->RandomizeSkills == 2) {
-    tmp = HashByte_N(unit->pClassData->number, skillID, sizeof(PSkills));
-    tmp = PSkills[tmp];
+  if (skillID != 0){ //don't randomize if the skill is 0, because that means "forget skill"
+    if (OptionsSaved->RandomizeSkills == 2) {
+      tmp = HashByte_N(unit->pClassData->number, skillID, sizeof(PSkills));
+      tmp = PSkills[tmp];
+    }
   }
   return pSkillAdder(unit, tmp);
 };
@@ -612,10 +614,14 @@ void StoreMovCostTable(const u8 MovCostTable[], int unk1, Unit* currentUnit){
   }
 };
 
-void AddRandomSkill(Unit* unit, Proc* parent){
-  //who knows
-  u8 tmp = NextRN_N(sizeof(PSkills));
-  u8 skillToAdd = PSkills[tmp];
+void AddRandomSkill(Unit* unit, Proc* parent, u8 itemID){
+
+  u8 skillToAdd = 0;
+  if (itemID == itemSkillScroll){
+    u8 tmp = NextRN_N(sizeof(PSkills));
+    skillToAdd = PSkills[tmp];
+  }
+  
   (void) (prLearnNewSkill+1)(unit, skillToAdd, parent);
 };
 
@@ -634,13 +640,46 @@ void PrepItemEffectWrapper(Proc* parent){
   Proc* grandparent = parent->parent;
   Unit** tmp = (Unit**) (grandparent + 1);
   Unit* unit = *tmp; //byte 0x2c of the grandparent
-  // Unit* unit = *(Unit**) (parent + 1); //byte 0x2c of the grandparent
-  AddRandomSkill(unit, parent);
-  PlaySound(0xe7);
-    //decrease uses
   u8 slot = *(u8*) ((int) tmp + 4);
+  u8 itemID = unit->items[slot];
+  AddRandomSkill(unit, parent, itemID);
+    //decrease uses
   ValidateUnitItem(unit, slot);
 };
+
+bool CanUnitUseNewItem(u16 itemData, Unit* unit) {
+  u8 itemID = (u8) itemData;
+  if (itemID == itemSkillScroll){
+    return 1;
+  }
+  if (itemID == itemAmnesiaScroll){
+    u8 unitNum = unit->index;
+    //get the bwl table
+    u8 FirstSkill = BWLTable[unitNum].LearnedSkills[0];
+    if (FirstSkill) return 1;
+  }
+  return 0;
+}
+
+void customPrepItemUsabilityWrapper() {
+    asm("mov r0, r4\n\
+        mov r1, r5\n\
+        bl CanUnitUseNewItem\n\
+        pop {r4, r5}\n\
+        pop {r1}\n\
+        bx r1\n");
+};
+
+void customItemUsabilityWrapper() {
+    asm("mov r0, r5\n\
+        mov r1, r4\n\
+        bl CanUnitUseNewItem\n\
+        pop {r4, r5}\n\
+        pop {r1}\n\
+        bx r1\n");
+};
+
+
 
 // extern Round* gpCurrentRound;
 

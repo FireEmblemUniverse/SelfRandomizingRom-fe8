@@ -8,6 +8,7 @@
 
 .set EAL_pPopupDef,     (EALiterals+0x00)
 .set EAL_time,          (EALiterals+0x04)
+.set EAL_pPopupDef2,    (EALiterals+0x08)
 
 @ Arguments: r0 = Parent 6C
 @ Returns:   r0 = 0 on success (skill is displayed)
@@ -24,6 +25,11 @@ hey:
 	@ Check if zero
 	cmp r0, #0
 	beq NoPopup
+
+	@ Check if forget skill
+	lsr r0, #8
+	cmp r0, #0x80
+	beq ForgetPopup
 	
 	@ Set skill index
 	ldrb r0, [r3]
@@ -47,6 +53,17 @@ End:
 	
 	pop {r1}
 	bx r1
+
+ForgetPopup:
+	ldr r0, EAL_pPopupDef2
+	ldr r1, EAL_time
+	mov r2, #0
+	mov r3, r4
+
+	_blh prNewPopup, r4
+
+	mov r0, #0
+	b End
 
 .ltorg
 .align

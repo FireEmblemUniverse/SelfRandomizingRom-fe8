@@ -12,6 +12,9 @@ ldrb r4, [r4, #4] @char num in r4
 cmp r4, #0x46
 bhi False
 
+cmp r1, #0x0 @is the skill number 0?
+beq SetForForgetting
+
 ldr r0, =BWLTable
 lsl r1, r4, #4 @r1 = char*0x10
 add r0, r1

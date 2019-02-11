@@ -96,8 +96,8 @@ INLINE NewPrepUsabilityTable,Item Usability Pointer
 0xB9 200G,0x802a100
 0xBA Black Gem,0x802a100
 0xBB Gold Gem,0x802a100
-0xBC Amnesia Scroll,0x802a0d0
-0xBD Skill Scroll,0x802a0d0
+0xBC Amnesia Scroll,customPrepItemUsabilityWrapper|IsPointer
+0xBD Skill Scroll,customPrepItemUsabilityWrapper|IsPointer
 0xBE -,0x802a100
 0xBF -,0x802a100
 0xC0 -,0x802a100

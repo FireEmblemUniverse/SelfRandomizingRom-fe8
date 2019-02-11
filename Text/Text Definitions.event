@@ -252,3 +252,4 @@
 #define descAmnesia 0xe16
 #define nameSkillScroll 0xe17
 #define descSkillScroll 0xe18
+#define ForgotSkillText 0xe19

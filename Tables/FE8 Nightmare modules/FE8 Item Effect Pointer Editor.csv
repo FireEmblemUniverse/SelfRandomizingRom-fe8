@@ -112,5 +112,5 @@ INLINE NewItemEffectTable,Item Effect Pointer
 0xB9 200G,0x802ff76
 0xBA Black Gem,0x802ff76
 0xBB Gold Gem,0x802ff76
-0xBC Amnesia Scroll,0x802ff76
+0xBC Amnesia Scroll,prAddRandomSkillWrapper|IsPointer
 0xBD Skill Scroll,prAddRandomSkillWrapper|IsPointer

@@ -9,6 +9,7 @@ void HideAllUnits(int something);
 u32* const Debuff_Table = (u32*) 0x203f100;
 u8* const chapNum = (u8*) 0x202bcfe;
 u8* const currentPhase = (u8*) 0x202bcff;
+
 #define PLAYER_PHASE 0;
 #define ALLY_PHASE 0x40;
 #define ENEMY_PHASE 0x80;
@@ -109,6 +110,24 @@ typedef struct {
   u8 RandomizeMusic;
   //more options here
 } OptionsProc;
+
+typedef struct __attribute__((packed)) {
+  u8 Losses; //0
+  u8 LearnedSkills[4]; //1
+  u16 DiedChapter:4; //5
+  u16 DiedTurn:12;
+  u16 unk_7; //7
+  u16 unk9_0:4; //9
+  u16 GainedExp:12;
+  u32 Wins:10; //B
+  u32 Battles:12;
+  u32 unk_B:2;
+  u8  KilledBy; //E
+  u8  unk_F; //F
+} BWLTableEntry;
+
+
+BWLTableEntry* const BWLTable = (BWLTableEntry*) 0x203e884;
 
 u8 static const Weapons[];
 u8 static const WeaponsRare[];

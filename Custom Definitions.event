@@ -11,6 +11,10 @@
     #define DebuffTable 0x203F100
 #endif
 
+
+    #define AmnesiaScroll 0xBC
+    #define SkillScroll 0xBD
+
 #define LunarBrace MoonBracelet
 #define SolarBrace SunBracelet
 

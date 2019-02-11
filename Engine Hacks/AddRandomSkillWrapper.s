@@ -11,6 +11,7 @@ mov lr, r1
 @r0 = Unit*
 mov r5, r0 @save this for later 
 mov r1, r4
+mov r2, r8 @used item ID
 @r1 = Parent Proc*
 ldr r3, AddRandomSkill @(Unit* unit, Proc* Parent)
 mov lr, r3
@@ -21,7 +22,7 @@ ldr r1, =0x203a958
 ldrb r1, [r1, #0x12] @item slot number
 ldr r3, =0x8018994
 mov lr, r3
-.short 0xf800
+.short 0xf800 @decrement
 
 pop {r4,r5}
 ldr r0, =0x802ff77 @return
