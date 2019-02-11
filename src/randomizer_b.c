@@ -219,7 +219,8 @@ u8 SkillAdderWrapper(Unit* unit, u8 skillID){
       tmp = PSkills[tmp];
     }
   }
-  return pSkillAdder(unit, tmp);
+  if (pSkillAdder(unit, tmp)) return tmp; //if successfully added skill, returns the skill number
+  return 0;
 };
 
 u8 SkillGetterHelper(Unit* unit, u8 skillID){
@@ -655,7 +656,7 @@ bool CanUnitUseNewItem(u16 itemData, Unit* unit) {
     return 1;
   }
   if (itemID == itemAmnesiaScroll){
-    u8 unitNum = unit->index;
+    u8 unitNum = unit->pCharacterData->number;
     //get the bwl table
     u8 FirstSkill = BWLTable[unitNum].LearnedSkills[0];
     if (FirstSkill) return 1;
