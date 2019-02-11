@@ -1,7 +1,7 @@
 .thumb
 .include "_Definitions.h.s"
 
-.set lpCharSkillTable,  (EALiterals+0x00)
+.set prPersonalSkillGetter,  (EALiterals+0x00)
 .set lpClassSkillTable, (EALiterals+0x04)
 
 .set pExtraItemOrSkill, 0x0202BCDE
@@ -16,10 +16,14 @@ GetSkillIdByIndex:
 	bne NotCharSkill
 	
 	ldr  r2, [r0]
-	ldrb r2, [r2, #4]
+	ldrb r2, [r2, #4] @char ID
 	
-	ldr  r3, lpCharSkillTable
-	ldrb r0, [r3, r2]
+	@ ldr  r3, lpCharSkillTable
+	@ ldrb r0, [r3, r2]
+		mov r0, r2
+		ldr r3, prPersonalSkillGetter
+		mov lr, r3
+		.short 0xf800
 	
 	b End
 
@@ -81,5 +85,5 @@ End:
 .align
 
 EALiterals:
-	@ POIN CharacterSkillTable
+	@ POIN PersonalSkillGetter
 	@ POIN ClassSkillTable

@@ -648,6 +648,8 @@ void PrepItemEffectWrapper(Proc* parent){
 };
 
 bool CanUnitUseNewItem(u16 itemData, Unit* unit) {
+  if (OptionsSaved->RandomizeSkills == 0) return 0; //can't be used in vanilla mode!
+
   u8 itemID = (u8) itemData;
   if (itemID == itemSkillScroll){
     return 1;

@@ -246,7 +246,7 @@ prDrawSkillMenuCommand:
 ALIGN 4
 prGetSkillIdByIndex:
 	#incbin "asm/GetSkillIdByIndex.bin"
-	POIN PersonalSkillTable
+	POIN PersonalSkillGetter
 	POIN ClassSkillTable
 
 }

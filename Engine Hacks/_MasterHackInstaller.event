@@ -260,7 +260,10 @@ POP
   #include "EnemyControl.event"
 
   //fix 3-15 range ballistas etc
-  #include "RangeFix/RangeDisplayFix.event"
+  // #include "RangeFix/RangeDisplayFix.event" //conflicting with range rework?
+  
+  //Item Range Fix
+  #include "FE8-Item Range Fix/FE8-Item Range EA.event"
 
   // #include "Supply Hack/Supply Hack Installer.event"
   ALIGN 4

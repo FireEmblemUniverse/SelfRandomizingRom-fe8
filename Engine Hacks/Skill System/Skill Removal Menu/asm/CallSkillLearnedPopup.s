@@ -27,8 +27,8 @@ hey:
 	beq NoPopup
 
 	@ Check if forget skill
-	lsr r0, #8
-	cmp r0, #0x80
+	ldr r1, =0x8000
+	cmp r0, r1
 	beq ForgetPopup
 	
 	@ Set skill index

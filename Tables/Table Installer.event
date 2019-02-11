@@ -4,6 +4,8 @@
 
 #include "FE8 Nightmare modules\FE8 Class Skill Editor.event"
 
+#include "FE8 Nightmare modules\FE8 Item AI Table.event"
+
 #include "FE8 Nightmare modules\FE8 Item Effect Pointer Editor.event"
 
 #include "FE8 Nightmare modules\FE8 Item Target Pointer Editor.event"
@@ -21,6 +23,8 @@
 #include "FE8 Nightmare modules\FE8 Skill Animation Editor.event"
 
 #include "FE8 Nightmare modules\FE8 Skill Description Editor.event"
+
+#include "FE8 Nightmare modules\FE8 Staff AI Table.event"
 
 #include "FE8 Nightmare modules\FE8 Vanilla Class Skill Editor.event"
 
