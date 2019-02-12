@@ -199,13 +199,16 @@ void DifficultyTacticianSelect(ProcState* input){
 };
 
 bool ThraciaMode(){
-  if (TacticianName[0]=='7'){
-    if (TacticianName[1]=='7'){
-      if (TacticianName[2]=='6'){
-        return 1;
+  for (int i = 0; i < 7; ++i)
+  {
+    if (TacticianName[i+0]=='7'){
+      if (TacticianName[i+1]=='7'){
+        if (TacticianName[i+2]=='6'){
+          return 1;
+        }
       }
     }
-  }
+  };
   return 0;
 };
 
