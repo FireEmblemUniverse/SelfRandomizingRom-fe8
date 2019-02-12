@@ -208,7 +208,7 @@ int RandomizeUnitClass(EventUnit* eventdata){
   //lol
   if (FirMode()){
     if (IsT2(originalClass)) return Sniper_F;
-    return Berserker;
+    return Archer_F;
   }
 
   if(originalClass==GhostFighter) return originalClass; //hardcode phantoms to be phantoms

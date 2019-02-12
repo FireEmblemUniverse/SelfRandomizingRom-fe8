@@ -216,8 +216,8 @@ bool ThraciaMode(){
 u8 PersonalSkillGetter(u8 charNum){
   // no personal skills if option not selected
   if (FirMode()) return NiceThighsID;
-  if (OptionsSaved->RandomizeSkills == 0) return 0;
   if (ThraciaMode()) return CaptureID;
+  if (OptionsSaved->RandomizeSkills == 0) return 0;
 
   if (NamedCharacter(charNum)){
     u8 num = HashByte_N(charNum, 37, sizeof(PSkills));

@@ -13,13 +13,8 @@ push {r4-r7,lr}
 mov r4, r0 @save it
 ldr r5, =SkillsBuffer
 
-ldr r1, SkillsOffChecker
-mov lr, r1
-.short 0xf800
-cmp r0, #0
-beq VanillaSkills
 
-@personal skill first, if any
+@personal skill first, if any (even if skills are off)
 ldr r0, [r4]
 ldrb r6, [r0, #4] @char number saved in r6 for later
 mov r0, r6 @r0 = u8 charnumber
@@ -31,6 +26,14 @@ beq NoPersonal
   strb r0, [r5]
   add r5, #1
 NoPersonal:
+
+@now check if skills are off
+mov r0, r4
+ldr r1, SkillsOffChecker
+mov lr, r1
+.short 0xf800
+cmp r0, #0
+beq VanillaSkills
 
 @class skill, if any
 ldr r0, [r4,#4]
@@ -117,9 +120,13 @@ ldr r0, [r4,#4]
 ldrb r0, [r0,#4] @class number
 lsl r0, #1 @ table is 2 bytes per row
 ldr r1, VanillaClassSkillTable
-ldrh r2, [r1, r0] @2 skills per
-strh r2, [r5]
-add r5, #2
+ldrb r2, [r1, r0] @2 skills per
+strb r2, [r5]
+add r5, #1
+add r0, #1
+ldrb r2, [r1, r0]
+strb r2, [r5]
+add r5, #1
 b TerminateList
 
 .ltorg
