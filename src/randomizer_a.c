@@ -208,7 +208,7 @@ int RandomizeUnitClass(EventUnit* eventdata){
   //lol
   if (FirMode()){
     if (IsT2(originalClass)) return Sniper_F;
-    return Archer_F;
+    return Berserker;
   }
 
   if(originalClass==GhostFighter) return originalClass; //hardcode phantoms to be phantoms
@@ -398,6 +398,28 @@ int SpeedUpAnims(u16 AISPointer[], u16 duration){
   else if(sInput->currentPress & InputA) ret = 0;
   AISPointer[3] = ret;
   return ret;
+};
+
+int DevilEffectVanillaFix(u16 item){
+  if(OptionsSaved->RandomizeSkills==0) return GetItemWeaponEffect(item);
+  //if not, the devil mode flag will already be set
+  asm("ldr r0, =0x203a608\n\
+       ldr r3, [r0]\n\
+       ldr r2, [r3]\n\
+       lsl r1, r2, #0xD\n\
+       lsr r1, r1, #0xD\n\
+       pop {r0}\n\
+       pop {r0}\n\
+       mov r0, #0x80\n\
+       and r1, r0\n\
+       cmp r1, #0x0\n\
+       bne goto_2b713\n\
+       ldr r0, =0x802b6f1\n\
+       bx r0\n\
+       goto_2b713:\n\
+       ldr r0, =0x802b713\n\
+       bx r0");
+  return 0;
 };
 
 

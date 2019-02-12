@@ -51,14 +51,16 @@ ALIGN 4
 Proc_CapDamage:	//actually the same as proc_finish
 #incbin "proc_capdamage.dmp"	//making a different file just in case one of the two needs tweaking
 
-PUSH //skip hp substraction if devil effect
-ORG $2B69E
-SHORT 0xE00B
-ORG $2B6C4
-SHORT 0x4001
-SHORT 0x2900
-SHORT 0xD123
-SHORT 0xE011
+PUSH //skip hp subtraction if devil effect
+// ORG $2B69E
+// SHORT 0xE00B //always skip devil part - change to a skip if not vanilla
+ORG $2B698
+BL(DevilEffectVanillaFix)
+// ORG $2B6C4
+// SHORT 0x4001
+// SHORT 0x2900
+// SHORT 0xD123
+// SHORT 0xE011
 POP
 
 ALIGN 4
