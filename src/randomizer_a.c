@@ -379,6 +379,22 @@ void RandomizeEventItem(ProcState* CurrentProc, Unit* CurrentUnit, int ItemID){
   NewItemGot(CurrentProc, CurrentUnit, give);
 };
 
+int Roll2RNWrapper(int num){
+  if(ThraciaMode()) return Roll1RN(num);
+  return Roll2RN(num);
+};
+
+void ThraciaHitCapping(int unused, u16* finalHit, s16 hit){
+  if(ThraciaMode()){
+    if(hit<1) hit = 1;
+    if(hit>99) hit = 99;
+  } else {
+    if(hit<0) hit = 0;
+    if(hit>100) hit = 100;
+  }
+  *finalHit = hit;
+};
+
 int FirMusicWrapper(){
   if(FirMode()) return (u16) &WATP_ID;
   // else if (OptionsSaved->RandomizeMusic) return SoundRoomTable[HashByte_N(*chapNum, *turnNum + *currentPhase, 0x44)].songID;

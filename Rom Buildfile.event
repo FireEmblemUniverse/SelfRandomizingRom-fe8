@@ -67,6 +67,12 @@
     ORG 0x8AF622
     BYTE $B7 //make maelduins use the right animation for hatchets
 
+    ORG $2a570 //1RN if thracia mode
+    BL(Roll2RNWrapper)
+    ORG $2ac78
+    BL(ThraciaHitCapping)
+    SHORT $bc01 $4700
+
     ORG 0x5514
     replaceWithHack(NewPortraitGetter)
 

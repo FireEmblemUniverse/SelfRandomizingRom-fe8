@@ -222,7 +222,7 @@ int GetItemCrit(Item item) ;
 int GetTerrainType(int x, int y);
 void prLearnNewSkill(Unit* unit, u8 skill, Proc* parent);
 void PrepItemEffectWrapper(Proc* parent);
-
+bool ThraciaMode();
 
 //Action Struct
 typedef struct {
