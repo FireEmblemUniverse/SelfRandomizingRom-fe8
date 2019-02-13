@@ -6,6 +6,7 @@
 char* GetTacticianNameString(); //0x80314E5
 int NextRN_N(int max);
 void HideAllUnits(int something);
+void ClearLocalEvents(int something);
 u32* const Debuff_Table = (u32*) 0x203f100;
 u8* const chapNum = (u8*) 0x202bcfe;
 u8* const currentPhase = (u8*) 0x202bcff;

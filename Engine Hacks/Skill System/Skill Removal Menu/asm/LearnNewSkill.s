@@ -13,6 +13,11 @@ LearnNewSkill:
 	
 	mov r4, r0 @ var r4 = Unit
 	mov r5, r2 @ var r5 = Parent 6C
+
+	@ Clear new skill (without bit set)
+	ldr  r3, =pExtraItemOrSkill
+	mov r0, #0
+	strh r0, [r3]
 	
 	@ Actually learn new skill (will set bit if forgetting is needed)
 	mov r0, r4
@@ -21,9 +26,9 @@ LearnNewSkill:
 	mov lr, r3
 	.short 0xF800 @the actual skill learned goes in r0
 	
-	@ Store new skill (without bit set)
+	@ Store new skill afterward in case it was randomized
 	ldr  r3, =pExtraItemOrSkill
-	strh r0, [r3]
+	strb r0, [r3]
 	
 	@ Call 6C
 	ldr r0, EAL_p6CLearnNewSkill

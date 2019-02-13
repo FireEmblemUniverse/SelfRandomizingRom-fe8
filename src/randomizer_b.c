@@ -364,7 +364,7 @@ void RandomOptionsSetup(OptionsProc* CurrentProc){
 
   //set up cursor
   CurrentProc->CursorIndex = 0;
-  CurrentProc->VariationPercent = 30;
+  CurrentProc->VariationPercent = 50;
   CurrentProc->RandomizeClasses = 1;
   CurrentProc->RandomizeSkills = 1;
   CurrentProc->ClassByTerrain = 1;

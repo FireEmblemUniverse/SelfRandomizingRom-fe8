@@ -193,9 +193,9 @@ pMenuDef_RemoveSkill:
 	WORD 0
 	WORD 0
 	WORD 0
-	POIN (prMenuRemoveSkill_OnCancel|1)
-	WORD 0
-	WORD 0
+	POIN (prMenuRemoveSkill_OnCancel|1) //is this the B button routine?
+	POIN 0x4f520|1 //When R Pressed - create box
+	POIN (prMenuRemoveSkill_OnRPress|1) //When R Pressed - add text
 
 // Usability, Draw, Effect
 #define MenuCommand_UDE(aprUsability, aprDraw, aprEffect) "WORD 0; SHORT 0 0; BYTE 0 0; SHORT 0; POIN ((aprUsability)|1) ((aprDraw)|1) ((aprEffect)|1); WORD 0 0 0"
@@ -214,6 +214,12 @@ UM_Separator
 ALIGN 4
 prMenuRemoveSkill_OnCancel:
 	#incbin "asm/Menu/MenuRemoveSkill_OnCancel.bin"
+
+ALIGN 4
+prMenuRemoveSkill_OnRPress:
+	#incbin "asm/Menu/MenuRemoveSkill_OnRPress.bin"
+	POIN (prGetSkillIdByIndex|1)
+	POIN SkillDescTable
 
 ALIGN 4
 prMenuRemoveSkillCommand_Usability:

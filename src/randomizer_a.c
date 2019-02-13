@@ -27,12 +27,14 @@ u8 static const MapMusicList[] = {4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,2
 //functions
 
 //hook at 801096c
+// rather, 8030e28
 void ClearDebuffsBeforePrepScreen(int something){
   for (int i = 0; i < 100; ++i)
   {
     *(Debuff_Table+i) = 0;
   };
-  HideAllUnits(something);
+  // HideAllUnits(something);
+  ClearLocalEvents(something);
 };
 
 //take number and modify by 25%, using RNG 

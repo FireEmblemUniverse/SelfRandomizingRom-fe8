@@ -1,6 +1,6 @@
 .thumb
 
 OnCancel:
-	@ Return (0x08 = Boop)
-	mov r0, #(0x08)
+	@ Return (0x10 = clear gfx | 0x08 = Boop | 0x02 = kill menu)
+	mov r0, #(0x10 | 0x08 | 0x02)
 	bx lr

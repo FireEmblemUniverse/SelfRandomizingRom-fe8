@@ -76,7 +76,8 @@ ORG FreeSpaceBLRange //defined in custom definitions
   ORG $17bf2
   BL(LoadUnitStats_Randomized) //randomize bases by variation%
 
-  ORG $1096c
+  // ORG $1096c
+  ORG $30e28
   BL(ClearDebuffsBeforePrepScreen)
   POP
   CCode_a:
