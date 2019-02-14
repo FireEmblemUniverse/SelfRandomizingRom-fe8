@@ -129,7 +129,7 @@ POP
   #include "../src/randomizer_b.lyn.event"
 
   //HP Bars (and effective weapon warning)
-  #include "HPbars.txt"
+  #include "HpBars/HpBars.event"
 
   //Improved Sound Mixer
   #include "SoundMixer.txt"
