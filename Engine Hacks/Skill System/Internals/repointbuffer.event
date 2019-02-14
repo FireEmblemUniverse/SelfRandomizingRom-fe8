@@ -69,6 +69,8 @@ ORG $2cc5c
 BYTE BattleBufferWidth
 ORG $2cf6c
 SHORT ($3400+(BattleBufferWidth-4)) $0CD0
+ORG $29092
+SHORT $7290
 ORG $2d098
 SHORT (0x6808 + BattleBufferWidth*16) 0x0200 0x0ec0 (0x3100 + BattleBufferWidth) 0x6031
 
