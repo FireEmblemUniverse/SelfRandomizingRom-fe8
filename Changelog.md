@@ -5,13 +5,13 @@
 	- Random Class Skills option: Shuffles all learned skills per class! (innate skills e.g. Canto/Shove not shuffled)
 	- Skill Scrolls (learn a random skill) added to drop list and prep screen shop
 	- Amnesia Scrolls (forget a learned skill) also added
-	- Thracia Mode! Put "776" somewhere in your seed for a new experience.
+	- Thracia Mode! Put "776" somewhere in your seed to give everyone Capture, set Hit to 1RN and between 1-99!
 
 ### Tweaks
 
 	- Stats no longer overflow/underflow (e.g. demon king HP)
 	- Dancers and Bards animations don't crash if they double
-	- Flashy mode now works in vanilla!
+	- Flashy mode now works in vanilla! (all boss kill attacks show the critical animation)
 	- All items can be sold or discarded
 	- Debuffs now clear properly between chapters
 	- Scripted battles end correctly when one character dies
