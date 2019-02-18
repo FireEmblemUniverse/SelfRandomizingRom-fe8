@@ -113,6 +113,7 @@ extern int SpinRoutine2;
 static const ProcCode SpinProc[] = {
   PROC_SET_NAME("SpinnyBoi"),
   PROC_SET_MARK(0xD),
+  // PROC_CALL_ROUTINE(0x8030184), //block game graphics logic?
   PROC_CALL_ROUTINE(&SpinRoutine1),
   PROC_LOOP_ROUTINE(&SpinRoutine2),
   PROC_END
@@ -139,6 +140,8 @@ static const ProcCode NewGameDifficultySelect[] = {
       PROC_NEW_CHILD(SpinProc), //one spinny boi
 
     PROC_NEW_CHILD_BLOCKING(RandomOptionsProc),
+
+    // PROC_NEW_CHILD_BLOCKING(0x8a2ece0), //config proc
     PROC_SLEEP(10),
 
   PROC_LABEL(2),
