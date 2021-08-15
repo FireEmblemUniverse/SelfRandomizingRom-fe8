@@ -26,7 +26,7 @@ LYNLIB := $(MAIN_DIR)/src/libgbafe/fe8u.o
 
 # setting up compilation flags
 ARCH    := -mcpu=arm7tdmi -mthumb -mthumb-interwork
-CFLAGS  := $(ARCH) $(INCFLAGS) -Wall -Os -mtune=arm7tdmi -fomit-frame-pointer -ffast-math
+CFLAGS  := $(ARCH) $(INCFLAGS) -Wall -Os -mtune=arm7tdmi -fomit-frame-pointer -ffast-math -fno-jump-tables
 ASFLAGS := $(ARCH) $(INCFLAGS)
 
 # dependency generation flags for CC

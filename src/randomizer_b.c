@@ -15,8 +15,10 @@ static const ProcCode RandomOptionsProc[] = {
   PROC_SET_NAME("RandomizerOpt"),
   PROC_CALL_ROUTINE(LockGameLogic),
   PROC_END_ALL(0x8a20b1c),
+  // PROC_END_ALL(0x8a206a8), //savemenu drawing
 
   PROC_CALL_ROUTINE(RandomOptionsSetup),
+  // PROC_CALL_ROUTINE(0x80b1a09), //original config drawing
 
     PROC_CALL_ROUTINE_ARG(NewFadeIn, 8),
     PROC_WHILE_ROUTINE(FadeInExists),
@@ -113,7 +115,6 @@ extern int SpinRoutine2;
 static const ProcCode SpinProc[] = {
   PROC_SET_NAME("SpinnyBoi"),
   PROC_SET_MARK(0xD),
-  // PROC_CALL_ROUTINE(0x8030184), //block game graphics logic?
   PROC_CALL_ROUTINE(&SpinRoutine1),
   PROC_LOOP_ROUTINE(&SpinRoutine2),
   PROC_END
@@ -167,8 +168,8 @@ static const LocationTable CursorLocationTable[] = {
   {10, 0x48},
   {10, 0x58},
   {10, 0x68},
-  {10, 0x78},
-  {10, 0x88}
+  {10, 0x78} //,
+  // {10, 0x88} //leave room for a description?
 };
 
 //functions
@@ -264,68 +265,87 @@ void updateRandomOptionsPage(OptionsProc* CurrentProc){
   FillBgMap(BG0Buffer, 0);
   EnableBgSyncByIndex(0);
   //Print Headings
-  DrawTextInline(0, BGLoc(BG0Buffer, 2, 0), 4, 0, 15, "Set Randomization Options");
-  //option names
-  DrawTextInline(0, BGLoc(BG0Buffer, 2, 3), 3, 0, 7, "% variation:");
-  DrawTextInline(0, BGLoc(BG0Buffer, 2, 5), 3, 0, 7, "Don't Change:");
-  DrawTextInline(0, BGLoc(BG0Buffer, 2, 7), 3, 0, 7, "Random Skills:");
-  DrawTextInline(0, BGLoc(BG0Buffer, 2, 9), 3, 0, 10, "Peak/Water Units:");
-  DrawTextInline(0, BGLoc(BG0Buffer, 2, 11), 3, 0, 8, "Weapon Stats:");
-  DrawTextInline(0, BGLoc(BG0Buffer, 2, 13), 3, 0, 8, "Random Items:");
-  DrawTextInline(0, BGLoc(BG0Buffer, 2, 15), 3, 0, 5, "Mode:");
-  DrawTextInline(0, BGLoc(BG0Buffer, 2, 17), 3, 0, 7, "Map Music:");
+  DrawTextInline(0, BGLoc(BG0Buffer, 2, 0), 4, 0, 8, "Settings");
+  DrawTextInline(0, BGLoc(BG0Buffer, 19, 0), 4, 0, 8, "<< L/R >>");
 
-  
-  //option values
-  if (CurrentProc->RandomizeClasses == 0){
-    DrawTextInline(0, BGLoc(BG0Buffer, 15, 5), 2, 0, 5, "None");
-  }
-  else if (CurrentProc->RandomizeClasses == 1){
-    DrawTextInline(0, BGLoc(BG0Buffer, 15, 5), 2, 0, 5, "Thieves");
-  } 
-  else if (CurrentProc->RandomizeClasses == 2){
-    DrawTextInline(0, BGLoc(BG0Buffer, 15, 5), 2, 0, 5, "Generics");
-  }
-  else DrawTextInline(0, BGLoc(BG0Buffer, 15, 5), 2, 0, 5, "Both");
+  if (thisPage == 1){
+      //option names
+      DrawTextInline(0, BGLoc(BG0Buffer, 2, 3), 3, 0, 7, "% variation:");
+      DrawTextInline(0, BGLoc(BG0Buffer, 2, 5), 3, 0, 7, "Don't Change:");
+      DrawTextInline(0, BGLoc(BG0Buffer, 2, 7), 3, 0, 7, "Random Skills:");
+      DrawTextInline(0, BGLoc(BG0Buffer, 2, 9), 3, 0, 10, "Peak/Water Units:");
+      DrawTextInline(0, BGLoc(BG0Buffer, 2, 11), 3, 0, 8, "Weapon Stats:");
+      DrawTextInline(0, BGLoc(BG0Buffer, 2, 13), 3, 0, 8, "Random Items:");
+      DrawTextInline(0, BGLoc(BG0Buffer, 2, 15), 3, 0, 5, "Mode:");
+      // DrawTextInline(0, BGLoc(BG0Buffer, 2, 17), 3, 0, 7, "Map Music:");
 
-  if (CurrentProc->RandomizeSkills == 0){
-    DrawTextInline(0, BGLoc(BG0Buffer, 15, 7), 2, 0, 10, "Vanilla");
-  }
-  else if (CurrentProc->RandomizeSkills == 1){
-    DrawTextInline(0, BGLoc(BG0Buffer, 15, 7), 2, 0, 10, "Personal only");
-  }
-  else DrawTextInline(0, BGLoc(BG0Buffer, 15,7), 2, 0, 10, "Class+Personal");
+      
+      //option values
+      if (CurrentProc->RandomizeClasses == RANDOMCLASSES_NONE){
+        DrawTextInline(0, BGLoc(BG0Buffer, 15, 5), 2, 0, 5, "None");
+      }
+      else if (CurrentProc->RandomizeClasses == RANDOMCLASSES_THIEVES){
+        DrawTextInline(0, BGLoc(BG0Buffer, 15, 5), 2, 0, 5, "Thieves");
+      } 
+      else if (CurrentProc->RandomizeClasses == RANDOMCLASSES_GENERICS){
+        DrawTextInline(0, BGLoc(BG0Buffer, 15, 5), 2, 0, 5, "Generics");
+      }
+      else DrawTextInline(0, BGLoc(BG0Buffer, 15, 5), 2, 0, 5, "Both");
 
-  if (CurrentProc->ClassByTerrain == 0){
-    DrawTextInline(0, BGLoc(BG0Buffer, 15, 9), 2, 0, 10, "Pure Random");
-  }
-  else if (CurrentProc->ClassByTerrain == 1) DrawTextInline(0, BGLoc(BG0Buffer, 15,9), 2, 0, 10, "1 Tile Move");
-  else DrawTextInline(0, BGLoc(BG0Buffer, 15,9), 2, 0, 10, "Limit Classes");
+      if (CurrentProc->RandomizeSkills == 0){
+        DrawTextInline(0, BGLoc(BG0Buffer, 15, 7), 2, 0, 10, "Vanilla");
+      }
+      else if (CurrentProc->RandomizeSkills == 1){
+        DrawTextInline(0, BGLoc(BG0Buffer, 15, 7), 2, 0, 10, "Personal only");
+      }
+      else DrawTextInline(0, BGLoc(BG0Buffer, 15,7), 2, 0, 10, "Class+Personal");
 
-  if (CurrentProc->RandomizeItemStats == 0){
-    DrawTextInline(0, BGLoc(BG0Buffer, 15, 11), 2, 0, 5, "Fixed");
-  }
-  else DrawTextInline(0, BGLoc(BG0Buffer, 15, 11), 2, 0, 5, "Random");
+      if (CurrentProc->ClassByTerrain == 0){
+        DrawTextInline(0, BGLoc(BG0Buffer, 15, 9), 2, 0, 10, "Pure Random");
+      }
+      else if (CurrentProc->ClassByTerrain == 1) DrawTextInline(0, BGLoc(BG0Buffer, 15,9), 2, 0, 10, "1 Tile Move");
+      else DrawTextInline(0, BGLoc(BG0Buffer, 15,9), 2, 0, 10, "Limit Classes");
 
-  if (CurrentProc->RandomizeChests){
-    if (CurrentProc->RandomizeEventItems) DrawTextInline(0, BGLoc(BG0Buffer, 15, 13), 2, 0, 10, "Chests & Events");
-    else DrawTextInline(0, BGLoc(BG0Buffer, 15, 13), 2, 0, 5, "Chests");
-  }
-  else if (CurrentProc->RandomizeEventItems) DrawTextInline(0, BGLoc(BG0Buffer, 15, 13), 2, 0, 5, "Events");
-  else DrawTextInline(0, BGLoc(BG0Buffer, 15, 13), 2, 0, 5, "Neither");
+      if (CurrentProc->RandomizeItemStats == 0){
+        DrawTextInline(0, BGLoc(BG0Buffer, 15, 11), 2, 0, 5, "Fixed");
+      }
+      else DrawTextInline(0, BGLoc(BG0Buffer, 15, 11), 2, 0, 5, "Random");
 
-  if (CurrentProc->CasualMode == 0){
-    DrawTextInline(0, BGLoc(BG0Buffer, 15, 15), 2, 0, 5, "Classic");
-  }
-  else DrawTextInline(0, BGLoc(BG0Buffer, 15, 15), 2, 0, 5, "Casual");
+      if (CurrentProc->RandomizeChests){
+        if (CurrentProc->RandomizeEventItems) DrawTextInline(0, BGLoc(BG0Buffer, 15, 13), 2, 0, 10, "Chests & Events");
+        else DrawTextInline(0, BGLoc(BG0Buffer, 15, 13), 2, 0, 5, "Chests");
+      }
+      else if (CurrentProc->RandomizeEventItems) DrawTextInline(0, BGLoc(BG0Buffer, 15, 13), 2, 0, 5, "Events");
+      else DrawTextInline(0, BGLoc(BG0Buffer, 15, 13), 2, 0, 5, "Neither");
 
-  if (CurrentProc->RandomizeMusic == 0){
-    DrawTextInline(0, BGLoc(BG0Buffer, 15, 17), 2, 0, 5, "Normal");
-  }
-  else DrawTextInline(0, BGLoc(BG0Buffer, 15, 17), 2, 0, 5, "Random");
+      if (CurrentProc->CasualMode == 0){
+        DrawTextInline(0, BGLoc(BG0Buffer, 15, 15), 2, 0, 5, "Classic");
+      }
+      else DrawTextInline(0, BGLoc(BG0Buffer, 15, 15), 2, 0, 5, "Casual");
 
-  //numbers after text?
-  DrawDecNumber(BGLoc(BG0Buffer, 17, 3), 2, CurrentProc->VariationPercent);
+      //numbers after text?
+      DrawDecNumber(BGLoc(BG0Buffer, 17, 3), 2, CurrentProc->VariationPercent);
+  }
+
+  if (thisPage == 2){
+      //option names
+      DrawTextInline(0, BGLoc(BG0Buffer, 2, 3), 3, 0, 7, "Map Music:");
+      DrawTextInline(0, BGLoc(BG0Buffer, 2, 5), 3, 0, 10, "Playable Monsters:");
+
+      if (CurrentProc->RandomizeMusic == 0){
+        DrawTextInline(0, BGLoc(BG0Buffer, 15, 3), 2, 0, 5, "Normal");
+      }
+      else DrawTextInline(0, BGLoc(BG0Buffer, 15, 3), 2, 0, 5, "Random");
+
+      if (CurrentProc->PlayableMonsters == 0){
+        DrawTextInline(0, BGLoc(BG0Buffer, 15, 5), 2, 0, 5, "No");
+      }
+      else DrawTextInline(0, BGLoc(BG0Buffer, 15, 5), 2, 0, 5, "Yes");
+  }
+
+
+  //draw page number
+  DrawDecNumber(BGLoc(BG0Buffer, 25, 0), 2, thisPage);
 
   //actually update the options
   OptionsSaved->Variation = CurrentProc->VariationPercent;
@@ -337,13 +357,14 @@ void updateRandomOptionsPage(OptionsProc* CurrentProc){
   OptionsSaved->RandomizeEventItems = CurrentProc->RandomizeEventItems;
   OptionsSaved->CasualMode = CurrentProc->CasualMode;
   OptionsSaved->RandomizeMusic = CurrentProc->RandomizeMusic;
+  OptionsSaved->PlayableMonsters = CurrentProc->PlayableMonsters;
 };
 
 
 void RandomOptionsSetup(OptionsProc* CurrentProc){
   //set up bg graphics
   ClearBG0BG1();
-  // EnableBgSyncByIndex(1);
+  EnableBgSyncByIndex(0);
   CpuSet(0x859ED70, (0x020228A8 + 16 * 0x20), 0x20); //ui palette
 
 
@@ -376,6 +397,8 @@ void RandomOptionsSetup(OptionsProc* CurrentProc){
   CurrentProc->RandomizeEventItems = 1;
   CurrentProc->CasualMode = 0;
   CurrentProc->RandomizeMusic = 1;
+  CurrentProc->PlayableMonsters = 1;
+  CurrentProc->Page = 1;
 
   updateRandomOptionsPage(CurrentProc);
   };
@@ -388,165 +411,201 @@ void RandomOptionsLoop(OptionsProc* CurrentProc){
   // UpdateBG3HOffset();
   UpdateHandCursor(CursorLocationTable[CurrentProc->CursorIndex].x, CursorLocationTable[CurrentProc->CursorIndex].y);
 
-  if (((sInput->newPress & InputStart) != 0)|((sInput->newPress & InputA) != 0)) { //press A or Start to continue
+  if (((newInput & InputStart) != 0)|((newInput & InputA) != 0)) { //press A or Start to continue
     BreakProcLoop((Proc *)CurrentProc);
     PlaySound(0x6B); 
   };
 
-  if ((sInput->newPress & InputDown) != 0) {
-    if (CurrentProc->CursorIndex < CursorMaxIndex) CurrentProc->CursorIndex++;
-    else CurrentProc->CursorIndex = 0;
+  if ((newInput & (InputL | InputR) ) != 0) {
+    if (thisPage != 1) thisPage = 1;
+    else thisPage = 2;
+    CurrentProc->CursorIndex = 0;
+    updateRandomOptionsPage(CurrentProc);
+    PlaySound(0x6B); 
   };
 
-  if ((sInput->newPress & InputUp) != 0) {
-    if (CurrentProc->CursorIndex != 0) CurrentProc->CursorIndex--;
-    else CurrentProc->CursorIndex = CursorMaxIndex;
-  };
+  if (thisPage == 1) {
+    if ((newInput & InputDown) != 0) {
+      if (CurrentProc->CursorIndex < PAGE1MAXINDEX) CurrentProc->CursorIndex++;
+      else CurrentProc->CursorIndex = 0;
+    };
 
-  //change variation
-  if (CurrentProc->CursorIndex == 0) {
-    if ((sInput->newPress & InputLeft) != 0) {
-      if (CurrentProc->VariationPercent < 4){
-        PlaySound(0xE7);
-      }
-      else {
-        CurrentProc->VariationPercent-=5;
+    if ((newInput & InputUp) != 0) {
+      if (CurrentProc->CursorIndex != 0) CurrentProc->CursorIndex--;
+      else CurrentProc->CursorIndex = PAGE1MAXINDEX;
+    };
+
+    //change variation
+    if (CurrentProc->CursorIndex == 0) {
+      if ((newInput & InputLeft) != 0) {
+        if (CurrentProc->VariationPercent < 4){
+          PlaySound(0xE7);
+        }
+        else {
+          CurrentProc->VariationPercent-=5;
+          updateRandomOptionsPage(CurrentProc);
+        };
+      };
+
+      if ((newInput & InputRight) != 0) {
+        if (CurrentProc->VariationPercent > 99){
+          PlaySound(0xE7);
+        }
+        else {
+          CurrentProc->VariationPercent+=5;
+          updateRandomOptionsPage(CurrentProc);
+        };
+      };
+    };
+
+    //change thieves/generics
+    //0 = None
+    //1 = Thieves
+    //2 = Generics
+    //3 = Both
+    if (CurrentProc->CursorIndex == 1) {
+      if ((newInput & InputLeft) != 0) {
+        if (CurrentProc->RandomizeClasses == 0) CurrentProc->RandomizeClasses = 3;
+        else CurrentProc->RandomizeClasses--;
+        updateRandomOptionsPage(CurrentProc);
+      };
+      if ((newInput & InputRight) != 0) {
+        if (CurrentProc->RandomizeClasses == 3) CurrentProc->RandomizeClasses = 0;
+        else CurrentProc->RandomizeClasses++;
         updateRandomOptionsPage(CurrentProc);
       };
     };
 
-    if ((sInput->newPress & InputRight) != 0) {
-      if (CurrentProc->VariationPercent > 99){
-        PlaySound(0xE7);
-      }
-      else {
-        CurrentProc->VariationPercent+=5;
+    //change personal skills
+    // 0 = None
+    // 1 = Class only
+    // 2 = Random Personal
+    if (CurrentProc->CursorIndex == 2) {
+      if ((newInput & InputLeft) != 0) {
+        if (CurrentProc->RandomizeSkills == 0) CurrentProc->RandomizeSkills = 2;
+        else CurrentProc->RandomizeSkills -= 1;
+        updateRandomOptionsPage(CurrentProc);
+      };
+      if ((newInput & InputRight) != 0) {
+        if (CurrentProc->RandomizeSkills == 2) CurrentProc->RandomizeSkills = 0;
+        else CurrentProc->RandomizeSkills += 1;
+        updateRandomOptionsPage(CurrentProc);
+      };
+    };
+
+      //change class by seed
+    if (CurrentProc->CursorIndex == 3) {
+      if ((newInput & InputLeft) != 0) {
+        if (CurrentProc->ClassByTerrain == 0) CurrentProc->ClassByTerrain = 2;
+        else CurrentProc->ClassByTerrain--;
+        updateRandomOptionsPage(CurrentProc);
+      };
+      if ((newInput & InputRight) != 0) {
+        if (CurrentProc->ClassByTerrain == 2) CurrentProc->ClassByTerrain = 0;
+        else CurrentProc->ClassByTerrain++;
+        updateRandomOptionsPage(CurrentProc);
+      };
+    };
+
+    //change item stats
+    if (CurrentProc->CursorIndex == 4) {
+      if ((newInput & InputLeft) != 0) {
+        if (CurrentProc->RandomizeItemStats == 0) CurrentProc->RandomizeItemStats = 1;
+        else CurrentProc->RandomizeItemStats = 0;
+        updateRandomOptionsPage(CurrentProc);
+      };
+      if ((newInput & InputRight) != 0) {
+        if (CurrentProc->RandomizeItemStats == 0) CurrentProc->RandomizeItemStats = 1;
+        else CurrentProc->RandomizeItemStats = 0;
+        updateRandomOptionsPage(CurrentProc);
+      };
+    };
+
+    //change chests/events
+    //order is none -> chests -> events -> both -> none
+    if (CurrentProc->CursorIndex == 5) {
+      if ((newInput & InputLeft) != 0) {
+        if (CurrentProc->RandomizeChests == 0) {
+          if (CurrentProc->RandomizeEventItems == 0) { //case None, set to Both
+            CurrentProc->RandomizeChests=1;
+            CurrentProc->RandomizeEventItems=1;
+          }
+          else {//case Events only, set to chests only
+            CurrentProc->RandomizeChests=1;
+            CurrentProc->RandomizeEventItems=0;
+          }
+        }
+        else CurrentProc->RandomizeChests=0;
+        updateRandomOptionsPage(CurrentProc);
+      };
+      if ((newInput & InputRight) != 0) {
+        if (CurrentProc->RandomizeChests){
+          if (CurrentProc->RandomizeEventItems) { //case Both, set to None
+            CurrentProc->RandomizeChests=0;
+            CurrentProc->RandomizeEventItems=0;
+          }
+          else {//case Events only, set to chests only
+            CurrentProc->RandomizeChests=0;
+            CurrentProc->RandomizeEventItems=1;
+          }
+        }
+        else CurrentProc->RandomizeChests=1;
+        updateRandomOptionsPage(CurrentProc);
+      };
+    };
+
+    //change casual mode
+    if (CurrentProc->CursorIndex == 6) {
+      if ((newInput & InputLeft) != 0) {
+        if (CurrentProc->CasualMode == 0) CurrentProc->CasualMode = 1;
+        else CurrentProc->CasualMode = 0;
+        updateRandomOptionsPage(CurrentProc);
+      };
+      if ((newInput & InputRight) != 0) {
+        if (CurrentProc->CasualMode == 0) CurrentProc->CasualMode = 1;
+        else CurrentProc->CasualMode = 0;
         updateRandomOptionsPage(CurrentProc);
       };
     };
   };
 
-  //change thieves/generics
-  //0 = None
-  //1 = Thieves
-  //2 = Generics
-  //3 = Both
-  if (CurrentProc->CursorIndex == 1) {
-    if ((sInput->newPress & InputLeft) != 0) {
-      if (CurrentProc->RandomizeClasses == 0) CurrentProc->RandomizeClasses = 3;
-      else CurrentProc->RandomizeClasses--;
-      updateRandomOptionsPage(CurrentProc);
+  if (thisPage == 2) {
+    if ((newInput & InputDown) != 0) {
+      if (CurrentProc->CursorIndex < PAGE2MAXINDEX) CurrentProc->CursorIndex++;
+      else CurrentProc->CursorIndex = 0;
     };
-    if ((sInput->newPress & InputRight) != 0) {
-      if (CurrentProc->RandomizeClasses == 3) CurrentProc->RandomizeClasses = 0;
-      else CurrentProc->RandomizeClasses++;
-      updateRandomOptionsPage(CurrentProc);
-    };
-  };
 
-  //change personal skills
-  // 0 = None
-  // 1 = Class only
-  // 2 = Random Personal
-  if (CurrentProc->CursorIndex == 2) {
-    if ((sInput->newPress & InputLeft) != 0) {
-      if (CurrentProc->RandomizeSkills == 0) CurrentProc->RandomizeSkills = 2;
-      else CurrentProc->RandomizeSkills -= 1;
-      updateRandomOptionsPage(CurrentProc);
+    if ((newInput & InputUp) != 0) {
+      if (CurrentProc->CursorIndex != 0) CurrentProc->CursorIndex--;
+      else CurrentProc->CursorIndex = PAGE2MAXINDEX;
     };
-    if ((sInput->newPress & InputRight) != 0) {
-      if (CurrentProc->RandomizeSkills == 2) CurrentProc->RandomizeSkills = 0;
-      else CurrentProc->RandomizeSkills += 1;
-      updateRandomOptionsPage(CurrentProc);
-    };
-  };
 
-    //change class by seed
-  if (CurrentProc->CursorIndex == 3) {
-    if ((sInput->newPress & InputLeft) != 0) {
-      if (CurrentProc->ClassByTerrain == 0) CurrentProc->ClassByTerrain = 2;
-      else CurrentProc->ClassByTerrain--;
-      updateRandomOptionsPage(CurrentProc);
+    //change random music
+    if (CurrentProc->CursorIndex == 0) {
+      if ((newInput & InputLeft) != 0) {
+        if (CurrentProc->RandomizeMusic == 0) CurrentProc->RandomizeMusic = 1;
+        else CurrentProc->RandomizeMusic = 0;
+        updateRandomOptionsPage(CurrentProc);
+      };
+      if ((newInput & InputRight) != 0) {
+        if (CurrentProc->RandomizeMusic == 0) CurrentProc->RandomizeMusic = 1;
+        else CurrentProc->RandomizeMusic = 0;
+        updateRandomOptionsPage(CurrentProc);
+      };
     };
-    if ((sInput->newPress & InputRight) != 0) {
-      if (CurrentProc->ClassByTerrain == 2) CurrentProc->ClassByTerrain = 0;
-      else CurrentProc->ClassByTerrain++;
-      updateRandomOptionsPage(CurrentProc);
-    };
-  };
 
-  //change item stats
-  if (CurrentProc->CursorIndex == 4) {
-    if ((sInput->newPress & InputLeft) != 0) {
-      if (CurrentProc->RandomizeItemStats == 0) CurrentProc->RandomizeItemStats = 1;
-      else CurrentProc->RandomizeItemStats = 0;
-      updateRandomOptionsPage(CurrentProc);
-    };
-    if ((sInput->newPress & InputRight) != 0) {
-      if (CurrentProc->RandomizeItemStats == 0) CurrentProc->RandomizeItemStats = 1;
-      else CurrentProc->RandomizeItemStats = 0;
-      updateRandomOptionsPage(CurrentProc);
-    };
-  };
-
-  //change chests/events
-  //order is none -> chests -> events -> both -> none
-  if (CurrentProc->CursorIndex == 5) {
-    if ((sInput->newPress & InputLeft) != 0) {
-      if (CurrentProc->RandomizeChests == 0) {
-        if (CurrentProc->RandomizeEventItems == 0) { //case None, set to Both
-          CurrentProc->RandomizeChests=1;
-          CurrentProc->RandomizeEventItems=1;
-        }
-        else {//case Events only, set to chests only
-          CurrentProc->RandomizeChests=1;
-          CurrentProc->RandomizeEventItems=0;
-        }
-      }
-      else CurrentProc->RandomizeChests=0;
-      updateRandomOptionsPage(CurrentProc);
-    };
-    if ((sInput->newPress & InputRight) != 0) {
-      if (CurrentProc->RandomizeChests){
-        if (CurrentProc->RandomizeEventItems) { //case Both, set to None
-          CurrentProc->RandomizeChests=0;
-          CurrentProc->RandomizeEventItems=0;
-        }
-        else {//case Events only, set to chests only
-          CurrentProc->RandomizeChests=0;
-          CurrentProc->RandomizeEventItems=1;
-        }
-      }
-      else CurrentProc->RandomizeChests=1;
-      updateRandomOptionsPage(CurrentProc);
-    };
-  };
-
-  //change casual mode
-  if (CurrentProc->CursorIndex == 6) {
-    if ((sInput->newPress & InputLeft) != 0) {
-      if (CurrentProc->CasualMode == 0) CurrentProc->CasualMode = 1;
-      else CurrentProc->CasualMode = 0;
-      updateRandomOptionsPage(CurrentProc);
-    };
-    if ((sInput->newPress & InputRight) != 0) {
-      if (CurrentProc->CasualMode == 0) CurrentProc->CasualMode = 1;
-      else CurrentProc->CasualMode = 0;
-      updateRandomOptionsPage(CurrentProc);
-    };
-  };
-
-  //change random music
-  if (CurrentProc->CursorIndex == 7) {
-    if ((sInput->newPress & InputLeft) != 0) {
-      if (CurrentProc->RandomizeMusic == 0) CurrentProc->RandomizeMusic = 1;
-      else CurrentProc->RandomizeMusic = 0;
-      updateRandomOptionsPage(CurrentProc);
-    };
-    if ((sInput->newPress & InputRight) != 0) {
-      if (CurrentProc->RandomizeMusic == 0) CurrentProc->RandomizeMusic = 1;
-      else CurrentProc->RandomizeMusic = 0;
-      updateRandomOptionsPage(CurrentProc);
+    //change playable monsters
+    if (CurrentProc->CursorIndex == 1) {
+      if ((newInput & InputLeft) != 0) {
+        if (CurrentProc->PlayableMonsters == 0) CurrentProc->PlayableMonsters = 1;
+        else CurrentProc->PlayableMonsters = 0;
+        updateRandomOptionsPage(CurrentProc);
+      };
+      if ((newInput & InputRight) != 0) {
+        if (CurrentProc->PlayableMonsters == 0) CurrentProc->PlayableMonsters = 1;
+        else CurrentProc->PlayableMonsters = 0;
+        updateRandomOptionsPage(CurrentProc);
+      };
     };
   };
 };

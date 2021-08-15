@@ -23,6 +23,17 @@ u8 static const T2Peakwalkers[] = {Berserker, ElderBael, Berserker, ElderBael, B
 u8 static const T2Fliers[] = {FalcoKnight, WyvernKnight, WyvernKnight_F, WyvernLord, WyvernLord_F, Deathgoyle, ArchMogall};
 u8 static const T2Waterwalkers[] = {Berserker, Berserker, Berserker, Berserker, FalcoKnight, WyvernKnight, WyvernKnight_F, WyvernLord, WyvernLord_F, Deathgoyle, ArchMogall};
 
+//nomonster versions
+u8 static const NM_T1Classes[] = {Thief, EphraimLord, EirikaLord, Cavalier, Cavalier_F, Knight, Knight_F, Mercenary, Mercenary_F, Myrmidon, Myrmidon_F, Archer, Archer_F, WyvernRider, WyvernRider_F, Mage, Mage_F, Shaman, Shaman_F, Recruit_2, Fighter, Brigand, Pirate, Monk, Priest, PegasusKnight, Cleric, Bard, Troubadour, Dancer, Soldier, Journeyman_2, Pupil_2};
+u8 static const NM_T2Classes[] = {EphraimMasterLord, EirikaMasterLord, Paladin, Paladin_F, General, General_F, Hero, Hero_F, Swordmaster, Swordmaster_F, Assassin, Assassin_F, Sniper, Sniper_F, Ranger, Ranger_F, WyvernLord, WyvernLord_F, WyvernKnight, WyvernKnight_F, Sage, Sage_F, MageKnight, MageKnight_F, Bishop, Bishop_F, Druid, Druid_F, Summoner, Summoner_F, Rogue, GreatKnight, GreatKnight_F, Journeyman_3, Pupil_3, Recruit_3, Warrior, Berserker, FalcoKnight, Valkyrie};
+u8 static const NM_T1Peakwalkers[] = {Brigand, Brigand, Brigand, PegasusKnight, WyvernRider, WyvernRider_F};
+u8 static const NM_T1Fliers[] = {PegasusKnight, PegasusKnight, WyvernRider, WyvernRider_F};
+u8 static const NM_T1Waterwalkers[] = {Pirate, Pirate, Pirate, Pirate, PegasusKnight, PegasusKnight, WyvernRider, WyvernRider_F};
+u8 static const NM_T2Peakwalkers[] = {Berserker, Berserker, Berserker, FalcoKnight, WyvernKnight, WyvernKnight_F, WyvernLord, WyvernLord_F};
+u8 static const NM_T2Fliers[] = {FalcoKnight, FalcoKnight, WyvernKnight, WyvernKnight_F, WyvernLord, WyvernLord_F};
+u8 static const NM_T2Waterwalkers[] = {Berserker, Berserker, Berserker, Berserker, FalcoKnight, FalcoKnight, WyvernKnight, WyvernKnight_F, WyvernLord, WyvernLord_F};
+
+
 u8 static const MapMusicList[] = {4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,36,37,38,49,50,55,69,84, 0xC0}; //0xc0 is WATP_ID
 //functions
 
@@ -196,17 +207,11 @@ int RandomizeUnitClass(EventUnit* eventdata){
   u8 originalClass = eventdata->classIndex;
   int a;
   int r = 0;
-
-  //if random monster and don't randomize generics option is on:
-  if ((eventdata->monsterFlag) & (OptionsSaved->RandomizeClasses & 2)) {
-    return GenerateMonsterClass(eventdata->classIndex);
-  }
-
-
+  int named = NamedCharacter(eventdata->charIndex);
 
   r = NextRN_N(2); //2 choices of class!
 
-  if (NamedCharacter(eventdata->charIndex)) r = 0; //named characters don't randomize
+  if (named) r = 0; //named characters don't randomize
   //lol
   if (FirMode()){
     if (IsT2(originalClass)) return Sniper_F;
@@ -215,56 +220,87 @@ int RandomizeUnitClass(EventUnit* eventdata){
 
   if(originalClass==GhostFighter) return originalClass; //hardcode phantoms to be phantoms
 
-  //handle units on mountains/seas?
-  if (OptionsSaved->ClassByTerrain==2){
-    int terrain = GetTerrainType(eventdata->xPosition, eventdata->yPosition);
-    switch(terrain){
-      case Thicket:
-      case Bridge_2:
-      case Fence_1:
-      case Cliff:
-      case Building_2:
-      case Fence_2:
-      case Sky:
-      case Deeps:
-      case Barrel:
-      case Bone:
-      case Dark:
-      case Gunnels:
-        if (IsT2(originalClass)) return T2Fliers[HashByte_N(originalClass+(*chapNum), 29+r, sizeof(T2Fliers))];
-        else return T1Fliers[HashByte_N(originalClass+(*chapNum), 13+r, sizeof(T1Fliers))];
-      case Sea:
-      case Lake:
-      case Water:
-        if (IsT2(originalClass)) return T2Waterwalkers[HashByte_N(originalClass+(*chapNum), 7+r, sizeof(T2Waterwalkers))];
-        else return T1Waterwalkers[HashByte_N(originalClass+(*chapNum), 31+r, sizeof(T1Waterwalkers))];
-      case Peak:
-        if (IsT2(originalClass)) return T2Peakwalkers[HashByte_N(originalClass+(*chapNum), 17+r, sizeof(T2Peakwalkers))];
-        else return T1Peakwalkers[HashByte_N(originalClass+(*chapNum), 37+r, sizeof(T1Peakwalkers))];
-    }
+  //if random monster and don't randomize generics option is on:
+  if ((eventdata->monsterFlag) & (OptionsSaved->RandomizeClasses & 2)) {
+    return GenerateMonsterClass(eventdata->classIndex);
   }
+  else {
+    //handle units on mountains/seas?
+    if (OptionsSaved->ClassByTerrain==2){
+      int terrain = GetTerrainType(eventdata->xPosition, eventdata->yPosition);
+      switch(terrain){
+        case Thicket:
+        case Bridge_2:
+        case Fence_1:
+        case Cliff:
+        case Building_2:
+        case Fence_2:
+        case Sky:
+        case Deeps:
+        case Barrel:
+        case Bone:
+        case Dark:
+        case Gunnels:
+          if (IsT2(originalClass)){
+            if (named & (OptionsSaved->PlayableMonsters==0)) return NM_T2Fliers[HashByte_N(originalClass+(*chapNum), 29+r, sizeof(NM_T2Fliers))];
+            else return  T2Fliers[HashByte_N(originalClass+(*chapNum), 29+r, sizeof(T2Fliers))];
+          }
+          else {
+            if (named & (OptionsSaved->PlayableMonsters==0)) return NM_T1Fliers[HashByte_N(originalClass+(*chapNum), 13+r, sizeof(NM_T1Fliers))];
+            else return T1Fliers[HashByte_N(originalClass+(*chapNum), 13+r, sizeof(T1Fliers))];
+          }
+        case Sea:
+        case Lake:
+        case Water:
+          if (IsT2(originalClass)){
+            if (named & (OptionsSaved->PlayableMonsters==0)) return NM_T2Waterwalkers[HashByte_N(originalClass+(*chapNum), 7+r, sizeof(NM_T2Waterwalkers))];
+            else return  T2Waterwalkers[HashByte_N(originalClass+(*chapNum), 7+r, sizeof(T2Waterwalkers))];
+          }
+          else {
+            if (named & (OptionsSaved->PlayableMonsters==0)) return NM_T1Waterwalkers[HashByte_N(originalClass+(*chapNum), 31+r, sizeof(NM_T1Waterwalkers))];
+            else return T1Waterwalkers[HashByte_N(originalClass+(*chapNum), 31+r, sizeof(NM_T1Waterwalkers))];
+          }
+        case Peak:
+          if (IsT2(originalClass)){
+            if (named & (OptionsSaved->PlayableMonsters==0)) return NM_T2Peakwalkers[HashByte_N(originalClass+(*chapNum), 17+r, sizeof(NM_T2Peakwalkers))];
+            else return  T2Peakwalkers[HashByte_N(originalClass+(*chapNum), 17+r, sizeof(T2Peakwalkers))];
+          }
+          else {
+            if (named & (OptionsSaved->PlayableMonsters==0)) return NM_T1Peakwalkers[HashByte_N(originalClass+(*chapNum), 37+r, sizeof(NM_T1Peakwalkers))];
+            else return T1Peakwalkers[HashByte_N(originalClass+(*chapNum), 37+r, sizeof(T1Peakwalkers))];
+          }
+      }
+    }
 
-  //handle trainees & myrrh
-  switch(originalClass){
-    case Thief:
-      if (OptionsSaved->RandomizeClasses & 1) return originalClass; //randomize thieves or both
-    case Manakete_2_F:
-    case Manakete:
-    case Recruit_1:
-    case Pupil_1:
-    case Journeyman_1:
-    case 0:
-      a = T1Classes[HashByte_N(originalClass+(*chapNum), 29+r, sizeof(T1Classes))];
-      return a;
-    case Rogue:
-      if (OptionsSaved->RandomizeClasses & 1) return originalClass; //
-    default:
-      //check if original is t1
-      if (IsT1(originalClass)) return T1Classes[HashByte_N(originalClass+(*chapNum), 17+r, sizeof(T1Classes))];
-      if (IsT2(originalClass)) return T2Classes[HashByte_N(originalClass+(*chapNum), 23+r, sizeof(T2Classes))];
-      //else just the original
-      return (int) originalClass;
-  };
+    //handle trainees & myrrh
+    switch(originalClass){
+      case Thief:
+        if (OptionsSaved->RandomizeClasses & 1) return originalClass; //randomize thieves or both
+      case Manakete_2_F:
+      case Manakete:
+      case Recruit_1:
+      case Pupil_1:
+      case Journeyman_1:
+      case 0:
+        if (named & (OptionsSaved->PlayableMonsters==0)) a = NM_T1Classes[HashByte_N(originalClass+(*chapNum), 29+r, sizeof(NM_T1Classes))];
+        else a = T1Classes[HashByte_N(originalClass+(*chapNum), 29+r, sizeof(T1Classes))];
+        return a;
+      case Rogue:
+        if (OptionsSaved->RandomizeClasses & 1) return originalClass; //
+      default:
+        //check if original is t1
+        if (IsT1(originalClass)){
+          if (named & (OptionsSaved->PlayableMonsters==0)) return NM_T1Classes[HashByte_N(originalClass+(*chapNum), 17+r, sizeof(NM_T1Classes))]; 
+          else return T1Classes[HashByte_N(originalClass+(*chapNum), 17+r, sizeof(T1Classes))];
+        };
+        if (IsT2(originalClass)){
+          if (named & (OptionsSaved->PlayableMonsters==0)) return NM_T2Classes[HashByte_N(originalClass+(*chapNum), 23+r, sizeof(NM_T2Classes))]; 
+          else return T2Classes[HashByte_N(originalClass+(*chapNum), 23+r, sizeof(T2Classes))];
+        };
+        //else just the original
+        return (int) originalClass;
+    };
+  }
 };
 
 int NewPortraitGetter(int mugID){

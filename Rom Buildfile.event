@@ -23,6 +23,7 @@
     PUSH
     #define SkillCheckerThumb SkillTester|1
     #define memcpy 0xD1C0D
+    #define memset 0xD1C6D
     #define __aeabi_uidiv 0xd167d
     #define __aeabi_idiv 0xd167d
     #define __aeabi_uidivmod 0xd1685

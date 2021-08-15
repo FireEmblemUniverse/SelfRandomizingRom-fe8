@@ -18,6 +18,11 @@ u16* const turnNum = (u16*) 0x202bd00;
 void LoadBgConfig(u8 Value);
 extern int SkillCheckerThumb(Unit* unit, u8 skillID);
 
+#define RANDOMCLASSES_NONE 0
+#define RANDOMCLASSES_THIEVES 1
+#define RANDOMCLASSES_GENERICS 2
+#define RANDOMCLASSES_ALL 3
+
 // extern int gMapTerrain;
 
 typedef struct Round {
@@ -84,7 +89,7 @@ typedef struct {
 typedef struct {
   u8 Variation;
   
-  u8 Unused0:1; //1
+  u8 PlayableMonsters:1; //1
   u8 RandomizeSkills:2;//2
   u8 ClassByTerrain:2;//8
   u8 RandomizeItemStats:1;//20
@@ -93,12 +98,13 @@ typedef struct {
 
   u16 CasualMode:1;//1
   u16 RandomizeMusic:1;//2
-  u16 RandomizeClasses:2; //2
+  u16 RandomizeClasses:2; //4
   u16 UnusedShort:12;
 } OptionsStruct;
 
 typedef struct {
   Proc Header;
+  u8 Page;
   u8 CursorIndex;
   u8 VariationPercent;
   u8 RandomizeClasses;
@@ -109,6 +115,8 @@ typedef struct {
   u8 RandomizeEventItems;
   u8 CasualMode;
   u8 RandomizeMusic;
+  u8 PlayableMonsters;
+
   //more options here
 } OptionsProc;
 
@@ -241,6 +249,9 @@ typedef struct {
 }ActionStruct;
 #define sAction ((ActionStruct*)0x203A958)
 
+#define thisPage CurrentProc->Page
+#define newInput sInput->newPress
+
 #define BGLoc(BGOffset, x, y) (BGOffset + 0x2 * x + 0x40 * y)
 #define BG0Buffer 0x02022CA8
 #define BG1Buffer 0x020234A8
@@ -258,7 +269,9 @@ typedef struct {
 #define PrintInline ((void (*)(int TextStruct, int TilePointerRoot, int ColorID, int localX, int TileWidth, char *Text))(0x0800443C+1))
 #define UncompTID ((void (*)(u16 TID, char *Buffer))(0x800A280+1))
 #define UpdateBG3HOffset ((void (*)())(0x8086B7C+1))
-#define CursorMaxIndex sizeof(CursorLocationTable)/sizeof(CursorLocationTable[0])-1
+#define CursorMaxIndex (sizeof(CursorLocationTable)/sizeof(CursorLocationTable[0]))-1
+#define PAGE1MAXINDEX 6
+#define PAGE2MAXINDEX 1
 #define MovGetter ((int (*)(Unit* unit))(0x8019224+1))
 // u32* const seed_value = (u32*) 0x3005264; //last 4 bytes of event ids (unused)
 static OptionsStruct* const OptionsSaved = (OptionsStruct* const) (0x3005264); //last 4 bytes of event ids (unused)
