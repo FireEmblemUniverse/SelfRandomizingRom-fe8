@@ -242,31 +242,31 @@ int RandomizeUnitClass(EventUnit* eventdata){
         case Dark:
         case Gunnels:
           if (IsT2(originalClass)){
-            if (named & (OptionsSaved->PlayableMonsters==0)) return NM_T2Fliers[HashByte_N(originalClass+(*chapNum), 29+r, sizeof(NM_T2Fliers))];
+            if (named & (OptionsSaved->PlayableMonsters==0)) return NM_T2Fliers[HashByte_N(originalClass+(*chapNum), 29+named, sizeof(NM_T2Fliers))];
             else return  T2Fliers[HashByte_N(originalClass+(*chapNum), 29+r, sizeof(T2Fliers))];
           }
           else {
-            if (named & (OptionsSaved->PlayableMonsters==0)) return NM_T1Fliers[HashByte_N(originalClass+(*chapNum), 13+r, sizeof(NM_T1Fliers))];
+            if (named & (OptionsSaved->PlayableMonsters==0)) return NM_T1Fliers[HashByte_N(originalClass+(*chapNum), 13+named, sizeof(NM_T1Fliers))];
             else return T1Fliers[HashByte_N(originalClass+(*chapNum), 13+r, sizeof(T1Fliers))];
           }
         case Sea:
         case Lake:
         case Water:
           if (IsT2(originalClass)){
-            if (named & (OptionsSaved->PlayableMonsters==0)) return NM_T2Waterwalkers[HashByte_N(originalClass+(*chapNum), 7+r, sizeof(NM_T2Waterwalkers))];
+            if (named & (OptionsSaved->PlayableMonsters==0)) return NM_T2Waterwalkers[HashByte_N(originalClass+(*chapNum), 7+named, sizeof(NM_T2Waterwalkers))];
             else return  T2Waterwalkers[HashByte_N(originalClass+(*chapNum), 7+r, sizeof(T2Waterwalkers))];
           }
           else {
-            if (named & (OptionsSaved->PlayableMonsters==0)) return NM_T1Waterwalkers[HashByte_N(originalClass+(*chapNum), 31+r, sizeof(NM_T1Waterwalkers))];
+            if (named & (OptionsSaved->PlayableMonsters==0)) return NM_T1Waterwalkers[HashByte_N(originalClass+(*chapNum), 31+named, sizeof(NM_T1Waterwalkers))];
             else return T1Waterwalkers[HashByte_N(originalClass+(*chapNum), 31+r, sizeof(NM_T1Waterwalkers))];
           }
         case Peak:
           if (IsT2(originalClass)){
-            if (named & (OptionsSaved->PlayableMonsters==0)) return NM_T2Peakwalkers[HashByte_N(originalClass+(*chapNum), 17+r, sizeof(NM_T2Peakwalkers))];
+            if (named & (OptionsSaved->PlayableMonsters==0)) return NM_T2Peakwalkers[HashByte_N(originalClass+(*chapNum), 17+named, sizeof(NM_T2Peakwalkers))];
             else return  T2Peakwalkers[HashByte_N(originalClass+(*chapNum), 17+r, sizeof(T2Peakwalkers))];
           }
           else {
-            if (named & (OptionsSaved->PlayableMonsters==0)) return NM_T1Peakwalkers[HashByte_N(originalClass+(*chapNum), 37+r, sizeof(NM_T1Peakwalkers))];
+            if (named & (OptionsSaved->PlayableMonsters==0)) return NM_T1Peakwalkers[HashByte_N(originalClass+(*chapNum), 37+named, sizeof(NM_T1Peakwalkers))];
             else return T1Peakwalkers[HashByte_N(originalClass+(*chapNum), 37+r, sizeof(T1Peakwalkers))];
           }
       }
@@ -282,7 +282,7 @@ int RandomizeUnitClass(EventUnit* eventdata){
       case Pupil_1:
       case Journeyman_1:
       case 0:
-        if (named & (OptionsSaved->PlayableMonsters==0)) a = NM_T1Classes[HashByte_N(originalClass+(*chapNum), 29+r, sizeof(NM_T1Classes))];
+        if (named & (OptionsSaved->PlayableMonsters==0)) a = NM_T1Classes[HashByte_N(originalClass+(*chapNum), 29+named, sizeof(NM_T1Classes))];
         else a = T1Classes[HashByte_N(originalClass+(*chapNum), 29+r, sizeof(T1Classes))];
         return a;
       case Rogue:
@@ -290,11 +290,11 @@ int RandomizeUnitClass(EventUnit* eventdata){
       default:
         //check if original is t1
         if (IsT1(originalClass)){
-          if (named & (OptionsSaved->PlayableMonsters==0)) return NM_T1Classes[HashByte_N(originalClass+(*chapNum), 17+r, sizeof(NM_T1Classes))]; 
+          if (named & (OptionsSaved->PlayableMonsters==0)) return NM_T1Classes[HashByte_N(originalClass+(*chapNum), 17+named, sizeof(NM_T1Classes))]; 
           else return T1Classes[HashByte_N(originalClass+(*chapNum), 17+r, sizeof(T1Classes))];
-        };
+        };d
         if (IsT2(originalClass)){
-          if (named & (OptionsSaved->PlayableMonsters==0)) return NM_T2Classes[HashByte_N(originalClass+(*chapNum), 23+r, sizeof(NM_T2Classes))]; 
+          if (named & (OptionsSaved->PlayableMonsters==0)) return NM_T2Classes[HashByte_N(originalClass+(*chapNum), 23+named, sizeof(NM_T2Classes))]; 
           else return T2Classes[HashByte_N(originalClass+(*chapNum), 23+r, sizeof(T2Classes))];
         };
         //else just the original
