@@ -50,7 +50,7 @@ void ClearDebuffsBeforePrepScreen(int something){
 
 //take number and modify by 25%, using RNG 
 u8 RandomizeByPercentage(u8 number){
-  int variation = OptionsSaved->Variation;
+  int variation = (OptionsSaved->Variation)*5;
   if (variation==0) return number;
   int percentage = NextRN_N(variation*2) + (100-variation); //75-125%
   int ret = ((number * percentage)/100);
@@ -73,7 +73,7 @@ u8 HashByte_N(u8 number, u8 noise, int max){
 
 s8 HashByPercentage(s8 number, u8 noise){
   if (number < 0) number = 0;
-  int variation = OptionsSaved->Variation;
+  int variation = (OptionsSaved->Variation)*5;
   int percentage = HashByte_N(number, noise, variation*2); //rn up to 150 e.g. 125
   percentage += (100-variation); // 125 + 25 = 150
   int ret = percentage * number / 100; //1.5 * 120 (we want to negate this)
@@ -83,12 +83,14 @@ s8 HashByPercentage(s8 number, u8 noise){
 };
 
 //TODO: support metis boosts and teq stuff
-
+//named characters get growths based on max/min, but not generics
 u8 Get_Hp_Growth(Unit* unit){
   CharacterData* charData = unit->pCharacterData;
   u8 baseGrowth = charData->growthHP;
   int unrounded = (int) HashByPercentage(baseGrowth, 37);
   unrounded = (unrounded+2)/5;
+  if (charData->portraitId && unrounded > OptionsSaved->MaxGrowth) unrounded = OptionsSaved->MaxGrowth;
+  if (charData->portraitId && unrounded < OptionsSaved->MinGrowth) unrounded = OptionsSaved->MinGrowth;
   return 5*unrounded;
 };
 
@@ -97,6 +99,8 @@ u8 Get_Str_Growth(Unit* unit){
   u8 baseGrowth = charData->growthPow;
   int unrounded = (int) HashByPercentage(baseGrowth, 43);
   unrounded = (unrounded+2)/5;
+  if (charData->portraitId && unrounded > OptionsSaved->MaxGrowth) unrounded = OptionsSaved->MaxGrowth;
+  if (charData->portraitId && unrounded < OptionsSaved->MinGrowth) unrounded = OptionsSaved->MinGrowth;
   return 5*unrounded;
 };
 
@@ -105,6 +109,8 @@ u8 Get_Skl_Growth(Unit* unit){
   u8 baseGrowth = charData->growthSkl;
   int unrounded = (int) HashByPercentage(baseGrowth, 53);
   unrounded = (unrounded+2)/5;
+  if (charData->portraitId && unrounded > OptionsSaved->MaxGrowth) unrounded = OptionsSaved->MaxGrowth;
+  if (charData->portraitId && unrounded < OptionsSaved->MinGrowth) unrounded = OptionsSaved->MinGrowth;
   return 5*unrounded;
 };
 
@@ -113,6 +119,8 @@ u8 Get_Spd_Growth(Unit* unit){
   u8 baseGrowth = charData->growthSpd;
   int unrounded = (int) HashByPercentage(baseGrowth, 17);
   unrounded = (unrounded+2)/5;
+  if (charData->portraitId && unrounded > OptionsSaved->MaxGrowth) unrounded = OptionsSaved->MaxGrowth;
+  if (charData->portraitId && unrounded < OptionsSaved->MinGrowth) unrounded = OptionsSaved->MinGrowth;
   return 5*unrounded;
 };
 
@@ -121,6 +129,8 @@ u8 Get_Def_Growth(Unit* unit){
   u8 baseGrowth = charData->growthDef;
   int unrounded = (int) HashByPercentage(baseGrowth, 23);
   unrounded = (unrounded+2)/5;
+  if (charData->portraitId && unrounded > OptionsSaved->MaxGrowth) unrounded = OptionsSaved->MaxGrowth;
+  if (charData->portraitId && unrounded < OptionsSaved->MinGrowth) unrounded = OptionsSaved->MinGrowth;
   return 5*unrounded;
 };
 
@@ -129,6 +139,8 @@ u8 Get_Res_Growth(Unit* unit){
   u8 baseGrowth = charData->growthRes;
   int unrounded = (int) HashByPercentage(baseGrowth, 11);
   unrounded = (unrounded+2)/5;
+  if (charData->portraitId && unrounded > OptionsSaved->MaxGrowth) unrounded = OptionsSaved->MaxGrowth;
+  if (charData->portraitId && unrounded < OptionsSaved->MinGrowth) unrounded = OptionsSaved->MinGrowth;
   return 5*unrounded;
 };
 
@@ -137,6 +149,8 @@ u8 Get_Luk_Growth(Unit* unit){
   u8 baseGrowth = charData->growthLck;
   int unrounded = (int) HashByPercentage(baseGrowth, 19);
   unrounded = (unrounded+2)/5;
+  if (charData->portraitId && unrounded > OptionsSaved->MaxGrowth) unrounded = OptionsSaved->MaxGrowth;
+  if (charData->portraitId && unrounded < OptionsSaved->MinGrowth) unrounded = OptionsSaved->MinGrowth;
   return 5*unrounded;
 };
 
@@ -292,7 +306,7 @@ int RandomizeUnitClass(EventUnit* eventdata){
         if (IsT1(originalClass)){
           if (named & (OptionsSaved->PlayableMonsters==0)) return NM_T1Classes[HashByte_N(originalClass+(*chapNum), 17+named, sizeof(NM_T1Classes))]; 
           else return T1Classes[HashByte_N(originalClass+(*chapNum), 17+r, sizeof(T1Classes))];
-        };d
+        };
         if (IsT2(originalClass)){
           if (named & (OptionsSaved->PlayableMonsters==0)) return NM_T2Classes[HashByte_N(originalClass+(*chapNum), 23+named, sizeof(NM_T2Classes))]; 
           else return T2Classes[HashByte_N(originalClass+(*chapNum), 23+r, sizeof(T2Classes))];

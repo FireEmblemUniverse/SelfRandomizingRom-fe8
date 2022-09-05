@@ -87,7 +87,9 @@ typedef struct {
 } LocationTable;
 
 typedef struct {
-  u8 Variation;
+  u8 Variation:5;
+  u8 RandomizeMusic:1;//6
+  u8 RandomizeClasses:2; //7
   
   u8 PlayableMonsters:1; //1
   u8 RandomizeSkills:2;//2
@@ -97,9 +99,9 @@ typedef struct {
   u8 RandomizeEventItems:1;//80
 
   u16 CasualMode:1;//1
-  u16 RandomizeMusic:1;//2
-  u16 RandomizeClasses:2; //4
-  u16 UnusedShort:12;
+  u16 MinGrowth:5;
+  u16 MaxGrowth:5;
+  u16 UnusedShort:5;
 } OptionsStruct;
 
 typedef struct {
@@ -116,6 +118,8 @@ typedef struct {
   u8 CasualMode;
   u8 RandomizeMusic;
   u8 PlayableMonsters;
+  u8 MinGrowth;
+  u8 MaxGrowth;
 
   //more options here
 } OptionsProc;
@@ -271,7 +275,7 @@ typedef struct {
 #define UpdateBG3HOffset ((void (*)())(0x8086B7C+1))
 #define CursorMaxIndex (sizeof(CursorLocationTable)/sizeof(CursorLocationTable[0]))-1
 #define PAGE1MAXINDEX 6
-#define PAGE2MAXINDEX 1
+#define PAGE2MAXINDEX 3
 #define MovGetter ((int (*)(Unit* unit))(0x8019224+1))
 // u32* const seed_value = (u32*) 0x3005264; //last 4 bytes of event ids (unused)
 static OptionsStruct* const OptionsSaved = (OptionsStruct* const) (0x3005264); //last 4 bytes of event ids (unused)

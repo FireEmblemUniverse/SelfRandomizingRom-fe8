@@ -324,13 +324,15 @@ void updateRandomOptionsPage(OptionsProc* CurrentProc){
       else DrawTextInline(0, BGLoc(BG0Buffer, 15, 15), 2, 0, 5, "Casual");
 
       //numbers after text?
-      DrawDecNumber(BGLoc(BG0Buffer, 17, 3), 2, CurrentProc->VariationPercent);
+      DrawDecNumber(BGLoc(BG0Buffer, 17, 3), 2, (CurrentProc->VariationPercent * 5));
   }
 
   if (thisPage == 2){
       //option names
       DrawTextInline(0, BGLoc(BG0Buffer, 2, 3), 3, 0, 7, "Map Music:");
       DrawTextInline(0, BGLoc(BG0Buffer, 2, 5), 3, 0, 10, "Playable Monsters:");
+      DrawTextInline(0, BGLoc(BG0Buffer, 2, 7), 3, 0, 7, "Min Growth:");
+      DrawTextInline(0, BGLoc(BG0Buffer, 2, 9), 3, 0, 7, "Max Growth:");
 
       if (CurrentProc->RandomizeMusic == 0){
         DrawTextInline(0, BGLoc(BG0Buffer, 15, 3), 2, 0, 5, "Normal");
@@ -341,6 +343,11 @@ void updateRandomOptionsPage(OptionsProc* CurrentProc){
         DrawTextInline(0, BGLoc(BG0Buffer, 15, 5), 2, 0, 5, "No");
       }
       else DrawTextInline(0, BGLoc(BG0Buffer, 15, 5), 2, 0, 5, "Yes");
+
+
+      //numbers after text?
+      DrawDecNumber(BGLoc(BG0Buffer, 17, 7), 2, (CurrentProc->MinGrowth * 5));
+      DrawDecNumber(BGLoc(BG0Buffer, 17, 9), 2, (CurrentProc->MaxGrowth * 5));
   }
 
 
@@ -358,6 +365,8 @@ void updateRandomOptionsPage(OptionsProc* CurrentProc){
   OptionsSaved->CasualMode = CurrentProc->CasualMode;
   OptionsSaved->RandomizeMusic = CurrentProc->RandomizeMusic;
   OptionsSaved->PlayableMonsters = CurrentProc->PlayableMonsters;
+  OptionsSaved->MinGrowth = CurrentProc->MinGrowth;
+  OptionsSaved->MaxGrowth = CurrentProc->MaxGrowth;
 };
 
 
@@ -388,7 +397,7 @@ void RandomOptionsSetup(OptionsProc* CurrentProc){
 
   //set up cursor
   CurrentProc->CursorIndex = 0;
-  CurrentProc->VariationPercent = 50;
+  CurrentProc->VariationPercent = 10;
   CurrentProc->RandomizeClasses = 1;
   CurrentProc->RandomizeSkills = 1;
   CurrentProc->ClassByTerrain = 1;
@@ -399,6 +408,8 @@ void RandomOptionsSetup(OptionsProc* CurrentProc){
   CurrentProc->RandomizeMusic = 1;
   CurrentProc->PlayableMonsters = 1;
   CurrentProc->Page = 1;
+  CurrentProc->MinGrowth = 0;
+  CurrentProc->MaxGrowth = 20;
 
   updateRandomOptionsPage(CurrentProc);
   };
@@ -438,21 +449,21 @@ void RandomOptionsLoop(OptionsProc* CurrentProc){
     //change variation
     if (CurrentProc->CursorIndex == 0) {
       if ((newInput & InputLeft) != 0) {
-        if (CurrentProc->VariationPercent < 4){
+        if (CurrentProc->VariationPercent < 1){
           PlaySound(0xE7);
         }
         else {
-          CurrentProc->VariationPercent-=5;
+          CurrentProc->VariationPercent-=1;
           updateRandomOptionsPage(CurrentProc);
         };
       };
 
       if ((newInput & InputRight) != 0) {
-        if (CurrentProc->VariationPercent > 99){
+        if (CurrentProc->VariationPercent > 19){
           PlaySound(0xE7);
         }
         else {
-          CurrentProc->VariationPercent+=5;
+          CurrentProc->VariationPercent+=1;
           updateRandomOptionsPage(CurrentProc);
         };
       };
@@ -607,6 +618,53 @@ void RandomOptionsLoop(OptionsProc* CurrentProc){
         updateRandomOptionsPage(CurrentProc);
       };
     };
+
+    //change Min Growth
+    if (CurrentProc->CursorIndex == 2) {
+      if ((newInput & InputLeft) != 0) {
+        if (CurrentProc->MinGrowth < 1){
+          PlaySound(0xE7);
+        }
+        else {
+          CurrentProc->MinGrowth-=1;
+          updateRandomOptionsPage(CurrentProc);
+        };
+      };
+
+      if ((newInput & InputRight) != 0) {
+        if ((CurrentProc->MinGrowth >= CurrentProc->MaxGrowth) || (CurrentProc->MinGrowth > 19)){
+          PlaySound(0xE7);
+        }
+        else {
+          CurrentProc->MinGrowth+=1;
+          updateRandomOptionsPage(CurrentProc);
+        };
+      };
+    };
+
+    //change max growth
+    if (CurrentProc->CursorIndex == 3) {
+      if ((newInput & InputLeft) != 0) {
+        if ((CurrentProc->MaxGrowth <= CurrentProc->MinGrowth) || (CurrentProc->MaxGrowth < 1)){
+          PlaySound(0xE7);
+        }
+        else {
+          CurrentProc->MaxGrowth-=1;
+          updateRandomOptionsPage(CurrentProc);
+        };
+      };
+
+      if ((newInput & InputRight) != 0) {
+        if (CurrentProc->MaxGrowth > 19){
+          PlaySound(0xE7);
+        }
+        else {
+          CurrentProc->MaxGrowth+=1;
+          updateRandomOptionsPage(CurrentProc);
+        };
+      };
+    };
+
   };
 };
 
